@@ -15,14 +15,22 @@
       <router-view />
 
     </q-page-container>
-    <!-- <q-footer class="bg-dark text-white">
-      <q-toolbar>
-        <q-toolbar-title>
-          © 2024 CET - Club Empleados Telpin. Todos los derechos reservados.
-        </q-toolbar-title>
-        <q-btn flat icon="share" aria-label="Share" />
-      </q-toolbar>
-    </q-footer> -->
+    <q-footer class="bg-dark text-white">
+      <q-card flat class="q-pa-md text-white bg-dark">
+        <q-card-section>
+          <div class="text-h6">CET - Club Empleados Telpin</div>
+          <div class="text-subtitle2">© 2024 Todos los derechos reservados.</div>
+        </q-card-section>
+        <q-card-section>
+          <div class="row items-center">
+            <q-btn flat icon="facebook" aria-label="Facebook"  />
+            <q-btn flat icon="twitter" aria-label="Twitter"  />
+            <q-btn flat icon="instagram" aria-label="Instagram"  />
+            <q-btn flat icon="linkedin" aria-label="LinkedIn" />
+          </div>
+        </q-card-section>
+      </q-card>
+    </q-footer>
   </q-layout>
 </template>
 
