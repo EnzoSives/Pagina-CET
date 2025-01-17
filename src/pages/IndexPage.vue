@@ -1,19 +1,31 @@
 <template>
   <q-page>
     <!-- Encabezado flotante sobre el contenedor hero-section -->
-    <q-banner v-if="!isScrolled" elevated class="bg-indigo-12 text-white"
-      style="margin: 20px; position: fixed; top: 0; left: 0; right: 0; z-index: 10; border-radius: 20px;">
+    <q-banner v-if="!isScrolled" elevated class="text-white"
+      style="margin: 20px; position: fixed; top: 0; left: 0; right: 0; z-index: 10; border-radius: 20px; background-color: rgba(255, 255, 255, 0.2);">
       <q-toolbar>
         <q-avatar>
           <img src="src/assets/logoCET.png" alt="logo">
         </q-avatar>
         <q-toolbar-title> Vivi el club!</q-toolbar-title>
 
-        <q-tabs v-model="tab">
-          <q-tab name="images" label="Images" />
-          <q-tab name="videos" label="Videos" />
-          <q-tab name="articles" label="Articles" />
-        </q-tabs>
+        <q-btn label="App CET" color="white" flat></q-btn>
+        <q-btn-dropdown label="Deportes" color="white" flat>
+          <q-list>
+            <q-item clickable v-ripple>
+              <q-item-section>Futbol</q-item-section>
+            </q-item>
+            <q-item clickable v-ripple>
+              <q-item-section>Patin</q-item-section>
+            </q-item>
+            <q-item clickable v-ripple>
+              <q-item-section>Hockey</q-item-section>
+            </q-item>
+          </q-list>
+        </q-btn-dropdown>
+        <q-btn label="Institucional" color="white" flat></q-btn>
+        <q-btn label="Tienda" color="white" flat></q-btn>
+        <q-btn label="?Faq" color="white" flat></q-btn>
       </q-toolbar>
     </q-banner>
 
@@ -45,7 +57,7 @@
 import CardsDeportes from 'components/CardsDeportes.vue';
 import { ref, onMounted, onUnmounted } from 'vue';
 
-const tab = ref('images');
+// const tab = ref('images');
 const isScrolled = ref(false);
 
 const handleScroll = () => {

@@ -1,91 +1,127 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-
-
-    <!-- <q-drawer v-model="leftDrawerOpen" show-if-above bordered>
-      <q-list>
-        <q-item-label header> Essential Links </q-item-label>
-
-        <EssentialLink v-for="link in linksList" :key="link.title" v-bind="link" />
-      </q-list>
-    </q-drawer> -->
-
-
     <q-page-container style="background-color: black;">
       <router-view />
-
     </q-page-container>
-    <q-footer class="bg-dark text-white">
-      <q-card flat class="q-pa-md text-white bg-dark">
-        <q-card-section>
-          <div class="text-h6">CET - Club Empleados Telpin</div>
-          <div class="text-subtitle2">© 2024 Todos los derechos reservados.</div>
-        </q-card-section>
-        <q-card-section>
-          <div class="row items-center">
-            <q-btn flat icon="facebook" aria-label="Facebook"  />
-            <q-btn flat icon="twitter" aria-label="Twitter"  />
-            <q-btn flat icon="instagram" aria-label="Instagram"  />
-            <q-btn flat icon="linkedin" aria-label="LinkedIn" />
-          </div>
-        </q-card-section>
-      </q-card>
-    </q-footer>
+
+    <q-card id="footer" class="q-pa-md text-white bg-dark">
+      <q-card-section>
+        <div class="text-h6">CET - Club Empleados Telpin</div>
+        <div class="text-subtitle2">© 2024 Todos los derechos reservados.</div>
+      </q-card-section>
+      <q-card-section>
+        <div class="row items-center" style="padding: 5px;">
+          <q-btn round class="q-mx-sm">
+            <q-avatar size="42px">
+              <img src="src/assets/facebook.png" alt="Facebook" />
+            </q-avatar>
+          </q-btn>
+          <q-btn round class="q-mx-sm">
+            <q-avatar size="42px">
+              <img src="src/assets/x.png" alt="X" />
+            </q-avatar>
+          </q-btn>
+          <q-btn round class="q-mx-sm">
+            <q-avatar size="42px">
+              <img src="src/assets/instagram.png" alt="Instagram" />
+            </q-avatar>
+          </q-btn>
+          <q-btn round class="q-mx-sm">
+            <q-avatar size="42px">
+              <img src="src/assets/wpp.png" alt="Whastapp" />
+            </q-avatar>
+          </q-btn>
+        </div>
+      </q-card-section>
+      <q-card-section>
+        <div class="text-h6"><q-icon name="location_on" style="padding-right: 5px;" />Como llegar</div>
+        <div class="footer-map-container">
+          <div id="map" style="width: 100%; height: 300px;"></div>
+        </div>
+      </q-card-section>
+    </q-card>
   </q-layout>
 </template>
 
 <script setup lang="ts">
-// import { ref } from 'vue'
-// import EssentialLink, { type EssentialLinkProps } from 'components/EssentialLink.vue'
+import { onMounted, onBeforeUnmount } from 'vue'
+import logoCET from 'src/assets/logoCET.png'
+import 'ol/ol.css' // Importar los estilos de OpenLayers
+import Map from 'ol/Map'
+import View from 'ol/View'
+import TileLayer from 'ol/layer/Tile'
+import OSM from 'ol/source/OSM'
+import Feature from 'ol/Feature'
+import Point from 'ol/geom/Point'
+import { Icon, Style } from 'ol/style'
+import VectorLayer from 'ol/layer/Vector'
+import VectorSource from 'ol/source/Vector'
+import { fromLonLat } from 'ol/proj' // Importar la función de conversión de coordenadas
 
-// const linksList: EssentialLinkProps[] = [
-//   {
-//     title: 'Docs',
-//     caption: 'quasar.dev',
-//     icon: 'school',
-//     link: 'https://quasar.dev',
-//   },
-//   {
-//     title: 'Github',
-//     caption: 'github.com/quasarframework',
-//     icon: 'code',
-//     link: 'https://github.com/quasarframework',
-//   },
-//   {
-//     title: 'Discord Chat Channel',
-//     caption: 'chat.quasar.dev',
-//     icon: 'chat',
-//     link: 'https://chat.quasar.dev',
-//   },
-//   {
-//     title: 'Forum',
-//     caption: 'forum.quasar.dev',
-//     icon: 'record_voice_over',
-//     link: 'https://forum.quasar.dev',
-//   },
-//   {
-//     title: 'Twitter',
-//     caption: '@quasarframework',
-//     icon: 'rss_feed',
-//     link: 'https://twitter.quasar.dev',
-//   },
-//   {
-//     title: 'Facebook',
-//     caption: '@QuasarFramework',
-//     icon: 'public',
-//     link: 'https://facebook.quasar.dev',
-//   },
-//   {
-//     title: 'Quasar Awesome',
-//     caption: 'Community Quasar projects',
-//     icon: 'favorite',
-//     link: 'https://awesome.quasar.dev',
-//   },
-// ]
+onMounted(() => {
+  // Coordenadas en latitud y longitud (EPSG:4326)
+  const lon = -56.87957619162803
+  const lat = -37.097328981942354
 
-// const leftDrawerOpen = ref(false)
+  // Convertir las coordenadas a EPSG:3857
+  const coords = fromLonLat([lon, lat])
 
-// function toggleLeftDrawer() {
-//   leftDrawerOpen.value = !leftDrawerOpen.value
-// }
+  // Crear el mapa con OpenLayers
+  const map = new Map({
+    target: 'map',
+    layers: [
+      new TileLayer({
+        source: new OSM()
+      })
+    ],
+    view: new View({
+      center: coords, // Usar las coordenadas convertidas
+      zoom: 14.5 // Aumenta el valor del zoom para acercarte más
+    })
+  })
+
+  // Crear un marcador con un ícono personalizado
+  const marker = new Feature({
+    geometry: new Point(coords) // Usar las coordenadas convertidas
+  })
+
+  marker.setStyle(
+    new Style({
+      image: new Icon({
+        src: logoCET, // Usando import para importar imágenes locales
+        scale: 0.3 // Puedes ajustar la escala según el tamaño del ícono
+      })
+    })
+  )
+
+  // Agregar el marcador al mapa
+  const vectorLayer = new VectorLayer({
+    source: new VectorSource({
+      features: [marker]
+    })
+  })
+
+  map.addLayer(vectorLayer)
+
+  // Redimensionar el mapa cuando la ventana cambia de tamaño
+  const resizeMap = () => map.updateSize()
+  window.addEventListener('resize', resizeMap)
+
+  onBeforeUnmount(() => {
+    window.removeEventListener('resize', resizeMap)
+  })
+})
 </script>
+
+
+
+
+<style scoped>
+.footer-map-container {
+  margin-top: 10px;
+  border: 1px solid #fff;
+  border-radius: 5px;
+  overflow: hidden;
+  width: 30%;
+}
+</style>
