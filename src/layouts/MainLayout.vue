@@ -1,43 +1,67 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-page-container style="background-color: black;">
+    <q-page-container style="background-color: white;">
       <router-view />
     </q-page-container>
 
     <q-card id="footer" class="q-pa-md text-white bg-dark">
+
+
       <q-card-section>
-        <div class="text-h6">CET - Club Empleados Telpin</div>
-        <div class="text-subtitle2">© 2024 Todos los derechos reservados.</div>
-      </q-card-section>
-      <q-card-section>
-        <div class="row items-center" style="padding: 5px;">
-          <q-btn round class="q-mx-sm">
-            <q-avatar size="42px">
-              <img src="src/assets/facebook.png" alt="Facebook" />
-            </q-avatar>
-          </q-btn>
-          <q-btn round class="q-mx-sm">
-            <q-avatar size="42px">
-              <img src="src/assets/x.png" alt="X" />
-            </q-avatar>
-          </q-btn>
-          <q-btn round class="q-mx-sm">
-            <q-avatar size="42px">
-              <img src="src/assets/instagram.png" alt="Instagram" />
-            </q-avatar>
-          </q-btn>
-          <q-btn round class="q-mx-sm">
-            <q-avatar size="42px">
-              <img src="src/assets/wpp.png" alt="Whastapp" />
-            </q-avatar>
-          </q-btn>
+        <div class="row">
+
+          <!-- Redes Sociales -->
+          <div class="col-6" style="padding-top: 10px;">
+            <div class="text-h6">CET - Club Empleados Telpin</div>
+            <div class="text-subtitle2">© 2024 Todos los derechos reservados.</div>
+          </div>
+          <div class="col-6">
+            <div class="text-h6" style="margin-bottom: 15px;">
+              <q-icon name="phone_in_talk" class="q-mr-sm" />
+              Contactanos
+            </div>
+            <div class="row items-center q-gutter-sm">
+              <q-btn round class="q-mx-sm">
+                <q-avatar size="42px">
+                  <img src="src/assets/facebook.png" alt="Facebook" />
+                </q-avatar>
+              </q-btn>
+              <q-btn round class="q-mx-sm">
+                <q-avatar size="42px">
+                  <img src="src/assets/x.png" alt="X" />
+                </q-avatar>
+              </q-btn>
+              <q-btn round class="q-mx-sm">
+                <q-avatar size="42px">
+                  <img src="src/assets/instagram.png" alt="Instagram" />
+                </q-avatar>
+              </q-btn>
+              <q-btn round class="q-mx-sm">
+                <q-avatar size="42px">
+                  <img src="src/assets/wpp.png" alt="Whastapp" />
+                </q-avatar>
+              </q-btn>
+            </div>
+          </div>
+
+          <q-separator />
+
+          <!-- Mapa -->
+          <div class="col-12" style="padding-top: 20px;">
+            <div class="text-h6">
+              <q-icon name="location_on" class="q-mr-sm" />
+              Como llegar
+            </div>
+            <div class="footer-map-container">
+              <div id="map" style="width: 100%; height: 300px;"></div>
+            </div>
+          </div>
+
+
+
+
         </div>
-      </q-card-section>
-      <q-card-section>
-        <div class="text-h6"><q-icon name="location_on" style="padding-right: 5px;" />Como llegar</div>
-        <div class="footer-map-container">
-          <div id="map" style="width: 100%; height: 300px;"></div>
-        </div>
+
       </q-card-section>
     </q-card>
   </q-layout>
@@ -122,6 +146,6 @@ onMounted(() => {
   border: 1px solid #fff;
   border-radius: 5px;
   overflow: hidden;
-  width: 30%;
+  width: 100%;
 }
 </style>

@@ -21,7 +21,7 @@
                   <div>
                     <q-btn color="primary" label="Pagar" style="margin-left: 5px;" />
                     <q-btn color="primary" label="Alta" style="margin-left: 5px;" />
-                    <q-btn color="primary" label="Baja" style="margin-left: 5px;"/>
+                    <q-btn color="primary" label="Baja" style="margin-left: 5px;" />
                   </div>
                 </div>
               </div>
