@@ -71,13 +71,13 @@ const login = async () => {
       const redirectPath = router.currentRoute.value.query.redirect?.toString() || '/appcet'
       await router.push(redirectPath)
     }
-  } catch (error: any) {
+  } catch (error: unknown) {
     handleLoginError(error)
   }
 }
 
-const handleLoginError = (error: any) => {
-  errorMessage.value = mapAuthError(error.code)
+const handleLoginError = (error: unknown) => {
+  errorMessage.value = mapAuthError((error as { code: string }).code)
   showError.value = true
 }
 

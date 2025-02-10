@@ -5,7 +5,7 @@ import {
   createUserWithEmailAndPassword,
   signOut,
   onAuthStateChanged,
-  User,
+  type User,
 } from 'firebase/auth'
 
 interface AuthState {
@@ -28,8 +28,8 @@ export const useAuthStore = defineStore('auth', {
       try {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password)
         await this.handleUserAuth(userCredential.user)
-      } catch (error: any) {
-        console.error('Error en el registro:', error.message)
+      } catch (error: unknown) {
+        console.error('Error en el registro')
         throw error
       }
     },
@@ -38,8 +38,8 @@ export const useAuthStore = defineStore('auth', {
       try {
         const userCredential = await signInWithEmailAndPassword(auth, email, password)
         await this.handleUserAuth(userCredential.user)
-      } catch (error: any) {
-        console.error('Error al iniciar sesión:', error.message)
+      } catch (error: unknown) {
+        console.error('Error al iniciar sesión')
         throw error
       }
     },
@@ -81,8 +81,8 @@ export const useAuthStore = defineStore('auth', {
       try {
         await signOut(auth)
         this.$reset()
-      } catch (error: any) {
-        console.error('Error al cerrar sesión:', error.message)
+      } catch (error: unknown) {
+        console.error('Error al cerrar sesión')
         throw error
       }
     },
