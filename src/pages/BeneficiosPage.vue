@@ -29,6 +29,14 @@
         <q-btn color="primary" label="Ver Comercios Adheridos" icon="store" class="q-mb-md" @click="verComercios" />
       </q-card-section>
 
+      <!-- Sección de Beneficios -->
+      <q-card-section>
+        <div class="text-h6 text-bold text-center">Beneficios Disponibles</div>
+        <div class="beneficios-container">
+          <BeneficiosCard v-for="beneficio in beneficiosStore.beneficios" :key="beneficio.id" :beneficio="beneficio" />
+        </div>
+      </q-card-section>
+
       <q-card-section>
         <p class="text-body1">
           Por cualquier consulta, <strong>contáctanos</strong> o seguinos en nuestras redes:
@@ -46,8 +54,12 @@
 
 <script setup lang="ts">
 import { useQuasar } from "quasar";
+import { useBeneficiosStore } from "src/stores/beneficiosStore";
+import { onMounted } from "vue";
+import BeneficiosCard from "src/components/BeneficiosComponent.vue"; // Importa el componente
 
 const $q = useQuasar();
+const beneficiosStore = useBeneficiosStore();
 
 // Función para abrir enlaces
 const openLink = (url: string) => {
@@ -64,10 +76,16 @@ const verComercios = () => {
   });
   // Aquí puedes hacer un `router.push('/comercios')` si tienes la ruta configurada
 };
+
+// Cargar los beneficios cuando se monta el componente
+onMounted(() => {
+  beneficiosStore.fetchBeneficios();
+});
 </script>
 
 <style scoped>
 .info-card {
+  font-family: "Aldrich", sans-serif;
   max-width: 1600px;
   width: 100%;
   padding: 16px;
@@ -85,5 +103,12 @@ const verComercios = () => {
   display: flex;
   justify-content: center;
   gap: 10px;
+}
+
+.beneficios-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: center;
 }
 </style>

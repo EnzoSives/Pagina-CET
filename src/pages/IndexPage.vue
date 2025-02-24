@@ -19,7 +19,7 @@
     </div>
 
     <div class="text-h3 text-weight-bolder gradient-text text-center q-mt-lg"
-      style="margin-top: 50px; margin-bottom: 30px">
+      style="margin-top: 50px; margin-bottom: 30px; font-family: Aldrich, sans-serif;">
       Nuestras Actividades Principales
     </div>
     <DeportesComponent></DeportesComponent>
@@ -85,7 +85,7 @@ const goToBeneficios = () => {
   transform: translateY(-50%);
   text-align: left;
   padding-left: 40px;
-  font-family: Montserrat, Helvetica Neue, Arial, sans-serif;
+  font-family: Aldrich, Helvetica Neue, Arial, sans-serif;
   text-transform: uppercase;
   line-height: 1.15;
 }
@@ -120,7 +120,7 @@ const goToBeneficios = () => {
 }
 
 .text-content {
-  font-family: "Roboto", serif;
+  font-family: "Aldrich", serif;
   font-optical-sizing: auto;
   font-weight: 500;
   /* Cambiado a 700 para letras más gruesas */

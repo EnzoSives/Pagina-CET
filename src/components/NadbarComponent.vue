@@ -92,8 +92,16 @@ onUnmounted(() => {
   max-width: 1500px;
 }
 
+.hover-orange {
+  font-family: Aldrich, serif;
+}
+
+.hover-orange:hover {
+  color: orange;
+}
+
 .custom-font {
-  font-family: "Roboto", serif;
+  font-family: "Aldrich", serif;
   font-weight: 450;
   /* Cambiado a 700 para letras más gruesas */
   font-size: 1.2rem;

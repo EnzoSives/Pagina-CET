@@ -19,7 +19,28 @@
             <q-item-label caption>DNI: {{ socio.dni }}</q-item-label>
           </q-item-section>
         </q-item>
+
+        <!-- Credencial Digital -->
+        <q-card-section class="text-center">
+          <q-img src="/credencial-generica.jpg" alt="Credencial Digital" class="credencial-img" />
+        </q-card-section>
+
+        <!-- Información de Cuentas de Pago -->
+        <q-card class="q-mt-md card-container">
+          <q-card-section>
+            <div class="text-h6 text-center">💳 Cuentas de Pago</div>
+          </q-card-section>
+          <q-card-section v-for="(cuenta, index) in socio.cuentasPago" :key="index">
+            <q-item>
+              <q-item-section>
+                <q-item-label class="text-subtitle1">{{ cuenta.tipo }}</q-item-label>
+                <q-item-label caption>Saldo: ${{ cuenta.importe.toFixed(2) }}</q-item-label>
+              </q-item-section>
+            </q-item>
+          </q-card-section>
+        </q-card>
       </q-card-section>
+
       <q-card-section v-else-if="dni" class="text-center text-negative">
         No se encontró el socio.
       </q-card-section>
@@ -43,20 +64,38 @@
   </q-page>
 </template>
 
-
 <script setup lang="ts">
 import { ref } from "vue";
-import { QIcon } from "quasar";
 
 // Estado para el DNI y los resultados
 const dni = ref("");
-const socio = ref<{ nombre: string; dni: string } | null>(null);
+const socio = ref<{ nombre: string; dni: string; cuentasPago: { tipo: string; importe: number }[] } | null>(null);
 
-// Simulación de base de datos de socios
+// Simulación de base de datos de socios con cuentas de pago
 const sociosDB = [
-  { nombre: "Juan Pérez", dni: "12345678" },
-  { nombre: "María López", dni: "87654321" },
-  { nombre: "Carlos Gómez", dni: "11223344" },
+  {
+    nombre: "Juan Pérez",
+    dni: "12345678",
+    cuentasPago: [
+      { tipo: "Cuota Social", importe: 1200.50 },
+      { tipo: "Cancha de Tenis", importe: 500.00 }
+    ]
+  },
+  {
+    nombre: "María López",
+    dni: "87654321",
+    cuentasPago: [
+      { tipo: "Cuota Social", importe: 1500.75 },
+      { tipo: "Escuela de Natación", importe: 800.00 }
+    ]
+  },
+  {
+    nombre: "Carlos Gómez",
+    dni: "11223344",
+    cuentasPago: [
+      { tipo: "Cuota Social", importe: 1000.00 }
+    ]
+  },
 ];
 
 // Función para buscar socio
@@ -72,7 +111,6 @@ const beneficios = [
 ];
 </script>
 
-
 <style scoped>
 .card-container {
   max-width: 1500px;
@@ -84,5 +122,12 @@ const beneficios = [
   min-height: 150px;
   padding: 16px;
   box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.credencial-img {
+  width: 100%;
+  max-width: 300px;
+  border-radius: 8px;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
 }
 </style>

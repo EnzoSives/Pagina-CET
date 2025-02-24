@@ -1,6 +1,6 @@
 <template>
   <nadbar-component />
-  <router-view />
+  <router-view style="font-family: Aldrich;" />
 </template>
 
 <script setup lang="ts">
