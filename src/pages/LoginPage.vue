@@ -13,8 +13,7 @@
           <q-input v-model="password" label="Contraseña" type="password" outlined class="q-mt-md" lazy-rules
             :rules="[val => !!val || 'Campo requerido']" />
 
-          <q-btn label="Ingresar" type="submit" color="primary" class="q-mt-md full-width"
-            :loading="authStore.loading" />
+          <q-btn label="Ingresar" type="submit" color="primary" class="q-mt-md full-width" :loading="loading" />
         </q-form>
       </q-card-section>
 
@@ -44,40 +43,49 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { useAuthStore } from 'src/stores/auth'
 import { useRouter } from 'vue-router'
-import { QDialog } from 'quasar'
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
+import { usePerfilStore } from 'src/stores/perfilesStore'; // Importa tu store
 
-const authStore = useAuthStore()
 const router = useRouter()
+const perfilStore = usePerfilStore(); // Usa el store de perfiles
 
 const email = ref('')
 const password = ref('')
 const errorMessage = ref('')
 const showError = ref(false)
+const loading = ref(false)
 
 // Validación de email
 const isValidEmail = (val: string) => {
-  const emailPattern = /^(?=[a-zA-Z0-9@._%+-]{6,254}$)[a-zA-Z0-9._%+-]{1,64}@(?:[a-zA-Z0-9-]{1,63}\.){1,8}[a-zA-Z]{2,63}$/
+  const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
   return emailPattern.test(val) || 'Email inválido'
 }
 
 const login = async () => {
+  loading.value = true
   try {
-    await authStore.login(email.value, password.value)
+    const auth = getAuth()
+    const userCredential = await signInWithEmailAndPassword(auth, email.value, password.value)
+
+    // Usuario autenticado correctamente
+    console.log('Usuario autenticado:', userCredential.user)
+
+    // Llamar a la acción para cargar los perfiles
+    await perfilStore.getPerfilesJCET();
 
     // Redirección después de login exitoso
-    if (authStore.user) {
-      const redirectPath = router.currentRoute.value.query.redirect?.toString() || '/appcet'
-      await router.push(redirectPath)
-    }
-  } catch (error: unknown) {
+    await router.push('/perfiles') // <-- Redirige a admperfiles
+  } catch (error: any) {
     handleLoginError(error)
+  } finally {
+    loading.value = false
   }
 }
 
-const handleLoginError = (error: unknown) => {
-  errorMessage.value = mapAuthError((error as { code: string }).code)
+
+const handleLoginError = (error: any) => {
+  errorMessage.value = mapAuthError(error.code)
   showError.value = true
 }
 
@@ -92,6 +100,7 @@ const mapAuthError = (errorCode: string): string => {
   return errors[errorCode] || 'Error desconocido. Intente nuevamente.'
 }
 </script>
+
 
 <style scoped>
 .q-card {
