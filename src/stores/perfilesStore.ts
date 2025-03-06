@@ -26,8 +26,9 @@ export const usePerfilStore = defineStore('perfil', () => {
   const loading = ref<boolean>(false)
   const isAuthenticated = ref<boolean>(false)
   const cuentasCobros = ref<any[]>([])
+  const movimientosCuentasCobro = ref<any[]>([]) // Guardar movimientos de cuentas de cobro
 
-  const url = 'https://miclub.cetpinamar.com.ar'
+  const url: string = 'https://miclub.cetpinamar.com.ar'
 
   // Computed para acceder a los perfiles
   const getPerfiles = computed(() => perfiles.value)
@@ -177,6 +178,38 @@ export const usePerfilStore = defineStore('perfil', () => {
     }
   }
 
+  const getMovimientosCuentasCobroPerfilJCET = async (x_nroCuenta: string) => {
+    try {
+      const auth = getAuth()
+      user.value = auth.currentUser
+
+      if (!user.value) {
+        console.error('Usuario no autenticado')
+        return
+      }
+
+      const idToken = await user.value.getIdToken()
+      const nroCuenta = `eid-${x_nroCuenta}` // Modificar el formato de la cuenta
+
+      const response = await axios.get(
+        'https://miclub.cetpinamar.com.ar/api/ov/movimientosParaCuentaCobro',
+        {
+          headers: { 'X-Authorization': `Bearer ${idToken}` },
+          params: { cuenta: nroCuenta },
+        },
+      )
+
+      if (response.status === 200 && response.data.status === 'OK') {
+        movimientosCuentasCobro.value = response.data.result
+        console.log('Movimientos obtenidos:', response.data.result)
+      } else {
+        console.error('Error en la respuesta de la API:', response.data)
+      }
+    } catch (error) {
+      console.error('Error obteniendo movimientos de cuentas de cobro:', error)
+    }
+  }
+
   // Acción para seleccionar perfil
   const setPerfil = (index: number) => {
     if (index >= 0 && index < perfiles.value.length) {
@@ -208,5 +241,7 @@ export const usePerfilStore = defineStore('perfil', () => {
     getCuentasCobroPerfilJCETAction,
     getCuentasCobro,
     cuentasCobros,
+    getMovimientosCuentasCobroPerfilJCET,
+    movimientosCuentasCobro,
   }
 })

@@ -1,6 +1,6 @@
 <template>
   <div class="cuentacobro">
-    <a href="#" :key="id" :class="nameClass" aria-current="true">
+    <a href="#" @click="toMovimientos" :key="id" :class="nameClass" aria-current="true">
       <div class="d-flex w-100 justify-content-between">
         <h5 class="mb-1">{{ titulo }}</h5>
         <small>{{ debe }}</small>
@@ -15,6 +15,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
+import { useRouter } from 'vue-router'
 import { usePerfilStore } from 'src/stores/perfilesStore' // Asegúrate de que la ruta sea correcta
 
 // Definir las propiedades con tipos
@@ -40,6 +41,8 @@ const props = defineProps({
     required: true
   }
 })
+
+const router = useRouter()
 
 // Acceder al store de Pinia
 const perfilStore = usePerfilStore()
@@ -72,13 +75,14 @@ const debe = computed(() => {
   return props.saldo > 0 ? "Debe" : "No Debe"
 })
 
-// // Método para navegar a los movimientos y actualizar el store
-// const toMovimientos = async () => {
-//   try {
-//     await perfilStore.getCuentasCobroPerfilJCETAction(perfilStore.getPerfil.id)
-//     // Redirigir a la página de movimientos u otra acción
-//   } catch (error) {
-//     console.error('Error al obtener cuentas de cobro:', error)
-//   }
-// }
+// Método para navegar a los movimientos y actualizar el store
+const toMovimientos = async () => {
+  try {
+    await perfilStore.getMovimientosCuentasCobroPerfilJCET(props.eID);
+    router.push('/movimientos')
+    // Redirigir a la página de movimientos u otra acción
+  } catch (error) {
+    console.error('Error al obtener cuentas de cobro:', error)
+  }
+}
 </script>

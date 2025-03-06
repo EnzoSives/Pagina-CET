@@ -8,6 +8,7 @@ import AppCet from 'src/pages/AppCet.vue'
 import BeneficiosPage from 'src/pages/BeneficiosPage.vue'
 import AdmPerfiles from 'src/pages/AdmPerfiles.vue'
 import HomePerfil from 'src/pages/HomePerfil.vue'
+import MovimientosPage from 'src/pages/MovimientosPage.vue'
 
 const routes: RouteRecordRaw[] = [
   {
@@ -24,6 +25,7 @@ const routes: RouteRecordRaw[] = [
       { path: '/beneficios', name: 'Beneficios', component: BeneficiosPage },
       { path: '/perfiles', name: 'AdmPerfiles', component: AdmPerfiles },
       { path: '/homePerfil', name: 'HomePerfil', component: HomePerfil },
+      { path: '/movimientos', name: 'Movimientos', component: MovimientosPage },
     ],
   },
 
