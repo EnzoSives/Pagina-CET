@@ -1,24 +1,24 @@
 <template>
-  <div class="cuentacobro">
-    <a href="#" @click="toMovimientos" :key="id" :class="nameClass" aria-current="true">
-      <div class="d-flex w-100 justify-content-between">
-        <h5 class="mb-1">{{ titulo }}</h5>
-        <small>{{ debe }}</small>
-      </div>
-      <div class="d-flex w-100 justify-content-between">
-        <p class="d-flex w-60 mb-1">{{ descripcion }}</p>
-        <p class="d-flex w-40 text-center">$ {{ saldo }}</p>
-      </div>
-    </a>
-  </div>
+  <q-item clickable @click="toMovimientos" :key="id" :class="nameClass" style="width: 100%;">
+    <q-item-section>
+      <q-item-label class="text-bold">{{ titulo }}</q-item-label>
+      <q-item-label caption>
+        <q-icon name="event" /> {{ descripcion }}
+      </q-item-label>
+    </q-item-section>
+    <q-item-section side>
+      <q-badge :color="badgeColor" text-color="black" :label="debe" />
+      <div class="text-h6">$ {{ saldo }}</div>
+    </q-item-section>
+  </q-item>
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useRouter } from 'vue-router'
-import { usePerfilStore } from 'src/stores/perfilesStore' // Asegúrate de que la ruta sea correcta
+import { usePerfilStore } from 'src/stores/perfilesStore'
 
-// Definir las propiedades con tipos
+// Definir las propiedades con tipos más estrictos
 const props = defineProps({
   id: {
     type: Number,
@@ -43,46 +43,48 @@ const props = defineProps({
 })
 
 const router = useRouter()
-
-// Acceder al store de Pinia
 const perfilStore = usePerfilStore()
 
-// Computed para la clase del item dependiendo del saldo
 const nameClass = computed(() => {
-  if (props.saldo > 14000) {
-    return "list-group-item list-group-item-action list-group-item-danger justify-content-between align-items-center"
-  } else if (props.saldo > 7500) {
-    return "list-group-item list-group-item-action list-group-item-warning justify-content-between align-items-center"
-  } else {
-    return "list-group-item list-group-item-action list-group-item-secondary justify-content-between align-items-center"
-  }
+  if (props.saldo > 14000) return "bg-red-2"
+  if (props.saldo > 7500) return "bg-yellow-2"
+  return "bg-grey-2"
 })
 
-// Computed para la descripción dependiendo del tipo de cuenta
+const badgeColor = computed(() => (props.saldo > 0 ? "orange" : "green"))
+
 const descripcion = computed(() => {
   return props.tipoCuentaCobro === "CTA SOCIO"
     ? "Desarrollo y funcionamiento de la institución."
     : "Cuota destinada a la actividad que desarrolla."
 })
 
-// Computed para el título
-const titulo = computed(() => {
-  return props.tipoCuentaCobro.replace("CTA", "CUENTA -")
-})
+const titulo = computed(() => props.tipoCuentaCobro.replace("CTA", "CUENTA -"))
 
-// Computed para mostrar si se debe o no
-const debe = computed(() => {
-  return props.saldo > 0 ? "Debe" : "No Debe"
-})
+const debe = computed(() => (props.saldo > 0 ? "Pendiente" : "Pagado"))
 
-// Método para navegar a los movimientos y actualizar el store
 const toMovimientos = async () => {
   try {
-    await perfilStore.getMovimientosCuentasCobroPerfilJCET(props.eID);
+    await perfilStore.getMovimientosCuentasCobroPerfilJCET(props.eID)
+    console.log('Movimientos obtenidos')
     router.push('/movimientos')
-    // Redirigir a la página de movimientos u otra acción
   } catch (error) {
-    console.error('Error al obtener cuentas de cobro:', error)
+    console.error('Error al obtener movimientos:', error)
+    // Considera notificar al usuario sobre el error aquí
   }
 }
 </script>
+
+<style scoped>
+.bg-red-2 {
+  background-color: #ffebee;
+}
+
+.bg-yellow-2 {
+  background-color: #fffde7;
+}
+
+.bg-grey-2 {
+  background-color: #f5f5f5;
+}
+</style>

@@ -1,5 +1,7 @@
 import { defineStore } from '#q-app/wrappers'
 import { createPinia } from 'pinia'
+import persistedState from 'pinia-plugin-persistedstate'
+import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 
 /*
  * When adding new properties to stores, you should also
@@ -27,6 +29,9 @@ export default defineStore((/* { ssrContext } */) => {
 
   // You can add Pinia plugins here
   // pinia.use(SomePiniaPlugin)
+  // Agregar el plugin de persistencia
+  pinia.use(persistedState)
+  pinia.use(piniaPluginPersistedstate)
 
   return pinia
 })

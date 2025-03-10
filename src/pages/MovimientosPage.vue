@@ -1,15 +1,15 @@
 <template>
-  <div style="padding-top: 150px;">
+  <div style="padding-top: 100px;">
     <!-- Banner con información del usuario -->
     <q-banner class="bg-green text-white">
-      <h4 class="q-mb-none">Movimientos de {{ perfilSeleccionado?.nombre }} - {{ perfilSeleccionado?.tipoCuentaCobro }}
+      <h4 class="q-mb-none">Movimientos de {{ perfilSeleccionado?.nombre }} - {{ cuentasCobros[0]?.tipoCuentaCobro }}
       </h4>
       <q-separator />
       <p class="q-mt-sm">
-        <b>Listado de movimientos. Saldo: $ {{ saldo }}.-</b>
+        <b>Listado de movimientos. Saldo: $ {{ cuentasCobros[0]?.saldo }}.-</b>
       </p>
       <div>
-        <q-btn v-if="saldo > 0" label="Pagar" color="secondary" class="q-mr-sm" @click="pagar" />
+        <q-btn v-if="cuentasCobros[0]?.saldo > 0" label="Pagar" color="secondary" class="q-mr-sm" @click="pagar" />
         <q-btn label="Volver" color="secondary" @click="back" />
       </div>
     </q-banner>
@@ -54,16 +54,17 @@ const perfilStore = usePerfilStore()
 
 // Computed para acceder a los datos del store
 const perfilSeleccionado = computed(() => perfilStore.perfiles[perfilStore.perfilIndex] || null)
+const cuentasCobros = computed(() => perfilStore.cuentasCobros)
 const movimientosCuentaCobro = computed(() => perfilStore.movimientosCuentasCobro)
-const tipoCuentaCobro = computed(() => perfilStore.tipoCuentaCobro || 'Desconocido')
-const saldo = computed(() => perfilStore.saldo || 0)
+// const tipoCuentaCobro = computed(() => perfilStore.tipoCuentaCobro || 'Desconocido')
+// const saldo = computed(() => perfilStore.saldo || 0)
 
 // Columnas de la tabla
 const columns = [
-  { name: 'fechaMovimiento', label: 'Fecha', field: 'fechaMovimiento', align: 'left' },
-  { name: 'descripcion', label: 'Descripción', field: 'descripcion', align: 'left' },
-  { name: 'monto', label: 'Monto', field: 'monto', align: 'right' },
-  { name: 'saldoAFecha', label: 'Saldo', field: 'saldoAFecha', align: 'right' }
+  { name: 'fechaMovimiento', label: 'Fecha', field: 'fechaMovimiento', align: 'left' as 'left' },
+  { name: 'descripcion', label: 'Descripción', field: 'descripcion', align: 'left' as 'left' },
+  { name: 'monto', label: 'Monto', field: 'monto', align: 'right' as 'right' },
+  { name: 'saldoAFecha', label: 'Saldo', field: 'saldoAFecha', align: 'right' as 'right' }
 ]
 
 // Métodos
@@ -71,7 +72,7 @@ const back = () => router.replace('/inicio')
 
 const pagar = () => {
   window.open(
-    `https://miclub.cetpinamar.com.ar/external/pagarOnline.faces?cpe=&monto=${saldo.value}`,
+    `https://miclub.cetpinamar.com.ar/external/pagarOnline.faces?cpe=${cuentasCobros.value[0]?.cPE}&monto=${cuentasCobros.value[0]?.saldo}`,
     '_blank'
   )
 }

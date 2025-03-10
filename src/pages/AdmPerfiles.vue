@@ -8,6 +8,7 @@ const perfilStore = usePerfilStore()
 // Método para seleccionar un perfil
 const seleccionarPerfil = (index: any) => {
   perfilStore.setPerfil(index)
+  console.log('perfil seleccionado', index)
   router.push('/homePerfil')
 }
 </script>
