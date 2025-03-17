@@ -99,6 +99,12 @@ export const useAuthStore = defineStore('auth', {
         this.loading = false
       })
     },
+    async setUser(userData: any, authToken: string) {
+      this.user = userData
+      this.token = authToken
+      localStorage.setItem('user', JSON.stringify(userData))
+      localStorage.setItem('token', authToken)
+    },
 
     async getCurrentToken() {
       if (this.user && this.token) {
@@ -111,5 +117,9 @@ export const useAuthStore = defineStore('auth', {
       }
       return null
     },
+  },
+  persist: {
+    key: 'authStore', // Clave en localStorage
+    storage: localStorage, // Usa localStorage (puedes cambiarlo a sessionStorage)
   },
 })

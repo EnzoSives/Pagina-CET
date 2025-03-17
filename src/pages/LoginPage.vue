@@ -46,9 +46,11 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
 import { usePerfilStore } from 'src/stores/perfilesStore'; // Importa tu store
+import { useAuthStore } from 'src/stores/auth'; // Importa tu store
 
 const router = useRouter()
 const perfilStore = usePerfilStore(); // Usa el store de perfiles
+const authStore = useAuthStore(); // Usa el store de perfiles
 
 const email = ref('')
 const password = ref('')
@@ -71,6 +73,11 @@ const login = async () => {
     // Usuario autenticado correctamente
     console.log('Usuario autenticado:', userCredential.user)
 
+    // Obtener el token
+    const idToken = await userCredential.user.getIdToken();
+
+    // Guardar usuario y token en la store
+    authStore.setUser(userCredential.user, idToken);
     // Llamar a la acción para cargar los perfiles
     await perfilStore.getPerfilesJCET();
 

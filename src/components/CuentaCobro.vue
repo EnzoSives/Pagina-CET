@@ -1,42 +1,34 @@
 <template>
-  <q-item clickable @click="toMovimientos" :key="id" :class="nameClass" style="width: 100%;">
+  <!-- Mostrar las cuentas de cobro disponibles -->
+  <q-item v-for="(cuenta, index) in cuentasCobro" :key="index" clickable @click="toMovimientos(cuenta.eID)"
+    :class="nameClass(cuenta)" style="width: 100%;">
     <q-item-section>
-      <q-item-label class="text-bold">{{ titulo }}</q-item-label>
+      <q-item-label class="text-bold">{{ titulo(cuenta) }}</q-item-label>
       <q-item-label caption>
-        <q-icon name="event" /> {{ descripcion }}
+        <q-icon name="event" /> {{ descripcion(cuenta) }}
       </q-item-label>
     </q-item-section>
     <q-item-section side>
-      <q-badge :color="badgeColor" text-color="black" :label="debe" />
-      <div class="text-h6">$ {{ saldo }}</div>
+      <q-badge :color="badgeColor(cuenta)" text-color="black" :label="debe(cuenta)" />
+      <div class="text-h6">$ {{ cuenta.saldo || '0' }}</div> <!-- Si no hay saldo, mostrar 0 -->
+    </q-item-section>
+  </q-item>
+
+  <!-- Si no hay cuentas, mostrar un mensaje indicándolo -->
+  <q-item v-if="cuentasCobro.length === 0" clickable class="bg-grey-2" style="width: 100%;">
+    <q-item-section>
+      <q-item-label class="text-bold">No hay cuenta de cobro disponible</q-item-label>
     </q-item-section>
   </q-item>
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, onMounted, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { usePerfilStore } from 'src/stores/perfilesStore'
 
-// Definir las propiedades con tipos más estrictos
 const props = defineProps({
-  id: {
-    type: Number,
-    required: true
-  },
   eID: {
-    type: String,
-    required: true
-  },
-  tipoCuentaCobro: {
-    type: String,
-    required: true
-  },
-  saldo: {
-    type: Number,
-    required: true
-  },
-  cpe: {
     type: String,
     required: true
   }
@@ -45,35 +37,48 @@ const props = defineProps({
 const router = useRouter()
 const perfilStore = usePerfilStore()
 
-const nameClass = computed(() => {
-  if (props.saldo > 14000) return "bg-red-2"
-  if (props.saldo > 7500) return "bg-yellow-2"
-  return "bg-grey-2"
+// Asegúrate de que las cuentas de cobro no se dupliquen y se carguen solo si es necesario
+onMounted(async () => {
+  // Verifica si ya están cargadas las cuentas y si no, realiza la carga
+  if (perfilStore.cuentasCobros.length === 0 || perfilStore.perfilIndex !== props.eID) {
+    console.log("Cargando cuentas de cobro..., eID:", props.eID)
+    await perfilStore.getCuentasCobroPerfilJCETAction(props.eID) // Asegúrate de que esta función existe en el store
+  }
 })
 
-const badgeColor = computed(() => (props.saldo > 0 ? "orange" : "green"))
+// Computed para obtener todas las cuentas de cobro desde el store
+const cuentasCobro = computed(() => perfilStore.cuentasCobros)
 
-const descripcion = computed(() => {
-  return props.tipoCuentaCobro === "CTA SOCIO"
+const nameClass = (cuenta) => {
+  if (cuenta.saldo > 14000) return "bg-red-2"
+  if (cuenta.saldo > 7500) return "bg-yellow-2"
+  return "bg-grey-2"
+}
+
+const badgeColor = (cuenta) => (cuenta.saldo > 0 ? "orange" : "green")
+
+const descripcion = (cuenta) => {
+  return cuenta.tipoCuentaCobro === "CTA SOCIO"
     ? "Desarrollo y funcionamiento de la institución."
     : "Cuota destinada a la actividad que desarrolla."
-})
+}
 
-const titulo = computed(() => props.tipoCuentaCobro.replace("CTA", "CUENTA -"))
+const titulo = (cuenta) => cuenta.tipoCuentaCobro?.replace("CTA", "CUENTA -") || ""
 
-const debe = computed(() => (props.saldo > 0 ? "Pendiente" : "Pagado"))
+const debe = (cuenta) => (cuenta.saldo > 0 ? "Pendiente" : "Pagado")
 
-const toMovimientos = async () => {
+// Obtiene los movimientos al hacer clic
+const toMovimientos = async (eID) => {
   try {
-    await perfilStore.getMovimientosCuentasCobroPerfilJCET(props.eID)
+    await perfilStore.getMovimientosCuentasCobroPerfilJCET(eID)
     console.log('Movimientos obtenidos')
     router.push('/movimientos')
   } catch (error) {
     console.error('Error al obtener movimientos:', error)
-    // Considera notificar al usuario sobre el error aquí
   }
 }
 </script>
+
 
 <style scoped>
 .bg-red-2 {

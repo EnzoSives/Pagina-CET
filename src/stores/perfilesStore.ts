@@ -4,6 +4,7 @@ import axios from 'axios'
 import { db } from '../firebase' // Asegúrate de que tu Firebase esté bien inicializado
 import { getAuth, onAuthStateChanged, User } from 'firebase/auth'
 import { collection, getDocs, query, where } from 'firebase/firestore'
+import { useAuthStore } from 'src/stores/auth'
 
 interface Perfil {
   id: string
@@ -29,6 +30,7 @@ export const usePerfilStore = defineStore(
     const isAuthenticated = ref<boolean>(false)
     const cuentasCobros = ref<any[]>([])
     const movimientosCuentasCobro = ref<any[]>([]) // Guardar movimientos de cuentas de cobro
+    const authStore = useAuthStore()
 
     const url: string = 'https://miclub.cetpinamar.com.ar'
 
@@ -159,9 +161,12 @@ export const usePerfilStore = defineStore(
     // Acción para obtener cuentas de cobro del perfil
     const getCuentasCobroPerfilJCETAction = async (nroCliente: string) => {
       try {
+        await loadUser() // Asegurarte de que el usuario esté cargado
         // Asegúrate de que `user.value` es un objeto `User` y está autenticado
         if (!user.value || !user.value.getIdToken) {
           console.error('Usuario no autenticado o getIdToken no disponible')
+          console.error('Usuario:', user.value)
+          console.error('getIdToken:', user.value?.getIdToken)
           return
         }
 

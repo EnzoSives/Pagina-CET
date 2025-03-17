@@ -1,5 +1,11 @@
 <template>
   <q-page class="q-pa-md" style="padding-top: 150px;">
+    <!-- Selector de Perfiles -->
+    <div class="row justify-end">
+      <q-select v-model="perfilIndexLocal" :options="perfilesOptions" label="Seleccionar Perfil" outlined dense
+        emit-value map-options class="q-mb-md" style="width: 250px;" />
+    </div>
+
     <!-- Tarjeta de Perfil -->
     <q-card class="q-pa-md row items-center">
       <q-avatar size="80px" class="q-mr-md">
@@ -29,12 +35,8 @@
         <p class="text-grey-7">Visualiza y gestiona tus pagos pendientes</p>
 
         <q-list separator bordered class="rounded-borders">
-
-
           <q-item v-for="item in cuentasCobros" :key="item.nroCuenta">
-            <CuentaCobro :id="item.nroCuenta" :eID="item.eID" :tipoCuentaCobro="item.tipoCuentaCobro"
-              :saldo="item.saldo" :cpe="item.cPE" />
-
+            <CuentaCobro :eID="item.eID" />
           </q-item>
         </q-list>
       </q-tab-panel>
@@ -55,22 +57,49 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, onMounted } from 'vue'
+import { computed, ref, watch, onMounted, watchEffect } from 'vue'
 import { usePerfilStore } from 'src/stores/perfilesStore'
 import { useRouter } from 'vue-router'
 import CuentaCobro from 'src/components/CuentaCobro.vue'
 
-const { perfilIndex, perfiles, getCuentasCobroPerfilJCETAction, cuentasCobros } = usePerfilStore()
+const perfilStore = usePerfilStore()
+const { getCuentasCobroPerfilJCETAction, cuentasCobros } = perfilStore
 const router = useRouter()
 
-const perfilSeleccionado = computed(() => {
-  return perfilIndex !== null && perfilIndex !== undefined ? perfiles[perfilIndex] : null
+// Local ref para manejar el selector correctamente
+const perfilIndexLocal = ref(perfilStore.perfilIndex)
+
+// Opciones para el selector
+const perfilesOptions = computed(() =>
+  perfilStore.perfiles.map((perfil, index) => ({ label: `${perfil.nombre} ${perfil.apellido}`, value: index }))
+)
+
+// Perfil seleccionado
+const perfilSeleccionado = computed(() => perfilStore.perfiles[perfilStore.perfilIndex] || null)
+
+// Actualizar el store cuando cambie el selector
+// Actualizar el store cuando cambie el selector
+watch(perfilIndexLocal, (newIndex) => {
+  if (newIndex !== null && newIndex !== undefined) {
+    perfilStore.perfilIndex = newIndex
+  }
 })
 
-if (perfilIndex === null || perfilIndex === undefined) {
+// Ejecutar la actualización de `cuentasCobros` cada vez que cambie el perfil seleccionado
+watchEffect(() => {
+  if (perfilSeleccionado.value) {
+    console.log("Cargando cuentas de cobro para el perfil:", perfilSeleccionado.value)
+    getCuentasCobroPerfilJCETAction(perfilSeleccionado.value.id)
+  }
+})
+
+
+// Redirigir si no hay perfil seleccionado
+if (perfilStore.perfilIndex === null || perfilStore.perfilIndex === undefined) {
   router.push('/perfiles')
 }
 
+// Cargar cuentas de cobro al iniciar
 onMounted(() => {
   if (perfilSeleccionado.value) {
     getCuentasCobroPerfilJCETAction(perfilSeleccionado.value.id)
@@ -79,6 +108,7 @@ onMounted(() => {
 
 const tab = ref('cobro')
 </script>
+
 
 <style scoped>
 .texto-apellido,
