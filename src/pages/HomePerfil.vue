@@ -7,7 +7,7 @@
     </div>
 
     <!-- Tarjeta de Perfil -->
-    <q-card class="q-pa-md row items-center">
+    <q-card class="q-pa-md row items-center" style="height: 150px;">
       <q-avatar size="80px" class="q-mr-md">
         <img :src="perfilSeleccionado?.url || 'https://cdn.quasar.dev/img/avatar.png'" />
       </q-avatar>
@@ -35,9 +35,9 @@
         <p class="text-grey-7">Visualiza y gestiona tus pagos pendientes</p>
 
         <q-list separator bordered class="rounded-borders">
-          <q-item v-for="item in cuentasCobros" :key="item.nroCuenta">
-            <CuentaCobro :eID="item.eID" />
-          </q-item>
+
+          <CuentaCobro :eID="perfilSeleccionado?.id" />
+
         </q-list>
       </q-tab-panel>
 
@@ -45,6 +45,9 @@
       <q-tab-panel name="beneficios">
         <div class="text-h6">Beneficios</div>
         <p class="text-grey-7">Aquí puedes ver los beneficios disponibles.</p>
+        <div class="cards-container">
+          <BeneficiosCard v-for="beneficio in beneficiosStore.beneficios" :key="beneficio.id" :beneficio="beneficio" />
+        </div>
       </q-tab-panel>
 
       <!-- Panel de Buscar Socios -->
@@ -60,11 +63,14 @@
 import { computed, ref, watch, onMounted, watchEffect } from 'vue'
 import { usePerfilStore } from 'src/stores/perfilesStore'
 import { useRouter } from 'vue-router'
+import { useBeneficiosStore } from "src/stores/beneficiosStore";
 import CuentaCobro from 'src/components/CuentaCobro.vue'
+import BeneficiosCard from "src/components/BeneficiosComponent.vue"; // Importa el componente
 
 const perfilStore = usePerfilStore()
 const { getCuentasCobroPerfilJCETAction, cuentasCobros } = perfilStore
 const router = useRouter()
+const beneficiosStore = useBeneficiosStore();
 
 // Local ref para manejar el selector correctamente
 const perfilIndexLocal = ref(perfilStore.perfilIndex)
@@ -105,6 +111,9 @@ onMounted(() => {
     getCuentasCobroPerfilJCETAction(perfilSeleccionado.value.id)
   }
 })
+onMounted(() => {
+  beneficiosStore.fetchBeneficios();
+});
 
 const tab = ref('cobro')
 </script>
@@ -118,5 +127,15 @@ const tab = ref('cobro')
   font-size: 1rem;
   font-weight: bold;
   margin-top: 5px;
+}
+
+.cards-container {
+  display: flex;
+  flex-wrap: wrap;
+  /* Permite que las cards bajen a la siguiente línea si no caben */
+  gap: 20px;
+  /* Espaciado entre cards */
+  justify-content: center;
+  /* Alinear al centro */
 }
 </style>

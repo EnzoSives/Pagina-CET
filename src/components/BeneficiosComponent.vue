@@ -1,5 +1,5 @@
 <template>
-  <q-card class="q-pa-md">
+  <q-card class="q-pa-md beneficiosCards">
     <!-- Header del card -->
     <q-card-section class="row items-center justify-between">
       <div>
@@ -30,6 +30,8 @@
         <p>{{ beneficio.descripcion.toUpperCase() }}</p>
       </div>
     </q-card-section>
+
+    <q-separator color="white"></q-separator>
 
     <!-- Footer -->
     <q-card-section class="text-grey text-italic">
@@ -151,5 +153,13 @@ h3,
 h4,
 p {
   margin: 0;
+}
+
+.beneficiosCards {
+  margin: 20px;
+  border-radius: 20px;
+  background-color: rgb(26, 26, 29);
+  color: white;
+  max-width: 450px;
 }
 </style>

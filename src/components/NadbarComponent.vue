@@ -65,7 +65,8 @@ const goToIsti = () => {
   router.push({ path: '/institucional' });
 };
 const goToApp = () => {
-  router.push({ path: '/appcet' });
+  // router.push({ path: '/appcet' });
+  router.push({ path: '/homePerfil' });
 };
 const goToTienda = () => {
   window.location.href = 'https://cetpinamar.mercadoshops.com.ar/';
