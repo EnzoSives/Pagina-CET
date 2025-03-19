@@ -18,10 +18,22 @@ interface Perfil {
   datafirebase: any[]
   url: string
 }
+interface Socio {
+  id: number | null
+  nombre: string
+  apellido: string
+  socio: number | null
+  numerotelefonodebitar: string
+  categoriadescripcion: string
+  formapago: string
+  debecuota: string
+  documento: string
+}
 
 export const usePerfilStore = defineStore(
   'perfil',
   () => {
+    const socio = ref<Socio | null>(null)
     const perfiles = ref<Perfil[]>([])
     const perfilIndex = ref<number>(0)
     const user = ref<User | null>(null)
@@ -230,6 +242,34 @@ export const usePerfilStore = defineStore(
       }
     }
 
+    const setSocio = async (x_dni: string) => {
+      socio.value = {
+        id: null,
+        nombre: '',
+        apellido: '',
+        socio: null,
+        numerotelefonodebitar: '',
+        categoriadescripcion: '',
+        formapago: '',
+        debecuota: '',
+        documento: '',
+      }
+
+      try {
+        const response = await axios.get(`${url}/api/ov/getDatosSocio`, {
+          params: { dni: x_dni },
+        })
+
+        if (response.status === 200 && response.data.result) {
+          socio.value = response.data.result
+        } else {
+          console.warn('No se encontró información para el DNI:', x_dni)
+        }
+      } catch (error) {
+        console.error('Error obteniendo datos del socio:', error)
+      }
+    }
+
     // Acción para seleccionar perfil
     const setPerfil = (index: number) => {
       if (index >= 0 && index < perfiles.value.length) {
@@ -263,6 +303,8 @@ export const usePerfilStore = defineStore(
       cuentasCobros,
       getMovimientosCuentasCobroPerfilJCET,
       movimientosCuentasCobro,
+      setSocio,
+      socio,
     }
   },
   {

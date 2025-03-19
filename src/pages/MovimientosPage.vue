@@ -68,7 +68,7 @@ const columns = [
 ]
 
 // Métodos
-const back = () => router.replace('/inicio')
+const back = () => router.replace('/homePerfil')
 
 const pagar = () => {
   window.open(

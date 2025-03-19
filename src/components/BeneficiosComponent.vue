@@ -160,6 +160,6 @@ p {
   border-radius: 20px;
   background-color: rgb(26, 26, 29);
   color: white;
-  max-width: 450px;
+  max-width: 400px;
 }
 </style>

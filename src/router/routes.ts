@@ -21,16 +21,35 @@ const routes: RouteRecordRaw[] = [
       { path: '/institucional', name: 'Institucional', component: InstitucionalPage },
       { path: '/login', name: 'Login', component: LoginPage },
       { path: '/register', name: 'Register', component: RegisterPage },
-      { path: '/appcet', name: 'AppCet', component: AppCet },
-      { path: '/beneficios', name: 'Beneficios', component: BeneficiosPage },
-      { path: '/perfiles', name: 'AdmPerfiles', component: AdmPerfiles },
-      { path: '/homePerfil', name: 'HomePerfil', component: HomePerfil },
-      { path: '/movimientos', name: 'Movimientos', component: MovimientosPage },
+
+      // 🔒 Rutas protegidas
+      { path: '/appcet', name: 'AppCet', component: AppCet, meta: { requiresAuth: true } },
+      {
+        path: '/beneficios',
+        name: 'Beneficios',
+        component: BeneficiosPage,
+        meta: { requiresAuth: true },
+      },
+      {
+        path: '/perfiles',
+        name: 'AdmPerfiles',
+        component: AdmPerfiles,
+        meta: { requiresAuth: true },
+      },
+      {
+        path: '/homePerfil',
+        name: 'HomePerfil',
+        component: HomePerfil,
+        meta: { requiresAuth: true },
+      },
+      {
+        path: '/movimientos',
+        name: 'Movimientos',
+        component: MovimientosPage,
+        meta: { requiresAuth: true },
+      },
     ],
   },
-
-  // Always leave this as last one,
-  // but you can also remove it
   {
     path: '/:catchAll(.*)*',
     component: () => import('pages/ErrorNotFound.vue'),

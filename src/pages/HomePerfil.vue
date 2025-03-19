@@ -1,9 +1,10 @@
 <template>
-  <q-page class="q-pa-md" style="padding-top: 150px;">
+  <q-page class="q-pa-md" style="padding-top: 100px;">
     <!-- Selector de Perfiles -->
     <div class="row justify-end">
       <q-select v-model="perfilIndexLocal" :options="perfilesOptions" label="Seleccionar Perfil" outlined dense
         emit-value map-options class="q-mb-md" style="width: 250px;" />
+      <q-btn icon="logout" style="height: 38px; width: 20px; margin-left: 20px" @click="authStore.logout"></q-btn>
     </div>
 
     <!-- Tarjeta de Perfil -->
@@ -51,9 +52,36 @@
       </q-tab-panel>
 
       <!-- Panel de Buscar Socios -->
+      <!-- Panel de Buscar Socios -->
       <q-tab-panel name="buscar">
         <div class="text-h6">Buscar Socios</div>
         <p class="text-grey-7">Busca y encuentra otros socios.</p>
+
+        <!-- Campo de búsqueda -->
+        <q-input v-model="busqueda" label="Buscar por DNI o Nombre" outlined dense class="q-mb-md">
+          <template v-slot:append>
+            <q-btn icon="search" flat @click="buscarSocios"></q-btn>
+          </template>
+        </q-input>
+
+        <!-- Lista de resultados -->
+        <q-list separator bordered v-if="sociosEncontrados.length > 0" style="width: 30%;">
+          <q-item v-for="socio in sociosEncontrados" :key="socio.socio" clickable>
+            <q-item-section>
+              <q-item-label>{{ socio.nombre }}</q-item-label>
+              <q-item-label caption>{{ socio.documento }} | Socio: {{ socio.socio }}</q-item-label>
+              <q-item-label caption>Nacimiento: {{ socio.fechaNacimiento }}</q-item-label>
+            </q-item-section>
+            <q-item-section side>
+              <q-badge text-color="black" :label="socio.estado" />
+            </q-item-section>
+          </q-item>
+        </q-list>
+
+        <!-- Mensaje si no hay resultados -->
+        <q-banner v-else class="bg-grey-3 text-black q-mt-md">
+          No se encontraron socios con ese criterio de búsqueda.
+        </q-banner>
       </q-tab-panel>
     </q-tab-panels>
   </q-page>
@@ -64,13 +92,33 @@ import { computed, ref, watch, onMounted, watchEffect } from 'vue'
 import { usePerfilStore } from 'src/stores/perfilesStore'
 import { useRouter } from 'vue-router'
 import { useBeneficiosStore } from "src/stores/beneficiosStore";
+import { useAuthStore } from 'src/stores/auth';
 import CuentaCobro from 'src/components/CuentaCobro.vue'
 import BeneficiosCard from "src/components/BeneficiosComponent.vue"; // Importa el componente
 
 const perfilStore = usePerfilStore()
-const { getCuentasCobroPerfilJCETAction, cuentasCobros } = perfilStore
+const { getCuentasCobroPerfilJCETAction, setSocio, socio } = perfilStore
 const router = useRouter()
 const beneficiosStore = useBeneficiosStore();
+const authStore = useAuthStore();
+
+const busqueda = ref('');
+const sociosEncontrados = ref([]);
+
+// Función para buscar socios por DNI o nombre
+const buscarSocios = async () => {
+  if (!busqueda.value.trim()) return;
+
+  await setSocio(busqueda.value); // Llama a la API
+  const resultado = socio; // Obtiene el resultado de la búsqueda
+  console.log("Resultado de la búsqueda de socio:", resultado);
+
+  if (resultado && resultado.socio) {
+    sociosEncontrados.value = [resultado]; // Si se encuentra, lo agrega a la lista
+  } else {
+    sociosEncontrados.value = []; // Si no hay resultados, vacía la lista
+  }
+};
 
 // Local ref para manejar el selector correctamente
 const perfilIndexLocal = ref(perfilStore.perfilIndex)
@@ -83,7 +131,6 @@ const perfilesOptions = computed(() =>
 // Perfil seleccionado
 const perfilSeleccionado = computed(() => perfilStore.perfiles[perfilStore.perfilIndex] || null)
 
-// Actualizar el store cuando cambie el selector
 // Actualizar el store cuando cambie el selector
 watch(perfilIndexLocal, (newIndex) => {
   if (newIndex !== null && newIndex !== undefined) {

@@ -13,6 +13,7 @@ interface AuthState {
   loading: boolean
   token: string | null
   tokenExpiration: number | null
+  isAuthenticated: boolean
 }
 
 export const useAuthStore = defineStore('auth', {
@@ -21,6 +22,7 @@ export const useAuthStore = defineStore('auth', {
     loading: false,
     token: null,
     tokenExpiration: null,
+    isAuthenticated: false,
   }),
 
   actions: {
@@ -81,6 +83,11 @@ export const useAuthStore = defineStore('auth', {
       try {
         await signOut(auth)
         this.$reset()
+        localStorage.removeItem('user')
+        localStorage.removeItem('token')
+        localStorage.removeItem('perfil')
+        localStorage.removeItem('authStore')
+        this.router.push('/')
       } catch (error: unknown) {
         console.error('Error al cerrar sesión')
         throw error
@@ -117,6 +124,9 @@ export const useAuthStore = defineStore('auth', {
       }
       return null
     },
+  },
+  getters: {
+    isAuthenticated: (state) => !!state.token,
   },
   persist: {
     key: 'authStore', // Clave en localStorage
