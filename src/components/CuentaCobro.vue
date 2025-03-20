@@ -23,7 +23,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, watch } from 'vue'
+import { computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { usePerfilStore } from 'src/stores/perfilesStore'
 
@@ -40,7 +40,8 @@ const perfilStore = usePerfilStore()
 // Asegúrate de que las cuentas de cobro no se dupliquen y se carguen solo si es necesario
 onMounted(async () => {
   // Verifica si ya están cargadas las cuentas y si no, realiza la carga
-  if (perfilStore.cuentasCobros.length === 0 || perfilStore.perfilIndex !== props.eID) {
+  if (perfilStore.cuentasCobros.length === 0 || String(perfilStore.perfilIndex) !== props.eID) {
+
     console.log("Cargando cuentas de cobro..., eID:", props.eID)
     await perfilStore.getCuentasCobroPerfilJCETAction(props.eID) // Asegúrate de que esta función existe en el store
   }
@@ -49,26 +50,26 @@ onMounted(async () => {
 // Computed para obtener todas las cuentas de cobro desde el store
 const cuentasCobro = computed(() => perfilStore.cuentasCobros)
 
-const nameClass = (cuenta) => {
+const nameClass = (cuenta: any) => {
   if (cuenta.saldo > 14000) return "bg-red-2"
   if (cuenta.saldo > 7500) return "bg-yellow-2"
   return "bg-grey-2"
 }
 
-const badgeColor = (cuenta) => (cuenta.saldo > 0 ? "orange" : "green")
+const badgeColor = (cuenta: any) => (cuenta.saldo > 0 ? "orange" : "green")
 
-const descripcion = (cuenta) => {
+const descripcion = (cuenta: any) => {
   return cuenta.tipoCuentaCobro === "CTA SOCIO"
     ? "Desarrollo y funcionamiento de la institución."
     : "Cuota destinada a la actividad que desarrolla."
 }
 
-const titulo = (cuenta) => cuenta.tipoCuentaCobro?.replace("CTA", "CUENTA -") || ""
+const titulo = (cuenta: any) => cuenta.tipoCuentaCobro?.replace("CTA", "CUENTA -") || ""
 
-const debe = (cuenta) => (cuenta.saldo > 0 ? "Pendiente" : "Pagado")
+const debe = (cuenta: any) => (cuenta.saldo > 0 ? "Pendiente" : "Pagado")
 
 // Obtiene los movimientos al hacer clic
-const toMovimientos = async (eID) => {
+const toMovimientos = async (eID: any) => {
   try {
     await perfilStore.getMovimientosCuentasCobroPerfilJCET(eID)
     console.log('Movimientos obtenidos')

@@ -37,7 +37,8 @@
 
         <q-list separator bordered class="rounded-borders">
 
-          <CuentaCobro :eID="perfilSeleccionado?.id" />
+          <CuentaCobro :eID="perfilSeleccionado?.id || ''" />
+
 
         </q-list>
       </q-tab-panel>
@@ -66,14 +67,14 @@
 
         <!-- Lista de resultados -->
         <q-list separator bordered v-if="sociosEncontrados.length > 0" style="width: 30%;">
-          <q-item v-for="socio in sociosEncontrados" :key="socio.socio" clickable>
+          <q-item v-for="socio in sociosEncontrados" :key="socio.socio ?? ''" clickable>
             <q-item-section>
               <q-item-label>{{ socio.nombre }}</q-item-label>
               <q-item-label caption>{{ socio.documento }} | Socio: {{ socio.socio }}</q-item-label>
               <q-item-label caption>Nacimiento: {{ socio.fechaNacimiento }}</q-item-label>
             </q-item-section>
             <q-item-section side>
-              <q-badge text-color="black" :label="socio.estado" />
+              <q-badge text-color="black" :label="socio.estado || 'Estado no disponible'" />
             </q-item-section>
           </q-item>
         </q-list>
@@ -95,6 +96,8 @@ import { useBeneficiosStore } from "src/stores/beneficiosStore";
 import { useAuthStore } from 'src/stores/auth';
 import CuentaCobro from 'src/components/CuentaCobro.vue'
 import BeneficiosCard from "src/components/BeneficiosComponent.vue"; // Importa el componente
+import type { Socio } from 'src/stores/perfilesStore';
+
 
 const perfilStore = usePerfilStore()
 const { getCuentasCobroPerfilJCETAction, setSocio, socio } = perfilStore
@@ -103,7 +106,7 @@ const beneficiosStore = useBeneficiosStore();
 const authStore = useAuthStore();
 
 const busqueda = ref('');
-const sociosEncontrados = ref([]);
+const sociosEncontrados = ref<Socio[]>([]);
 
 // Función para buscar socios por DNI o nombre
 const buscarSocios = async () => {

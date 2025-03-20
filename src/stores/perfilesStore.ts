@@ -2,9 +2,10 @@ import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 import axios from 'axios'
 import { db } from '../firebase' // Asegúrate de que tu Firebase esté bien inicializado
-import { getAuth, onAuthStateChanged, User } from 'firebase/auth'
+import { getAuth, onAuthStateChanged } from 'firebase/auth'
+import type { User } from 'firebase/auth'
 import { collection, getDocs, query, where } from 'firebase/firestore'
-import { useAuthStore } from 'src/stores/auth'
+// import { useAuthStore } from 'src/stores/auth'
 
 interface Perfil {
   id: string
@@ -18,7 +19,7 @@ interface Perfil {
   datafirebase: any[]
   url: string
 }
-interface Socio {
+export interface Socio {
   id: number | null
   nombre: string
   apellido: string
@@ -28,6 +29,8 @@ interface Socio {
   formapago: string
   debecuota: string
   documento: string
+  fechaNacimiento: string
+  estado: string
 }
 
 export const usePerfilStore = defineStore(
@@ -42,7 +45,7 @@ export const usePerfilStore = defineStore(
     const isAuthenticated = ref<boolean>(false)
     const cuentasCobros = ref<any[]>([])
     const movimientosCuentasCobro = ref<any[]>([]) // Guardar movimientos de cuentas de cobro
-    const authStore = useAuthStore()
+    // const authStore = useAuthStore()
 
     const url: string = 'https://miclub.cetpinamar.com.ar'
 
@@ -253,6 +256,8 @@ export const usePerfilStore = defineStore(
         formapago: '',
         debecuota: '',
         documento: '',
+        fechaNacimiento: '',
+        estado: '',
       }
 
       try {

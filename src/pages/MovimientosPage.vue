@@ -45,7 +45,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted } from 'vue'
+import { computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { usePerfilStore } from 'src/stores/perfilesStore'
 
@@ -60,12 +60,21 @@ const movimientosCuentaCobro = computed(() => perfilStore.movimientosCuentasCobr
 // const saldo = computed(() => perfilStore.saldo || 0)
 
 // Columnas de la tabla
-const columns = [
-  { name: 'fechaMovimiento', label: 'Fecha', field: 'fechaMovimiento', align: 'left' as 'left' },
-  { name: 'descripcion', label: 'Descripción', field: 'descripcion', align: 'left' as 'left' },
-  { name: 'monto', label: 'Monto', field: 'monto', align: 'right' as 'right' },
-  { name: 'saldoAFecha', label: 'Saldo', field: 'saldoAFecha', align: 'right' as 'right' }
-]
+type Column = {
+  name: string;
+  label: string;
+  field: string;
+  align: 'left' | 'right' | 'center';
+};
+
+const columns: Column[] = [
+  { name: 'fechaMovimiento', label: 'Fecha', field: 'fechaMovimiento', align: 'left' },
+  { name: 'descripcion', label: 'Descripción', field: 'descripcion', align: 'left' },
+  { name: 'monto', label: 'Monto', field: 'monto', align: 'right' },
+  { name: 'saldoAFecha', label: 'Saldo', field: 'saldoAFecha', align: 'right' }
+];
+
+
 
 // Métodos
 const back = () => router.replace('/homePerfil')
