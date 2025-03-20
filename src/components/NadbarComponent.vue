@@ -1,6 +1,6 @@
 <template>
   <!-- Encabezado flotante sobre el contenedor hero-section -->
-  <q-banner v-if="!isScrolled" elevated class="text-black"
+  <q-banner v-if="!isScrolled && !isMobile" elevated class="text-black"
     style="margin: 20px; position: fixed; top: 0; left: 0; right: 0; z-index: 10; border-radius: 20px; background-color: rgb(26, 26, 29);">
     <q-toolbar>
       <q-avatar>
@@ -73,15 +73,25 @@ const goToTienda = () => {
 };
 
 const isScrolled = ref(false);
+const isMobile = ref(false);
+
+const handleResize = () => {
+  isMobile.value = window.innerWidth <= 600;
+};
+
 const handleScroll = () => {
   isScrolled.value = window.scrollY > 100;
 };
 
 onMounted(() => {
   window.addEventListener('scroll', handleScroll);
+  window.addEventListener('resize', handleResize);
+  handleResize(); // Inicializa el estado de isMobile al cargar
 });
+
 onUnmounted(() => {
   window.removeEventListener('scroll', handleScroll);
+  window.removeEventListener('resize', handleResize);
 });
 </script>
 

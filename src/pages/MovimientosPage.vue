@@ -74,8 +74,6 @@ const columns: Column[] = [
   { name: 'saldoAFecha', label: 'Saldo', field: 'saldoAFecha', align: 'right' }
 ];
 
-
-
 // Métodos
 const back = () => router.replace('/homePerfil')
 

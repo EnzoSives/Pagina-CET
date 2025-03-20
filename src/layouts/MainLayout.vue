@@ -1,23 +1,74 @@
 <template>
   <q-layout view="lHh Lpr lFf">
+
+    <q-btn v-if="isMobile" dense flat @click="drawerOpen = !drawerOpen" round icon="menu"
+      style="margin: 20px; position: fixed; z-index: 10;" />
+
+    <!-- Drawer: Menú lateral -->
+    <q-drawer v-model="drawerOpen" :width="200" :breakpoint="700" elevated class="bg-black text-white">
+      <q-img src="src/assets/logoCET.png" class="q-mx-auto q-mt-md" style="width: 50px; margin:20px" />
+      <q-list>
+        <q-item>
+          <q-btn label="Inicio" color="white" flat class="hover-orange" @click="goToHome()"></q-btn>
+
+        </q-item>
+        <q-item>
+          <q-btn label="Socio" color="white" flat class="hover-orange" @click="goToSocio()"></q-btn>
+
+        </q-item>
+        <q-item>
+          <q-btn-dropdown label="Deportes" color="white" flat class="hover-orange">
+            <q-list>
+              <q-item clickable v-ripple @click="goToDeporte('Futbol')">
+                <q-item-section>Futbol</q-item-section>
+              </q-item>
+              <q-item clickable v-ripple @click="goToDeporte('Patin')">
+                <q-item-section>Patin</q-item-section>
+              </q-item>
+              <q-item clickable v-ripple @click="goToDeporte('Hockey')">
+                <q-item-section>Hockey</q-item-section>
+              </q-item>
+            </q-list>
+          </q-btn-dropdown>
+
+        </q-item>
+        <q-item>
+          <q-btn label="Institucional" color="white" flat class="hover-orange" @click="goToIsti()"></q-btn>
+
+        </q-item>
+        <q-item>
+          <q-btn label="Tienda" color="white" flat class="hover-orange" @click="goToTienda()"></q-btn>
+
+        </q-item>
+        <q-item>
+          <q-btn label="?Faq" color="white" flat class="hover-orange" @click="openFaq"></q-btn>
+
+        </q-item>
+        <q-item>
+
+          <q-btn label="App CET" color="white" flat class="hover-orange" @click="goToApp()"></q-btn>
+        </q-item>
+        <!-- Agrega más elementos aquí -->
+      </q-list>
+    </q-drawer>
+
+    <!-- Contenedor principal de la página -->
     <q-page-container style="background-color: white;">
       <router-view />
     </q-page-container>
 
+    <!-- Pie de página -->
     <q-card id="footer" class="q-pa-md text-white bg-dark">
       <q-card-section>
         <div class="row">
-
           <!-- Izquierda: Información y Redes Sociales -->
           <div class="col-6" style="margin-top: 20px;">
             <div class="text-h6">CET - Club Empleados Telpin</div>
             <div class="text-subtitle2">© 2024 Todos los derechos reservados.</div>
-
             <div class="text-h6 q-mt-md" style="margin-top: 50px;">
               <q-icon name="phone_in_talk" class="q-mr-sm" />
               Contáctanos
             </div>
-
             <div class="row items-center q-gutter-sm q-mt-sm">
               <q-btn round class="q-mx-xs">
                 <q-avatar size="42px">
@@ -52,15 +103,16 @@
               <div id="map"></div>
             </div>
           </div>
-
         </div>
       </q-card-section>
     </q-card>
+
   </q-layout>
+
 </template>
 
 <script setup lang="ts">
-import { onMounted, onBeforeUnmount } from 'vue'
+import { onMounted, onUnmounted, onBeforeUnmount, ref } from 'vue'
 import logoCET from 'src/assets/logoCET.png'
 import 'ol/ol.css'
 import Map from 'ol/Map'
@@ -73,7 +125,56 @@ import { Icon, Style } from 'ol/style'
 import VectorLayer from 'ol/layer/Vector'
 import VectorSource from 'ol/source/Vector'
 import { fromLonLat } from 'ol/proj'
+import { useRouter } from 'vue-router';
 
+const router = useRouter();
+// Estado para controlar la visibilidad del drawer
+const drawerOpen = ref(false)
+
+
+const isMobile = ref(false);
+
+const handleResize = () => {
+  isMobile.value = window.innerWidth <= 600;
+};
+
+
+
+
+
+const openFaq = () => {
+  window.open('src/assets/faq.pdf', '_blank');  // Esto abre el PDF en una nueva pestaña
+};
+
+const goToDeporte = (deporte: string) => {
+  router.push({ name: 'DeportePage', params: { deporte } });
+};
+const goToHome = () => {
+  router.push({ path: '/' });
+};
+const goToSocio = () => {
+  router.push({ path: '/socio' });
+};
+const goToIsti = () => {
+  router.push({ path: '/institucional' });
+};
+const goToApp = () => {
+  // router.push({ path: '/appcet' });
+  router.push({ path: '/homePerfil' });
+};
+const goToTienda = () => {
+  window.location.href = 'https://cetpinamar.mercadoshops.com.ar/';
+};
+
+onMounted(() => {
+  window.addEventListener('resize', handleResize);
+  handleResize(); // Inicializa el estado de isMobile al cargar
+});
+
+onUnmounted(() => {
+
+  window.removeEventListener('resize', handleResize);
+});
 onMounted(() => {
   const lon = -56.87957619162803
   const lat = -37.097328981942354
@@ -129,12 +230,16 @@ onMounted(() => {
   overflow: hidden;
   width: 100%;
   height: 200px;
-  /* Altura fija para que se vea bien */
   border: 1px solid #fff;
 }
 
 #map {
   width: 100%;
   height: 100%;
+}
+
+.q-dialog-plugin {
+  width: 80%;
+  max-width: 1500px;
 }
 </style>
