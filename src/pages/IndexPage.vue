@@ -140,4 +140,17 @@ const goToBeneficios = () => {
 .item-5 {
   grid-column: span 2;
 }
+
+@media (max-width: 600px) {
+  .content div:last-child {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .content div:last-child .q-btn {
+    margin-right: 0;
+    width: 80%;
+  }
+}
 </style>

@@ -86,7 +86,7 @@ const handleScroll = () => {
 onMounted(() => {
   window.addEventListener('scroll', handleScroll);
   window.addEventListener('resize', handleResize);
-  handleResize(); // Inicializa el estado de isMobile al cargar
+  handleResize();
 });
 
 onUnmounted(() => {
