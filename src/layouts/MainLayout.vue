@@ -48,7 +48,7 @@
 
           <q-btn label="App CET" color="white" flat class="hover-orange" @click="goToApp()"></q-btn>
         </q-item>
-        <!-- Agrega más elementos aquí -->
+
       </q-list>
     </q-drawer>
 
@@ -57,12 +57,13 @@
       <router-view />
     </q-page-container>
 
-    <!-- Pie de página -->
+    <ChatBotComponent />
+
     <q-card id="footer" class="q-pa-md text-white bg-dark">
       <q-card-section>
         <div class="row">
           <!-- Izquierda: Información y Redes Sociales -->
-          <div class="col-6" style="margin-top: 20px;">
+          <div class="col-12 col-md-6" style="margin-top: 20px;">
             <div class="text-h6">CET - Club Empleados Telpin</div>
             <div class="text-subtitle2">© 2024 Todos los derechos reservados.</div>
             <div class="text-h6 q-mt-md" style="margin-top: 50px;">
@@ -94,7 +95,7 @@
           </div>
 
           <!-- Derecha: Mapa -->
-          <div class="col-6">
+          <div class="col-12 col-md-6">
             <div class="text-h6">
               <q-icon name="location_on" class="q-mr-sm" />
               Cómo llegar
@@ -126,6 +127,7 @@ import VectorLayer from 'ol/layer/Vector'
 import VectorSource from 'ol/source/Vector'
 import { fromLonLat } from 'ol/proj'
 import { useRouter } from 'vue-router';
+import ChatBotComponent from 'src/components/ChatBotComponent.vue'
 
 const router = useRouter();
 // Estado para controlar la visibilidad del drawer

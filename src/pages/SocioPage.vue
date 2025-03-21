@@ -1,6 +1,5 @@
 <template>
-
-  <q-card class="q-pa-md shadow-2 full-width" style="padding-top: 150px;height: 100vh;">
+  <q-card class="q-pa-md shadow-2 full-width" style="padding-top: 150px; min-height: 100vh;">
     <div class="text-h5 text-primary">Socio</div>
     <q-card-section>
       <p>Si sos socio del CET, tenés beneficios en comercios adheridos que podés consultar en la app del CET.</p>
@@ -21,7 +20,7 @@
             </q-item-label>
           </q-item-section>
           <q-item-section side>
-            <q-btn color="primary" label="Registrate" />
+            <q-btn color="primary" label="Registrate" class="full-width" />
           </q-item-section>
         </q-item>
 
@@ -33,7 +32,7 @@
             </q-item-label>
           </q-item-section>
           <q-item-section side>
-            <q-btn color="primary" label="Pago Mensual Débito Automático" />
+            <q-btn color="primary" label="Pago Mensual Débito Automático" class="full-width" />
           </q-item-section>
         </q-item>
 
@@ -45,7 +44,7 @@
             </q-item-label>
           </q-item-section>
           <q-item-section side>
-            <q-btn color="primary" label="Pago Anual" />
+            <q-btn color="primary" label="Pago Anual" class="full-width" />
           </q-item-section>
         </q-item>
       </q-list>
@@ -57,17 +56,17 @@
       <div class="text-h6">Contacto</div>
       <p>Por cualquier consulta, contactanos o seguinos en nuestras redes:</p>
       <div class="q-gutter-md">
-        <q-btn round flat>
+        <q-btn round flat class="q-mx-xs">
           <q-avatar size="42px">
             <img src="src/assets/facebook.png" alt="Facebook" />
           </q-avatar>
         </q-btn>
-        <q-btn round flat>
+        <q-btn round flat class="q-mx-xs">
           <q-avatar size="42px">
             <img src="src/assets/x.png" alt="X" />
           </q-avatar>
         </q-btn>
-        <q-btn round flat>
+        <q-btn round flat class="q-mx-xs">
           <q-avatar size="42px">
             <img src="src/assets/instagram.png" alt="Instagram" />
           </q-avatar>
@@ -75,7 +74,6 @@
       </div>
     </q-card-section>
   </q-card>
-
 </template>
 
 <script setup lang="ts">
@@ -85,4 +83,29 @@
 .full-width {
   width: 100%;
 }
+
+@media (max-width: 600px) {
+  /* Ajustes específicos para móviles */
+  .q-card {
+    padding-top: 80px; /* Reducir el espacio superior */
+  }
+
+  .text-h5 {
+    font-size: 1.5rem; /* Ajustar tamaño del título */
+  }
+
+  .text-h6 {
+    font-size: 1.2rem; /* Ajustar tamaño de subtítulos */
+  }
+
+  .q-btn {
+    width: 100% !important; /* Hacer que los botones se adapten */
+  }
+
+  .q-avatar img {
+    width: 30px; /* Reducir el tamaño de los iconos en dispositivos móviles */
+    height: 30px;
+  }
+}
 </style>
+

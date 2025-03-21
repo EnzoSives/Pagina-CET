@@ -176,7 +176,8 @@ export const usePerfilStore = defineStore(
     // Acción para obtener cuentas de cobro del perfil
     const getCuentasCobroPerfilJCETAction = async (nroCliente: string) => {
       try {
-        await loadUser() // Asegurarte de que el usuario esté cargado
+        await loadUser()
+        await comprobarAdmin() // Asegurarte de que el usuario esté cargado
         // Asegúrate de que `user.value` es un objeto `User` y está autenticado
         if (!user.value || !user.value.getIdToken) {
           console.error('Usuario no autenticado o getIdToken no disponible')
@@ -208,6 +209,40 @@ export const usePerfilStore = defineStore(
         }
       } catch (error) {
         console.error('Error en la llamada a la API de cuentas de cobro:', error)
+      }
+    }
+
+    // Acción para comprobar si el usuario es admin y guardar el estado en `admin`
+    const comprobarAdmin = async () => {
+      try {
+        await loadUser() // Asegurarte de que el usuario esté cargado
+        // Asegúrate de que `user.value` es un objeto `User` y está autenticado
+        if (!user.value || !user.value.getIdToken) {
+          console.error('Usuario no autenticado o getIdToken no disponible')
+          console.error('Usuario:', user.value)
+          console.error('getIdToken:', user.value?.getIdToken)
+          return
+        }
+
+        const idToken = await user.value.getIdToken()
+        if (!idToken) {
+          console.error('No se pudo obtener el token de autenticación.')
+          return
+        }
+
+        // Comprobación si el usuario es admin
+        const snap = await getDocs(
+          query(collection(db, 'admin'), where('email', '==', user.value.email)),
+        )
+        if (snap.empty) {
+          console.log('El usuario no es administrador.')
+          admin.value = false
+        } else {
+          console.log('El usuario es administrador.')
+          admin.value = true
+        }
+      } catch (error) {
+        console.error('Error en la comprobación de admin:', error)
       }
     }
 

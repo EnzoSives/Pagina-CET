@@ -24,24 +24,65 @@
     </div>
     <DeportesComponent></DeportesComponent>
 
-    <div class="text-h3 text-weight-bolder gradient-text text-center q-mt-lg" style="margin-top: 50px;">
-      Nuestro Espacio
-    </div>
+    <div class="galeriaContent" style="margin-top: 50px;">
+      <div class="text-h3 text-weight-bolder gradient-text text-center q-mt-lg" style="margin-top: 50px;">
+        Nuestro Espacio
+      </div>
 
-    <!-- Galería con mayor ancho -->
-    <div class="gallery-grid">
-      <img v-for="(image, index) in images" :key="index" :src="image" :class="['gallery-item', `item-${index + 1}`]" />
-    </div>
+      <!-- Galería Grid para pantallas grandes -->
+      <div v-if="!isMobile" class="gallery-grid">
+        <img v-for="(image, index) in images" :key="`grid-${index}`" :src="image"
+          :class="['gallery-item', `item-${index + 1}`]" />
+      </div>
 
+      <!-- Carousel para móviles -->
+      <div v-else class="q-pa-md">
+        <q-carousel v-model="slide" transition-prev="scale" transition-next="scale" swipeable animated
+          control-color="white" navigation padding arrows height="300px"
+          class="bg-white text-white shadow-1 rounded-borders">
+          <q-carousel-slide v-for="(image, index) in images" :key="`carousel-${index}`" :name="index">
+            <div class="row fit justify-center items-center" style="width: 300px;">
+              <img :src="image" class="carousel-image" />
+            </div>
+          </q-carousel-slide>
+        </q-carousel>
+      </div>
+    </div>
   </q-page>
 </template>
 
 <script setup lang="ts">
 import DeportesComponent from 'components/DeportesComponet.vue';
-import { ref } from 'vue';
+import { ref, onMounted, onBeforeUnmount } from 'vue';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
+const slide = ref(0); // Para controlar el carousel
+
+// Estado para saber si estamos en modo móvil
+const isMobile = ref(false);
+
+// Función para verificar si estamos en modo móvil
+const checkIfMobile = () => {
+  isMobile.value = window.innerWidth <= 768; // Considerar móvil si la pantalla es de 768px o menor
+};
+
+// Función para manejar el redimensionamiento de la ventana
+const handleResize = () => {
+  checkIfMobile();
+};
+
+// Verificar el tamaño de la pantalla al montar el componente
+onMounted(() => {
+  checkIfMobile();
+  // Agregar listener para detectar cambios en el tamaño de la ventana
+  window.addEventListener('resize', handleResize);
+});
+
+// Limpiar el listener cuando el componente se desmonta
+onBeforeUnmount(() => {
+  window.removeEventListener('resize', handleResize);
+});
 
 const images = ref([
   'https://i.pinimg.com/736x/33/21/7f/33217f1b0127b5e076c015e154f83b88.jpg',
@@ -70,8 +111,8 @@ const goToBeneficios = () => {
   background-size: cover;
   background-position: bottom;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  align-items: start;
+  justify-content: start;
   color: white;
   margin: 0;
   padding: 0;
@@ -98,9 +139,10 @@ const goToBeneficios = () => {
   grid-template-rows: repeat(3, 250px);
   gap: 12px;
   padding: 20px;
-  max-width: 1300px;
+  max-width: 1400px;
   /* Galería más ancha */
   margin: auto;
+  margin-top: 0;
 }
 
 .gallery-item {
@@ -123,7 +165,6 @@ const goToBeneficios = () => {
   font-family: "Aldrich", serif;
   font-optical-sizing: auto;
   font-weight: 500;
-  /* Cambiado a 700 para letras más gruesas */
   font-style: normal;
   font-size: 1.5rem;
 }
@@ -141,6 +182,14 @@ const goToBeneficios = () => {
   grid-column: span 2;
 }
 
+/* Clases para el carousel */
+.carousel-image {
+  max-height: 230px;
+  max-width: 100%;
+  object-fit: scale-down;
+  border-radius: 8px;
+}
+
 @media (max-width: 600px) {
   .content div:last-child {
     display: flex;
@@ -151,6 +200,14 @@ const goToBeneficios = () => {
   .content div:last-child .q-btn {
     margin-right: 0;
     width: 80%;
+  }
+
+  .text-content-cet {
+    font-size: 4rem;
+  }
+
+  .text-content {
+    font-size: 1.2rem;
   }
 }
 </style>
