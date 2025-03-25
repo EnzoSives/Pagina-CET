@@ -12,6 +12,7 @@ interface Beneficio {
   direccion: string
   telefono: string
   logo?: string
+  chequeado: boolean
 }
 
 export const useBeneficiosStore = defineStore('beneficios', () => {

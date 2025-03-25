@@ -21,15 +21,15 @@ const routes: RouteRecordRaw[] = [
       { path: '/institucional', name: 'Institucional', component: InstitucionalPage },
       { path: '/login', name: 'Login', component: LoginPage },
       { path: '/register', name: 'Register', component: RegisterPage },
-
-      // 🔒 Rutas protegidas
-      { path: '/appcet', name: 'AppCet', component: AppCet, meta: { requiresAuth: true } },
       {
         path: '/beneficios',
         name: 'Beneficios',
         component: BeneficiosPage,
-        meta: { requiresAuth: true },
       },
+
+      // 🔒 Rutas protegidas
+      { path: '/appcet', name: 'AppCet', component: AppCet, meta: { requiresAuth: true } },
+
       {
         path: '/perfiles',
         name: 'AdmPerfiles',

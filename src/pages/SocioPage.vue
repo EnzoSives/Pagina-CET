@@ -54,24 +54,7 @@
 
     <q-card-section>
       <div class="text-h6">Contacto</div>
-      <p>Por cualquier consulta, contactanos o seguinos en nuestras redes:</p>
-      <div class="q-gutter-md">
-        <q-btn round flat class="q-mx-xs">
-          <q-avatar size="42px">
-            <img src="src/assets/facebook.png" alt="Facebook" />
-          </q-avatar>
-        </q-btn>
-        <q-btn round flat class="q-mx-xs">
-          <q-avatar size="42px">
-            <img src="src/assets/x.png" alt="X" />
-          </q-avatar>
-        </q-btn>
-        <q-btn round flat class="q-mx-xs">
-          <q-avatar size="42px">
-            <img src="src/assets/instagram.png" alt="Instagram" />
-          </q-avatar>
-        </q-btn>
-      </div>
+      <p>Por cualquier consulta, contactanos o seguinos en nuestras redes.</p>
     </q-card-section>
   </q-card>
 </template>

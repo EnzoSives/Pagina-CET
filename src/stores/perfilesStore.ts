@@ -45,6 +45,7 @@ export const usePerfilStore = defineStore(
     const isAuthenticated = ref<boolean>(false)
     const cuentasCobros = ref<any[]>([])
     const movimientosCuentasCobro = ref<any[]>([]) // Guardar movimientos de cuentas de cobro
+    const cuentaSeleccionada = ref<any | null>(null)
     // const authStore = useAuthStore()
 
     const url: string = 'https://miclub.cetpinamar.com.ar'
@@ -67,6 +68,10 @@ export const usePerfilStore = defineStore(
         user.value = null
         isAuthenticated.value = false
       }
+    }
+
+    const setCuentaSeleccionada = async (cuenta: any) => {
+      cuentaSeleccionada.value = cuenta
     }
 
     // Acción para obtener perfiles desde la API y Firebase
@@ -345,6 +350,8 @@ export const usePerfilStore = defineStore(
       movimientosCuentasCobro,
       setSocio,
       socio,
+      setCuentaSeleccionada,
+      cuentaSeleccionada,
     }
   },
   {

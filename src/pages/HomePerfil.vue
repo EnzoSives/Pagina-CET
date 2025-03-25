@@ -4,11 +4,17 @@
     <div class="row justify-end">
       <q-select v-model="perfilIndexLocal" :options="perfilesOptions" label="Seleccionar Perfil" outlined dense
         emit-value map-options class="q-mb-md" style="width: 250px;" />
-      <q-btn icon="logout" style="height: 38px; width: 20px; margin-left: 20px" @click="authStore.logout"></q-btn>
+      <q-btn icon="logout" color="orange-10" style="height: 38px; margin-left: 20px" @click="authStore.logout">
+        <template v-slot:default>
+          <q-tooltip anchor="bottom middle" self="top middle">
+            Cerrar Sesión
+          </q-tooltip>
+        </template>
+      </q-btn>
     </div>
 
     <!-- Tarjeta de Perfil -->
-    <q-card class="q-pa-md row items-center" style="height: 150px;">
+    <q-card v-if="!isMobile" class="q-pa-md row items-center" style="height: 150px;">
       <q-avatar size="80px" class="q-mr-md">
         <img :src="perfilSeleccionado?.url || 'https://cdn.quasar.dev/img/avatar.png'" />
       </q-avatar>
@@ -20,6 +26,25 @@
         </div>
       </div>
       <q-badge color="grey-3" text-color="black" class="q-pa-xs"> Socio Activo </q-badge>
+    </q-card>
+    <q-card v-else class="q-pa-md" style="min-height: 150px;">
+      <div class="row items-center q-col-gutter-md">
+        <div class="col-12 col-sm-auto text-center">
+          <q-avatar size="80px">
+            <img :src="perfilSeleccionado?.url || 'https://cdn.quasar.dev/img/avatar.png'" />
+          </q-avatar>
+        </div>
+        <div class="col-12 col-sm text-center text-sm-left">
+          <div class="text-h6">{{ perfilSeleccionado?.nombre }} {{ perfilSeleccionado?.apellido }}</div>
+          <div class="text-subtitle2 text-grey-7">
+            <q-icon name="badge" /> N° Cliente: {{ perfilSeleccionado?.numeroCliente }}
+            <q-icon name="event" class="q-ml-md" /> DNI: {{ perfilSeleccionado?.dni }}
+          </div>
+        </div>
+        <div class="col-12 col-sm-auto text-center q-mt-sm q-mt-sm-none">
+          <q-badge color="grey-3" text-color="black" class="q-pa-xs"> Socio Activo </q-badge>
+        </div>
+      </div>
     </q-card>
 
     <!-- Pestañas de Navegación -->
@@ -59,19 +84,20 @@
         <p class="text-grey-7">Busca y encuentra otros socios.</p>
 
         <!-- Campo de búsqueda -->
-        <q-input v-model="busqueda" label="Buscar por DNI o Nombre" outlined dense class="q-mb-md">
+        <q-input v-model="busqueda" label="Buscar por DNI o Nombre" outlined dense class="q-mx-auto" style="max-width: 100%; width: 100%; max-width: 600px; margin-bottom: 20px;">
           <template v-slot:append>
             <q-btn icon="search" flat @click="buscarSocios"></q-btn>
           </template>
         </q-input>
 
         <!-- Lista de resultados -->
-        <q-list separator bordered v-if="sociosEncontrados.length > 0" style="width: 30%;">
+        <q-list separator bordered v-if="sociosEncontrados.length > 0" class="q-mx-auto"
+          style="max-width: 100%; width: 100%; max-width: 600px;">
           <q-item v-for="socio in sociosEncontrados" :key="socio.socio ?? ''" clickable>
             <q-item-section>
               <q-item-label>{{ socio.nombre }}</q-item-label>
               <q-item-label caption>{{ socio.documento }} | Socio: {{ socio.socio }}</q-item-label>
-              <q-item-label caption>Nacimiento: {{ socio.fechaNacimiento }}</q-item-label>
+              <!-- <q-item-label caption>Dni {{ socio.fechaNacimiento }}</q-item-label> -->
             </q-item-section>
             <q-item-section side>
               <q-badge text-color="black" :label="socio.estado || 'Estado no disponible'" />
@@ -148,12 +174,30 @@ watchEffect(() => {
     getCuentasCobroPerfilJCETAction(perfilSeleccionado.value.id)
   }
 })
-
-
 // Redirigir si no hay perfil seleccionado
 if (perfilStore.perfilIndex === null || perfilStore.perfilIndex === undefined) {
   router.push('/perfiles')
 }
+// Estado para saber si estamos en modo móvil
+const isMobile = ref(false);
+
+// Función para verificar si estamos en modo móvil
+const checkIfMobile = () => {
+  isMobile.value = window.innerWidth <= 768; // Considerar móvil si la pantalla es de 768px o menor
+};
+
+// Función para manejar el redimensionamiento de la ventana
+const handleResize = () => {
+  checkIfMobile();
+};
+
+// Verificar el tamaño de la pantalla al montar el componente
+onMounted(() => {
+  checkIfMobile();
+  // Agregar listener para detectar cambios en el tamaño de la ventana
+  window.addEventListener('resize', handleResize);
+});
+
 
 // Cargar cuentas de cobro al iniciar
 onMounted(() => {

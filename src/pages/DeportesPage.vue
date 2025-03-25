@@ -18,13 +18,14 @@
           </q-card-section>
           <q-separator />
           <q-card-section>
-            <p class="text-body1 text-grey-8">{{ getDeporteDescripcion(deporte) }}</p>
-          </q-card-section>
+  <p class="text-body1 text-grey-8" v-html="deporteDescripcion"></p>
+</q-card-section>
+
         </q-card>
       </div>
 
       <div class="col-12 col-md-3">
-        <q-card class="full-height shadow-2">
+        <q-card class="shadow-2">
           <q-card-section>
             <div class="text-h6 text-primary">Formulario de Alta</div>
           </q-card-section>
@@ -48,11 +49,11 @@
           <q-separator />
           <q-card-section>
             <div class="row q-col-gutter-sm">
-              <div class="col-12 col-sm-6">
+              <!-- <div class="col-12 col-sm-6">
                 <q-btn label="Pagar Femenino" color="pink-5" class="full-width" @click="abrirPagoModal" icon="paid" />
-              </div>
-              <div class="col-12 col-sm-6">
-                <q-btn label="Pagar Masculino" color="blue-5" class="full-width" @click="abrirPagoModal" icon="paid" />
+              </div> -->
+              <div class="col-12">
+                <q-btn label="Pagar" color="blue-5" class="full-width" @click="abrirPagoModal" icon="paid" />
               </div>
               <div class="col-12">
                 <q-btn label="Pagar Deuda" color="red-5" class="full-width q-mt-sm" @click="pagarDeuda"
@@ -70,11 +71,11 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, ref } from 'vue';
+import { defineProps, ref, onMounted,watch } from 'vue';
 import { useRouter } from 'vue-router';
 import PagosModal from 'components/PagosModal.vue';
 
-defineProps<{ deporte: string }>();
+const props = defineProps<{ deporte: string }>();
 
 const router = useRouter();
 const pagoModalRef = ref();
@@ -82,26 +83,46 @@ const pagoModalRef = ref();
 const abrirPagoModal = () => {
   pagoModalRef.value.abrirModal();
 };
+const deporteDescripcion = ref('');
 
+const cargarDescripcion = async (deporte: string) => {
+  try {
+    const response = await fetch('src/assets/deportes.json'); // Ruta correcta del JSON
+    const data = await response.json();
+    deporteDescripcion.value = data[deporte] || 'Información no disponible.';
+  } catch (error) {
+    console.error('Error al cargar la descripción:', error);
+  }
+};
+
+onMounted(() => {
+  cargarDescripcion(props.deporte);
+});
+
+// Si `deporte` cambia después de que el componente se haya montado
+watch(() => props.deporte, (newDeporte) => {
+  cargarDescripcion(newDeporte);
+});
 const deporteImages: Record<string, string> = {
   Futbol: 'https://i.pinimg.com/736x/fa/08/06/fa0806d7db438581687ed0fa6c7ef7f4.jpg',
   Patin: 'https://i.pinimg.com/736x/37/c3/be/37c3be6b3263c6f0ef94a39bfe13e21e.jpg',
   Hockey: 'https://i.pinimg.com/736x/87/03/89/870389975b04170d5f3a2f775e49698f.jpg',
+  Ciclismo: 'https://i.pinimg.com/736x/d9/61/f9/d961f9695e87098084205cf45f8d596a.jpg',
 };
 
-const deporteDescripciones: Record<string, string> = {
-  Futbol: 'El fútbol es un deporte de equipo que se juega con un balón en un campo rectangular con dos arcos...',
-  Patin: 'El patinaje es un deporte que combina habilidad y equilibrio sobre ruedas, con competencias de velocidad y estilo.',
-  Hockey: 'El hockey es un deporte dinámico que se juega en equipos con sticks y un disco o pelota.',
-};
+// const deporteDescripciones: Record<string, string> = {
+//   Futbol: 'El fútbol es un deporte de equipo que se juega con un balón en un campo rectangular con dos arcos...',
+//   Patin: 'El patinaje es un deporte que combina habilidad y equilibrio sobre ruedas, con competencias de velocidad y estilo.',
+//   Hockey: 'El hockey es un deporte dinámico que se juega en equipos con sticks y un disco o pelota.',
+// };
 
 const getDeporteImage = (deporte: string): string => {
   return deporteImages[deporte] || '/images/deportes/default.png';
 };
 
-const getDeporteDescripcion = (deporte: string): string => {
-  return deporteDescripciones[deporte] || 'Información no disponible.';
-};
+// const getDeporteDescripcion = (deporte: string): string => {
+//   return deporteDescripciones[deporte] || 'Información no disponible.';
+// };
 
 const irAlFormularioAlta = () => {
   router.push({ name: 'formulario-alta' });

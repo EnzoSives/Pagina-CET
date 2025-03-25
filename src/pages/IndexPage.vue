@@ -25,7 +25,7 @@
     <DeportesComponent></DeportesComponent>
 
     <div class="galeriaContent" style="margin-top: 50px;">
-      <div class="text-h3 text-weight-bolder gradient-text text-center q-mt-lg" style="margin-top: 50px;">
+      <div class="text-h3 text-weight-bolder gradient-text text-center q-mt-lg" style="margin: 100px;">
         Nuestro Espacio
       </div>
 

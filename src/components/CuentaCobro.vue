@@ -1,6 +1,6 @@
 <template>
   <!-- Mostrar las cuentas de cobro disponibles -->
-  <q-item v-for="(cuenta, index) in cuentasCobro" :key="index" clickable @click="toMovimientos(cuenta.eID)"
+  <q-item v-for="(cuenta, index) in cuentasCobro" :key="index" clickable @click="toMovimientos(cuenta.eID, cuenta)"
     :class="nameClass(cuenta)" style="width: 100%;">
     <q-item-section>
       <q-item-label class="text-bold">{{ titulo(cuenta) }}</q-item-label>
@@ -69,8 +69,9 @@ const titulo = (cuenta: any) => cuenta.tipoCuentaCobro?.replace("CTA", "CUENTA -
 const debe = (cuenta: any) => (cuenta.saldo > 0 ? "Pendiente" : "Pagado")
 
 // Obtiene los movimientos al hacer clic
-const toMovimientos = async (eID: any) => {
+const toMovimientos = async (eID: any, cuenta:any) => {
   try {
+    perfilStore.setCuentaSeleccionada(cuenta);
     await perfilStore.getMovimientosCuentasCobroPerfilJCET(eID)
     console.log('Movimientos obtenidos')
     router.push('/movimientos')

@@ -1,46 +1,85 @@
 <template>
-  <div style="padding-top: 100px;">
-    <!-- Banner con información del usuario -->
-    <q-banner class="bg-green text-white">
-      <h4 class="q-mb-none">Movimientos de {{ perfilSeleccionado?.nombre }} - {{ cuentasCobros[0]?.tipoCuentaCobro }}
-      </h4>
-      <q-separator />
-      <p class="q-mt-sm">
-        <b>Listado de movimientos. Saldo: $ {{ cuentasCobros[0]?.saldo }}.-</b>
-      </p>
-      <div>
-        <q-btn v-if="cuentasCobros[0]?.saldo > 0" label="Pagar" color="secondary" class="q-mr-sm" @click="pagar" />
-        <q-btn label="Volver" color="secondary" @click="back" />
-      </div>
-    </q-banner>
+  <div class="q-pa-md flex flex-center" style="padding-top: 100px;">
+    <q-card class="full-width max-width-1100 shadow-2">
+      <q-card-section class="bg-orange-10 text-white">
+        <h4 class="q-mb-none">
+         {{ perfilSeleccionado?.nombre }} - {{ cuentaSeleccionada?.tipoCuentaCobro }}
+        </h4>
+        <q-separator dark />
+        <p class="q-mt-sm text-h6">
+          <b>Saldo: $ {{ cuentaSeleccionada?.saldo }}</b>
+        </p>
+        <p class="q-mt-sm text-h6">
+          <b>Saldo vencido: $ {{ cuentaSeleccionada?.saldoVencido }}</b>
+        </p>
+      </q-card-section>
 
-    <!-- Tabla de movimientos -->
-    <q-table flat bordered title="Movimientos de Cuenta" :rows="movimientosCuentaCobro" :columns="columns" row-key="id"
-      class="q-mt-md">
-      <template v-slot:body-cell-fechaMovimiento="props">
-        <q-td :props="props">
-          {{ props.row.fechaMovimiento.substring(0, 12) }}
-        </q-td>
-      </template>
+      <q-card-section class="q-pt-none">
+        <div class="q-mb-md" style="margin-top: 20px;">
+          <q-btn
+            v-if="cuentasCobros[0]?.saldo > 0"
+            label="Pagar"
+            color="primary"
+            unelevated
+            rounded
+            class="q-mr-sm"
+            @click="pagar"
+          />
+          <q-btn
+            label="Volver"
+            color="secondary"
+            unelevated
+            rounded
+            @click="back"
+          />
+        </div>
 
-      <template v-slot:body-cell-descripcion="props">
-        <q-td :props="props">
-          {{ props.row.descripcion.toUpperCase() }}
-        </q-td>
-      </template>
+        <!-- Tabla de movimientos -->
+        <q-table
+          flat
+          bordered
+          dense
+          square
+          title="Movimientos de Cuenta"
+          :rows="movimientosCuentaCobro"
+          :columns="columns"
+          row-key="id"
+          class="q-mt-md"
+        >
+          <template v-slot:body-cell-fechaMovimiento="props">
+            <q-td :props="props">
+              {{ props.row.fechaMovimiento.substring(0, 10) }}
+            </q-td>
+          </template>
 
-      <template v-slot:body-cell-monto="props">
-        <q-td :props="props" :class="{ 'text-negative': props.row.credito, 'text-positive': !props.row.credito }">
-          {{ props.row.credito ? `- ${props.row.monto}` : props.row.monto }}
-        </q-td>
-      </template>
+          <template v-slot:body-cell-descripcion="props">
+            <q-td :props="props">
+              {{ props.row.descripcion.toUpperCase() }}
+            </q-td>
+          </template>
 
-      <template v-slot:body-cell-saldoAFecha="props">
-        <q-td :props="props">
-          {{ props.row.saldoAFecha }}
-        </q-td>
-      </template>
-    </q-table>
+          <template v-slot:body-cell-monto="props">
+            <q-td :props="props">
+              <q-chip
+                dense
+                square
+                :color="props.row.credito ? 'red' : 'green'"
+                text-color="white"
+                class="text-bold"
+              >
+                {{ props.row.credito ? `- $${props.row.monto}` : `$${props.row.monto}` }}
+              </q-chip>
+            </q-td>
+          </template>
+
+          <template v-slot:body-cell-saldoAFecha="props">
+            <q-td :props="props">
+              <b>$ {{ props.row.saldoAFecha }}</b>
+            </q-td>
+          </template>
+        </q-table>
+      </q-card-section>
+    </q-card>
   </div>
 </template>
 
@@ -52,14 +91,11 @@ import { usePerfilStore } from 'src/stores/perfilesStore'
 const router = useRouter()
 const perfilStore = usePerfilStore()
 
-// Computed para acceder a los datos del store
 const perfilSeleccionado = computed(() => perfilStore.perfiles[perfilStore.perfilIndex] || null)
 const cuentasCobros = computed(() => perfilStore.cuentasCobros)
 const movimientosCuentaCobro = computed(() => perfilStore.movimientosCuentasCobro)
-// const tipoCuentaCobro = computed(() => perfilStore.tipoCuentaCobro || 'Desconocido')
-// const saldo = computed(() => perfilStore.saldo || 0)
+const cuentaSeleccionada = computed(() => perfilStore.cuentaSeleccionada)
 
-// Columnas de la tabla
 type Column = {
   name: string;
   label: string;
@@ -74,7 +110,6 @@ const columns: Column[] = [
   { name: 'saldoAFecha', label: 'Saldo', field: 'saldoAFecha', align: 'right' }
 ];
 
-// Métodos
 const back = () => router.replace('/homePerfil')
 
 const pagar = () => {
@@ -83,24 +118,14 @@ const pagar = () => {
     '_blank'
   )
 }
-
-// Cargar los movimientos al montar el componente
-// onMounted(() => {
-//   console.log('Movimientos.vue - montado')
-//   perfilStore.getMovimientosCuentasCobroPerfilJCET(perfilStore.perfilIndex)
-// })
 </script>
 
 <style scoped>
-.q-table {
-  background: white;
+.max-width-800 {
+  max-width: 800px;
 }
 
-.text-negative {
-  color: red;
-}
-
-.text-positive {
-  color: green;
+.text-bold {
+  font-weight: bold;
 }
 </style>

@@ -1,39 +1,34 @@
 <template>
   <q-card class="q-pa-md beneficiosCards">
-    <!-- Header del card -->
     <q-card-section class="row items-center justify-between">
-      <div>
-        <h3>{{ beneficio.nombrefantasia.toUpperCase() }}</h3>
-      </div>
+      <q-title>{{ beneficio.nombrefantasia.toUpperCase() }}</q-title>
       <div class="row items-center">
-        <!-- Checkbox: visible solo si es admin -->
-        <q-toggle v-if="isAdmin" v-model="check" label="Aprobado" dense @update:model-value="onToggleChange" />
-        <!-- Botón editar -->
-        <q-btn v-if="editable" flat round icon="edit" color="green" class="q-ml-sm" @click="emitEditar" />
-        <!-- Botón eliminar -->
-        <q-btn v-if="editable" flat round icon="delete" color="red" class="q-ml-sm" @click="emitEliminar" />
+        <q-toggle v-if="perfilStore.admin" v-model="check" label="Aprobado" dense @update:model-value="onToggleChange" />
+        <q-btn-group v-if="editable" class="q-ml-sm">
+          <q-btn flat round icon="edit" color="green" outline @click="emitEditar" />
+          <q-btn flat round icon="delete" color="red" outline @click="emitEliminar" />
+        </q-btn-group>
       </div>
     </q-card-section>
 
-    <!-- Contenido del card -->
     <q-card-section>
       <div class="row items-center">
         <div class="col">
-          <h4>{{ beneficio.titulo.toUpperCase() }}</h4>
+          <q-subtitle>{{ beneficio.titulo.toUpperCase() }}</q-subtitle>
         </div>
         <div class="col-auto">
-          <q-img v-if="url" :src="url" :alt="beneficio.nombrefantasia" style="width:70px; height:70px"
-            spinner-size="30" />
+          <q-avatar v-if="url" size="70px">
+            <q-img :src="url" :alt="beneficio.nombrefantasia" />
+          </q-avatar>
         </div>
       </div>
       <div class="q-mt-sm">
-        <p>{{ beneficio.descripcion.toUpperCase() }}</p>
+        <p class="text-grey-4">{{ beneficio.descripcion.toUpperCase() }}</p>
       </div>
     </q-card-section>
 
-    <q-separator color="white"></q-separator>
+    <q-separator color="grey-8"></q-separator>
 
-    <!-- Footer -->
     <q-card-section class="text-grey text-italic">
       <em>
         {{ beneficio.rubro.toUpperCase() }} -
@@ -50,6 +45,7 @@ import { storage } from 'src/firebase'
 import { defineProps, defineEmits } from 'vue'
 import { ref as storageRef, getDownloadURL } from 'firebase/storage'
 import type { FirebaseError } from 'firebase/app'
+import { usePerfilStore } from 'src/stores/perfilesStore'
 
 
 // Definir las props que se reciben, incluyendo el objeto "beneficio" y el flag isAdmin
@@ -63,10 +59,10 @@ const props = defineProps<{
     direccion: string
     telefono: string
     logo?: string
+    chequeado?: boolean
   }
   index?: number
   editable?: boolean
-  chequeado?: boolean
   isAdmin?: boolean
 }>()
 
@@ -77,11 +73,14 @@ const emit = defineEmits<{
   (e: 'form-eliminar', index: number): void
 }>()
 
+// Store de perfiles
+const perfilStore = usePerfilStore()
+
 // Variable reactiva para la URL de la imagen
 const url = ref<string | null>(null)
 
 // Estado del toggle (checkbox)
-const check = ref(props.chequeado ?? false)
+const check = ref(props.beneficio.chequeado ?? false)
 
 // Usamos la prop isAdmin directamente
 // Función para cargar la imagen desde Firebase Storage
@@ -149,17 +148,20 @@ onMounted(() => {
 </script>
 
 <style scoped>
-h3,
-h4,
-p {
-  margin: 0;
-}
-
 .beneficiosCards {
   margin: 20px;
-  border-radius: 20px;
-  background-color: rgb(26, 26, 29);
+  border-radius: 24px;
+  background: linear-gradient(135deg, #1e1e22, #292932);
   color: white;
-  max-width: 400px;
+  max-width: 350px;
+  transition: transform 0.2s ease-in-out;
+}
+
+.beneficiosCards:hover {
+  transform: scale(1.02);
+}
+
+p {
+  letter-spacing: 1px;
 }
 </style>

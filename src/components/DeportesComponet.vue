@@ -1,5 +1,5 @@
 <template>
-  <q-page class="q-pa-lg bg-grey-1">
+  <q-page class="q-pa-lg bg-white">
     <div class="column q-gutter-xl">
       <div v-for="(sport, index) in sports" :key="index" class="sport-section">
         <div class="row items-start">

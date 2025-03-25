@@ -20,6 +20,9 @@
           <q-item clickable v-ripple @click="goToDeporte('Hockey')">
             <q-item-section>Hockey</q-item-section>
           </q-item>
+          <q-item clickable v-ripple @click="goToDeporte('Ciclismo')">
+            <q-item-section>Ciclismo</q-item-section>
+          </q-item>
         </q-list>
       </q-btn-dropdown>
       <q-btn label="Institucional" color="white" flat class="hover-orange" @click="goToIsti()"></q-btn>
@@ -30,17 +33,19 @@
   </q-banner>
 
   <!-- Modal para mostrar el PDF -->
-  <q-dialog v-model="showFaq" persistent>
+  <q-dialog v-model="showFaq" persistent >
     <q-card class="q-dialog-plugin">
-      <q-card-section>
+      <q-card-section class="row items-center q-pb-none">
         <div class="text-h6">Preguntas Frecuentes(FAQ)</div>
+        <q-space />
+        <q-btn icon="close" flat round v-close-popup style="bottom: 5px" />
       </q-card-section>
       <q-card-section class="q-pa-none">
         <iframe src="src/assets/faq.pdf" width="100%" height="500px"></iframe>
       </q-card-section>
-      <q-card-actions align="right">
+      <!-- <q-card-actions align="right">
         <q-btn flat label="Cerrar" color="primary" v-close-popup />
-      </q-card-actions>
+      </q-card-actions> -->
     </q-card>
   </q-dialog>
 </template>
