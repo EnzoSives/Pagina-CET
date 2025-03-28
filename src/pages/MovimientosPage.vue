@@ -3,7 +3,7 @@
     <q-card class="full-width max-width-1100 shadow-2">
       <q-card-section class="bg-orange-10 text-white">
         <h4 class="q-mb-none">
-         {{ perfilSeleccionado?.nombre }} - {{ cuentaSeleccionada?.tipoCuentaCobro }}
+          {{ perfilSeleccionado?.nombre }} - {{ cuentaSeleccionada?.tipoCuentaCobro }}
         </h4>
         <q-separator dark />
         <p class="q-mt-sm text-h6">
@@ -16,36 +16,14 @@
 
       <q-card-section class="q-pt-none">
         <div class="q-mb-md" style="margin-top: 20px;">
-          <q-btn
-            v-if="cuentasCobros[0]?.saldo > 0"
-            label="Pagar"
-            color="primary"
-            unelevated
-            rounded
-            class="q-mr-sm"
-            @click="pagar"
-          />
-          <q-btn
-            label="Volver"
-            color="secondary"
-            unelevated
-            rounded
-            @click="back"
-          />
+          <q-btn v-if="cuentasCobros[0]?.saldo > 0" label="Pagar" color="primary" unelevated rounded class="q-mr-sm"
+            @click="pagar" />
+          <q-btn label="Volver" color="secondary" unelevated rounded @click="back" />
         </div>
 
         <!-- Tabla de movimientos -->
-        <q-table
-          flat
-          bordered
-          dense
-          square
-          title="Movimientos de Cuenta"
-          :rows="movimientosCuentaCobro"
-          :columns="columns"
-          row-key="id"
-          class="q-mt-md"
-        >
+        <q-table flat bordered dense square title="Movimientos de Cuenta" :rows="movimientosCuentaCobro"
+          :columns="columns" row-key="id" class="q-mt-md">
           <template v-slot:body-cell-fechaMovimiento="props">
             <q-td :props="props">
               {{ props.row.fechaMovimiento.substring(0, 10) }}
@@ -60,13 +38,7 @@
 
           <template v-slot:body-cell-monto="props">
             <q-td :props="props">
-              <q-chip
-                dense
-                square
-                :color="props.row.credito ? 'red' : 'green'"
-                text-color="white"
-                class="text-bold"
-              >
+              <q-chip dense square :color="props.row.credito ? 'red' : 'green'" text-color="white" class="text-bold">
                 {{ props.row.credito ? `- $${props.row.monto}` : `$${props.row.monto}` }}
               </q-chip>
             </q-td>
@@ -114,7 +86,7 @@ const back = () => router.replace('/homePerfil')
 
 const pagar = () => {
   window.open(
-    `https://miclub.cetpinamar.com.ar/external/pagarOnline.faces?cpe=${cuentasCobros.value[0]?.cPE}&monto=${cuentasCobros.value[0]?.saldo}`,
+    `https://miclub.cetpinamar.com.ar/external/pagarOnline.faces?cpe=${cuentaSeleccionada?.value.cPE}&monto=${cuentaSeleccionada.value?.saldo}`,
     '_blank'
   )
 }

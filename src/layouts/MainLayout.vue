@@ -99,6 +99,12 @@
             <div class="text-h6">
               <q-icon name="location_on" class="q-mr-sm" />
               Cómo llegar
+
+              <q-btn color="primary" icon="directions" flat @click="goToGoogleMaps">
+                <q-tooltip>
+                  Ir a ruta
+                </q-tooltip>
+              </q-btn>
             </div>
             <div class="footer-map-container">
               <div id="map"></div>
@@ -166,6 +172,10 @@ const goToApp = () => {
 };
 const goToTienda = () => {
   window.location.href = 'https://cetpinamar.mercadoshops.com.ar/';
+};
+
+const goToGoogleMaps = () => {
+  window.open('https://www.google.com/search?rlz=1C1CHBD_esAR860AR862&tbs=lrf:!1m4!1u2!2m2!2m1!1e1!2m1!1e2!3sIAE,lf:1,lf_ui:2&tbm=lcl&sxsrf=ALeKk01FAQCkwxcJ4X-Jq6L0JCDyOUr16Q:1612449379773&q=cet&rflfq=1&num=10&ved=2ahUKEwi9hf-DutDuAhVaGbkGHWNcBzsQtgN6BAgDEAc&rlst=f#rlfi=hd:;si:;mv:[[-36.5095441,-56.6757588],[-37.1306564,-57.1776644]];tbs:lrf:!1m4!1u2!2m2!2m1!1e1!2m1!1e2!3sIAE,lf:1,lf_ui:2', '_blank');
 };
 
 onMounted(() => {

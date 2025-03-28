@@ -4,13 +4,7 @@
     <div class="row justify-end">
       <q-select v-model="perfilIndexLocal" :options="perfilesOptions" label="Seleccionar Perfil" outlined dense
         emit-value map-options class="q-mb-md" style="width: 250px;" />
-      <q-btn icon="logout" color="orange-10" style="height: 38px; margin-left: 20px" @click="authStore.logout">
-        <template v-slot:default>
-          <q-tooltip anchor="bottom middle" self="top middle">
-            Cerrar Sesión
-          </q-tooltip>
-        </template>
-      </q-btn>
+      <q-btn icon="logout" style="height: 38px; width: 20px; margin-left: 20px" @click="authStore.logout"></q-btn>
     </div>
 
     <!-- Tarjeta de Perfil -->
@@ -25,7 +19,10 @@
           <q-icon name="event" class="q-ml-md" /> DNI: {{ perfilSeleccionado?.dni }}
         </div>
       </div>
-      <q-badge color="grey-3" text-color="black" class="q-pa-xs"> Socio Activo </q-badge>
+      <div class="row items-center">
+        <q-badge color="grey-3" text-color="black" class="q-pa-xs q-mr-md"> Socio Activo </q-badge>
+        <q-btn color="primary" icon="badge" label="Credencial" @click="showCredencial = true" />
+      </div>
     </q-card>
     <q-card v-else class="q-pa-md" style="min-height: 150px;">
       <div class="row items-center q-col-gutter-md">
@@ -46,6 +43,32 @@
         </div>
       </div>
     </q-card>
+
+    <!-- Modal de Credencial -->
+    <q-dialog v-model="showCredencial">
+      <q-card class="bg-white">
+        <q-card-section class="row items-center">
+          <div class="text-h6">Credencial Digital</div>
+        </q-card-section>
+
+        <q-card-section class="q-pt-none">
+          <div class="contenedor-credencial">
+
+            <img src="http://sitio.cetpinamar.com.ar/images/demo/imgr.png" class="credencial-bg" />
+            <div class="texto-ano">2025</div>
+            <div class="texto-apellido">{{ perfilSeleccionado?.apellido }}</div>
+            <div class="texto-nombre">{{ perfilSeleccionado?.nombre }}</div>
+            <div class="socio-nro">{{ perfilSeleccionado?.numeroCliente }}</div>
+            <div class="texto-dni">D.N.I.: {{ perfilSeleccionado?.dni }}</div>
+            <div class="texto-web">www.cetpinamar.com.ar</div>
+          </div>
+        </q-card-section>
+
+        <q-card-actions align="right">
+          <q-btn flat label="Cerrar" color="primary" v-close-popup />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
 
     <!-- Pestañas de Navegación -->
     <q-tabs v-model="tab" class="q-mt-md" dense>
@@ -84,20 +107,19 @@
         <p class="text-grey-7">Busca y encuentra otros socios.</p>
 
         <!-- Campo de búsqueda -->
-        <q-input v-model="busqueda" label="Buscar por DNI o Nombre" outlined dense class="q-mx-auto" style="max-width: 100%; width: 100%; max-width: 600px; margin-bottom: 20px;">
+        <q-input v-model="busqueda" label="Buscar por DNI o Nombre" outlined dense class="q-mb-md">
           <template v-slot:append>
             <q-btn icon="search" flat @click="buscarSocios"></q-btn>
           </template>
         </q-input>
 
         <!-- Lista de resultados -->
-        <q-list separator bordered v-if="sociosEncontrados.length > 0" class="q-mx-auto"
-          style="max-width: 100%; width: 100%; max-width: 600px;">
+        <q-list separator bordered v-if="sociosEncontrados.length > 0" style="width: 30%;">
           <q-item v-for="socio in sociosEncontrados" :key="socio.socio ?? ''" clickable>
             <q-item-section>
               <q-item-label>{{ socio.nombre }}</q-item-label>
               <q-item-label caption>{{ socio.documento }} | Socio: {{ socio.socio }}</q-item-label>
-              <!-- <q-item-label caption>Dni {{ socio.fechaNacimiento }}</q-item-label> -->
+              <q-item-label caption>Nacimiento: {{ socio.fechaNacimiento }}</q-item-label>
             </q-item-section>
             <q-item-section side>
               <q-badge text-color="black" :label="socio.estado || 'Estado no disponible'" />
@@ -137,10 +159,10 @@ const sociosEncontrados = ref<Socio[]>([]);
 // Función para buscar socios por DNI o nombre
 const buscarSocios = async () => {
   if (!busqueda.value.trim()) return;
-
+  console.log("Buscando socio con DNI:", busqueda.value);
   await setSocio(busqueda.value); // Llama a la API
   const resultado = socio; // Obtiene el resultado de la búsqueda
-  console.log("Resultado de la búsqueda de socio:", resultado);
+  console.log("Resultado de la búsqueda de socio:", socio);
 
   if (resultado && resultado.socio) {
     sociosEncontrados.value = [resultado]; // Si se encuentra, lo agrega a la lista
@@ -210,6 +232,8 @@ onMounted(() => {
 });
 
 const tab = ref('cobro')
+
+const showCredencial = ref(false);
 </script>
 
 
@@ -231,5 +255,72 @@ const tab = ref('cobro')
   /* Espaciado entre cards */
   justify-content: center;
   /* Alinear al centro */
+}
+
+.contenedor-credencial {
+  position: relative;
+  width: 400px;
+  height: 250px;
+  margin: 0 auto;
+  background: linear-gradient(45deg, #003366, #0066cc);
+  border-radius: 10px;
+  overflow: hidden;
+  color: white;
+}
+
+.credencial-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.texto-ano {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.texto-apellido {
+  position: absolute;
+  top: 80px;
+  left: 20px;
+  font-size: 1.4rem;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.texto-nombre {
+  position: absolute;
+  top: 110px;
+  left: 20px;
+  font-size: 1.2rem;
+  text-transform: uppercase;
+}
+
+.socio-nro {
+  position: absolute;
+  top: 190px;
+  left: 130px;
+  font-size: 1rem;
+}
+
+.texto-dni {
+  position: absolute;
+  top: 180px;
+  left: 260px;
+  font-size: 1rem;
+}
+
+.texto-web {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  font-size: 0.8rem;
+  opacity: 0.8;
 }
 </style>

@@ -3,7 +3,7 @@
     <q-card-section class="row items-center justify-between">
       <q-title>{{ beneficio.nombrefantasia.toUpperCase() }}</q-title>
       <div class="row items-center">
-        <q-toggle v-if="perfilStore.admin" v-model="check" label="Aprobado" dense @update:model-value="onToggleChange" />
+        <q-toggle v-if="perfilStore.admin" v-model="check" label="Aprobado" dense @update:model-value="formChecked" />
         <q-btn-group v-if="editable" class="q-ml-sm">
           <q-btn flat round icon="edit" color="green" outline @click="emitEditar" />
           <q-btn flat round icon="delete" color="red" outline @click="emitEliminar" />
@@ -46,9 +46,9 @@ import { defineProps, defineEmits } from 'vue'
 import { ref as storageRef, getDownloadURL } from 'firebase/storage'
 import type { FirebaseError } from 'firebase/app'
 import { usePerfilStore } from 'src/stores/perfilesStore'
+import { db } from 'src/firebase'
+import { doc, updateDoc } from 'firebase/firestore'
 
-
-// Definir las props que se reciben, incluyendo el objeto "beneficio" y el flag isAdmin
 const props = defineProps<{
   beneficio: {
     id: string
@@ -63,27 +63,17 @@ const props = defineProps<{
   }
   index?: number
   editable?: boolean
-  isAdmin?: boolean
 }>()
 
-// Definir eventos a emitir
 const emit = defineEmits<{
-  (e: 'form-checked', index: number, value: boolean): void
   (e: 'form-editar', index: number): void
   (e: 'form-eliminar', index: number): void
 }>()
 
-// Store de perfiles
 const perfilStore = usePerfilStore()
-
-// Variable reactiva para la URL de la imagen
 const url = ref<string | null>(null)
-
-// Estado del toggle (checkbox)
 const check = ref(props.beneficio.chequeado ?? false)
 
-// Usamos la prop isAdmin directamente
-// Función para cargar la imagen desde Firebase Storage
 const cargarImagen = () => {
   if (props.beneficio.logo) {
     const imageRef = storageRef(storage, `beneficios/${props.beneficio.logo}`)
@@ -92,28 +82,18 @@ const cargarImagen = () => {
         url.value = downloadUrl
       })
       .catch((error: FirebaseError) => {
-        switch (error.code) {
-          case 'storage/object-not-found':
-            console.log("File doesn't exist")
-            break
-          case 'storage/unauthorized':
-            console.log("User doesn't have permission to access the object")
-            break
-          case 'storage/canceled':
-            console.log("User canceled the upload")
-            break
-          case 'storage/unknown':
-            console.log("Unknown error occurred")
-            break
-          default:
-            console.log("Error:", error.message)
-        }
+        console.error("Error al cargar imagen:", error.message)
       })
   }
 }
-const onToggleChange = (val: boolean) => {
-  if (props.index !== undefined) {
-    emit('form-checked', props.index, val)
+
+const formChecked = async (val: boolean) => {
+  check.value = val
+  try {
+    const beneficioRef = doc(db, "beneficios", props.beneficio.id)
+    await updateDoc(beneficioRef, { chequeado: val })
+  } catch (error) {
+    console.error("Error actualizando beneficio:", error)
   }
 }
 
@@ -129,19 +109,14 @@ const emitEliminar = () => {
   }
 }
 
-// Observar cambios en la propiedad "logo" del beneficio para recargar la imagen
-watch(
-  () => props.beneficio.logo,
-  (newLogo) => {
-    if (newLogo) {
-      cargarImagen()
-    } else {
-      url.value = null
-    }
+watch(() => props.beneficio.logo, (newLogo) => {
+  if (newLogo) {
+    cargarImagen()
+  } else {
+    url.value = null
   }
-)
+})
 
-// Cargar la imagen al montar el componente
 onMounted(() => {
   cargarImagen()
 })
