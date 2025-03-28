@@ -40,19 +40,20 @@
         </div>
         <div class="col-12 col-sm-auto text-center q-mt-sm q-mt-sm-none">
           <q-badge color="grey-3" text-color="black" class="q-pa-xs"> Socio Activo </q-badge>
+          <q-btn color="primary" icon="badge" label="Credencial" @click="showCredencial = true" />
         </div>
       </div>
     </q-card>
 
     <!-- Modal de Credencial -->
-    <q-dialog v-model="showCredencial">
+    <q-dialog v-model="showCredencial" >
       <q-card class="bg-white">
         <q-card-section class="row items-center">
           <div class="text-h6">Credencial Digital</div>
         </q-card-section>
 
         <q-card-section class="q-pt-none">
-          <div class="contenedor-credencial">
+          <div class="contenedor-credencial" v-if="!isMobile">
 
             <img src="http://sitio.cetpinamar.com.ar/images/demo/imgr.png" class="credencial-bg" />
             <div class="texto-ano">2025</div>
@@ -60,7 +61,14 @@
             <div class="texto-nombre">{{ perfilSeleccionado?.nombre }}</div>
             <div class="socio-nro">{{ perfilSeleccionado?.numeroCliente }}</div>
             <div class="texto-dni">D.N.I.: {{ perfilSeleccionado?.dni }}</div>
-            <div class="texto-web">www.cetpinamar.com.ar</div>
+          </div>
+          <div v-else class="contenedor-credencial-mobile" >
+            <img src="http://sitio.cetpinamar.com.ar/images/demo/imgr.png" class="credencial-bg" />
+            <div class="texto-ano">2025</div>
+            <div class="texto-apellido">{{ perfilSeleccionado?.apellido }}</div>
+            <div class="texto-nombre">{{ perfilSeleccionado?.nombre }}</div>
+            <div class="socio-nro">{{ perfilSeleccionado?.numeroCliente }}</div>
+            <div class="texto-dni">D.N.I.: {{ perfilSeleccionado?.dni }}</div>
           </div>
         </q-card-section>
 
@@ -268,6 +276,17 @@ const showCredencial = ref(false);
   color: white;
 }
 
+.contenedor-credencial-mobile {
+  position: relative;
+  width: 350px;
+  height: 250px;
+  margin: 0 auto;
+  background: linear-gradient(45deg, #003366, #0066cc);
+  border-radius: 10px;
+  overflow: hidden;
+  color: white;
+}
+
 .credencial-bg {
   position: absolute;
   top: 0;
@@ -281,39 +300,39 @@ const showCredencial = ref(false);
   position: absolute;
   top: 20px;
   left: 20px;
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   font-weight: bold;
 }
 
 .texto-apellido {
   position: absolute;
-  top: 80px;
-  left: 20px;
-  font-size: 1.4rem;
+  top: 120px;
+  left: 50px;
+  font-size: 1rem;
   font-weight: bold;
   text-transform: uppercase;
 }
 
 .texto-nombre {
   position: absolute;
-  top: 110px;
-  left: 20px;
-  font-size: 1.2rem;
+  top: 140px;
+  left: 50px;
+  font-size: 1rem;
   text-transform: uppercase;
 }
 
 .socio-nro {
   position: absolute;
-  top: 190px;
-  left: 130px;
-  font-size: 1rem;
+  top: 194px;
+  left: 115px;
+  font-size: 0.8rem;
 }
 
 .texto-dni {
   position: absolute;
   top: 180px;
   left: 260px;
-  font-size: 1rem;
+  font-size: 0.8rem;
 }
 
 .texto-web {
