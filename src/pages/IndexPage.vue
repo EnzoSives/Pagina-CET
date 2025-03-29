@@ -25,7 +25,7 @@
     <DeportesComponent></DeportesComponent>
 
     <div class="galeriaContent" style="margin-top: 50px;">
-      <div class="text-h3 text-weight-bolder gradient-text text-center q-mt-lg" style="margin: 100px;">
+      <div class="text-h3 text-weight-bolder gradient-text text-center q-mt-lg" >
         Nuestro Espacio
       </div>
 
@@ -35,10 +35,9 @@
           :class="['gallery-item', `item-${index + 1}`]" />
       </div>
 
-      <!-- Carousel para móviles -->
       <!-- Swiper Carousel para móviles -->
       <div v-else class="q-pa-md">
-        <swiper :modules="[Pagination, Navigation]" :slides-per-view="1" :space-between="10" navigation pagination>
+        <swiper :modules="[Pagination, Navigation]" :slides-per-view="2" :space-between="10" :effect="'fade'" navigation pagination>
           <swiper-slide v-for="(image, index) in images" :key="index">
             <img :src="image" class="carousel-image" />
           </swiper-slide>
@@ -190,6 +189,9 @@ const goToBeneficios = () => {
   max-width: 100%;
   object-fit: scale-down;
   border-radius: 8px;
+  display: block;
+  margin: 0 auto;
+  padding-bottom: 40px;
 }
 
 @media (max-width: 600px) {

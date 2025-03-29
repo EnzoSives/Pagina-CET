@@ -1,5 +1,5 @@
 <template>
-  <q-page class="q-pa-md flex flex-center column" style="padding-top: 150px;">
+  <q-page class="q-pa-md flex flex-center column" style="padding-top: 50px;">
     <!-- Tarjeta principal -->
     <q-card class="info-card">
       <q-card-section>
