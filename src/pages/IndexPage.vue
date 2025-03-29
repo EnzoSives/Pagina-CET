@@ -36,16 +36,13 @@
       </div>
 
       <!-- Carousel para móviles -->
+      <!-- Swiper Carousel para móviles -->
       <div v-else class="q-pa-md">
-        <q-carousel v-model="slide" transition-prev="scale" transition-next="scale" swipeable animated
-          control-color="white" navigation padding arrows height="300px"
-          class="bg-white text-white shadow-1 rounded-borders">
-          <q-carousel-slide v-for="(image, index) in images" :key="`carousel-${index}`" :name="index">
-            <div class="row fit justify-center items-center" style="width: 300px;">
-              <img :src="image" class="carousel-image" />
-            </div>
-          </q-carousel-slide>
-        </q-carousel>
+        <swiper :modules="[Pagination, Navigation]" :slides-per-view="1" :space-between="10" navigation pagination>
+          <swiper-slide v-for="(image, index) in images" :key="index">
+            <img :src="image" class="carousel-image" />
+          </swiper-slide>
+        </swiper>
       </div>
     </div>
   </q-page>
@@ -55,9 +52,14 @@
 import DeportesComponent from 'components/DeportesComponet.vue';
 import { ref, onMounted, onBeforeUnmount } from 'vue';
 import { useRouter } from 'vue-router';
+import { Swiper, SwiperSlide } from 'swiper/vue';
+import { Pagination, Navigation } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/pagination';
+import 'swiper/css/navigation';
 
 const router = useRouter();
-const slide = ref(0); // Para controlar el carousel
+// const slide = ref(0); // Para controlar el carousel
 
 // Estado para saber si estamos en modo móvil
 const isMobile = ref(false);
