@@ -10,7 +10,7 @@
 
       <!-- Imagen de la credencial -->
       <q-card-section class="text-center">
-        <q-img src="src/assets/credencial.png" alt="Credencial de socio" class="credencial-img"
+        <q-img src="~/assets/credencial.png" alt="Credencial de socio" class="credencial-img"
           spinner-color="primary" />
       </q-card-section>
 
