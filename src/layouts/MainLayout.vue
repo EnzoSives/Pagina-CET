@@ -18,17 +18,18 @@
         </q-item>
         <q-item>
           <q-btn-dropdown label="Deportes" color="white" flat class="hover-orange">
-            <q-list>
-              <q-item clickable v-ripple @click="goToDeporte('Futbol')">
-                <q-item-section>Futbol</q-item-section>
-              </q-item>
-              <q-item clickable v-ripple @click="goToDeporte('Patin')">
-                <q-item-section>Patin</q-item-section>
-              </q-item>
-              <q-item clickable v-ripple @click="goToDeporte('Hockey')">
-                <q-item-section>Hockey</q-item-section>
-              </q-item>
-            </q-list>
+             <q-list>
+          <q-item
+            v-for="deporte in deportes"
+            :key="deporte"
+            clickable
+            v-ripple
+            @click="goToDeportes(deporte)"
+            :class="{'selected-deporte': deporteSeleccionado === deporte}"
+          >
+            <q-item-section>{{ deporte }}</q-item-section>
+          </q-item>
+        </q-list>
           </q-btn-dropdown>
 
         </q-item>
@@ -73,23 +74,27 @@
             <div class="row items-center q-gutter-sm q-mt-sm">
               <q-btn round class="q-mx-xs">
                 <q-avatar size="42px">
-                  <img src="~/assets/facebook.png" alt="Facebook" />
+                  <img src="~/assets/facebook.png" alt="Facebook" @click="goTo('https://www.facebook.com/cetpinamar/')"/>
+                </q-avatar>
+              </q-btn>
+
+              <q-btn round class="q-mx-xs">
+                <q-avatar size="42px">
+                  <img src="~/assets/instagram.png" alt="Instagram" @click="goTo('https://www.instagram.com/cetpinamar/#')"/>
                 </q-avatar>
               </q-btn>
               <q-btn round class="q-mx-xs">
                 <q-avatar size="42px">
-                  <img src="~/assets/x.png" alt="X" />
+                  <img src="~/assets/wpp.png" alt="WhatsApp" @click="goTo('https://api.whatsapp.com/send/?phone=542254495253&text=Hola+CET%21&type=phone_number&app_absent=0')"/>
                 </q-avatar>
               </q-btn>
               <q-btn round class="q-mx-xs">
-                <q-avatar size="42px">
-                  <img src="~/assets/instagram.png" alt="Instagram" />
+                <q-avatar size="50px">
+                  <img src="~/assets/email.png" alt="Mail"/>
                 </q-avatar>
-              </q-btn>
-              <q-btn round class="q-mx-xs">
-                <q-avatar size="42px">
-                  <img src="~/assets/wpp.png" alt="WhatsApp" />
-                </q-avatar>
+                <q-tooltip>
+                info@cetpinamar.com.ar
+                </q-tooltip>
               </q-btn>
             </div>
           </div>
@@ -132,12 +137,27 @@ import { Icon, Style } from 'ol/style'
 import VectorLayer from 'ol/layer/Vector'
 import VectorSource from 'ol/source/Vector'
 import { fromLonLat } from 'ol/proj'
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 import ChatBotComponent from 'src/components/ChatBotComponent.vue'
 
 const router = useRouter();
+const route = useRoute();
 // Estado para controlar la visibilidad del drawer
 const drawerOpen = ref(false)
+
+
+const deporteSeleccionado = ref<string | null>(
+  Array.isArray(route.params.deporte) ? route.params.deporte[0] ?? null : route.params.deporte ?? null
+);
+
+
+const deportes = ["Hockey", "Patin", "Running", "Arqueria", "Ciclismo"];
+
+const goToDeportes = (deporte: string) => {
+  console.log(deporte); // Verifica que se está pasando el valor correcto
+  deporteSeleccionado.value = deporte;
+  router.push({ name: 'DeportePage', params: { deporte } });
+};
 
 
 const isMobile = ref(false);
@@ -147,16 +167,17 @@ const handleResize = () => {
 };
 
 
-
-
-
 const openFaq = () => {
   window.open('~/assets/faq.pdf', '_blank');  // Esto abre el PDF en una nueva pestaña
 };
 
-const goToDeporte = (deporte: string) => {
-  router.push({ name: 'DeportePage', params: { deporte } });
+const goTo = (url: string) => {
+  window.open(url, '_blank');
 };
+
+// const goToDeporte = (deporte: string) => {
+//   router.push({ name: 'DeportePage', params: { deporte } });
+// };
 const goToHome = () => {
   router.push({ path: '/' });
 };
@@ -181,6 +202,9 @@ const goToGoogleMaps = () => {
 onMounted(() => {
   window.addEventListener('resize', handleResize);
   handleResize(); // Inicializa el estado de isMobile al cargar
+  if (route.params.deporte) {
+    deporteSeleccionado.value = route.params.deporte as string;
+  }
 });
 
 onUnmounted(() => {
@@ -253,5 +277,11 @@ onMounted(() => {
 .q-dialog-plugin {
   width: 80%;
   max-width: 1500px;
+}
+
+.selected-deporte {
+  background-color: orange;
+  color: white;
+  font-weight: bold;
 }
 </style>

@@ -307,6 +307,7 @@ export const usePerfilStore = defineStore(
 
         if (response.status === 200 && response.data.result) {
           socio.value = response.data.result
+          console.log('Datos del socio obtenidos:', socio.value)
         } else {
           console.warn('No se encontró información para el DNI:', x_dni)
         }

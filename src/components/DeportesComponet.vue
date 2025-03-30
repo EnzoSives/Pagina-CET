@@ -1,20 +1,20 @@
 <template>
-  <q-page class="q-pa-lg bg-white">
+  <q-page class="q-pa-lg bg-grey-2">
     <div class="column q-gutter-xl">
       <div v-for="(sport, index) in sports" :key="index" class="sport-section">
-        <div class="row items-start">
-          <!-- Imagen -->
-          <div class="sport-image col-12 col-md-6 relative-position">
+        <div class="row items-center q-col-gutter-md">
+          <!-- Imagen con efecto Parallax -->
+          <div class="sport-image col-12 col-md-6">
             <div class="image-overlay" :style="{ backgroundImage: `url(${sport.image})` }"></div>
           </div>
 
           <!-- Contenido -->
-          <div class="sport-content col-12 col-md-6 q-pa-xl">
-            <h2 class="text-h3 q-mb-md text-weight-bolder gradient-text">
+          <div class="sport-content col-12 col-md-6 q-pa-xl bg-white shadow-2 rounded-borders">
+            <h2 class="text-h3 q-mb-md text-weight-bolder text-primary">
               {{ sport.title }}
             </h2>
 
-            <div class="text-subtitle1 q-mb-md text-grey-600">
+            <div class="text-subtitle1 q-mb-md text-grey-600 flex items-center">
               <q-icon name="schedule" class="q-mr-sm text-deep-purple-6" />
               <span class="text-weight-medium">{{ sport.schedule }}</span>
             </div>
@@ -22,12 +22,12 @@
             <p class="text-body1 q-mb-xl text-grey-800">{{ sport.description }}</p>
 
             <div class="row q-gutter-sm">
-              <q-btn color="deep-purple-6" label="Pagar" icon="paid" class="q-px-xl rounded-pill"
+              <q-btn color="deep-purple-6" label="Pagar" icon="paid" class="q-px-xl rounded-borders"
                 :href="'https://miclub.cetpinamar.com.ar/#/pagar?monto=0'" target="_blank" />
-              <q-btn color="teal-6" label="Alta" icon="person_add" class="q-px-xl rounded-pill"
+              <q-btn color="teal-6" label="Alta" icon="person_add" class="q-px-xl rounded-borders"
                 :href="'https://docs.google.com/forms/d/e/1FAIpQLSd8c8tQjiLs01-gDbRoET4kdYYyxzAhbO-BI8vqkOrolAMENg/viewform'"
                 target="_blank" />
-              <q-btn color="pink-6" label="Baja" icon="person_remove" class="q-px-xl rounded-pill"
+              <q-btn color="pink-6" label="Baja" icon="person_remove" class="q-px-xl rounded-borders"
                 :href="'https://docs.google.com/forms/d/e/1FAIpQLSfpUwZ7Wj20XL-Le_kER63u6zCxT5j3gT1gJYQLZDGk4398xA/viewform'"
                 target="_blank" />
             </div>
@@ -38,8 +38,6 @@
   </q-page>
 </template>
 
-
-
 <script lang="ts">
 import { defineComponent } from 'vue';
 
@@ -49,21 +47,15 @@ export default defineComponent({
     return {
       sports: [
         {
-          title: "Futbol Escuela",
-          schedule: "Martes y Jueves de 15:45 a 17 hs.",
-          description: "Escuela de Fútbol CET (hasta 12 años) Coordinador: Martin Basma",
-          image: "https://i.pinimg.com/736x/fa/08/06/fa0806d7db438581687ed0fa6c7ef7f4.jpg"
-        },
-        {
           title: "Hockey",
           schedule: "Lunes a jueves, de 17 a 19:30 hs.",
-          description: "Participación en el torneo de la ASOCIACIÓN AMATEUR MARPLATENSE DE HOCKEY (AAMH). Escuela de Hockey, 9na división (hasta 10 años), 8va. 7ma, 6ta, 5ta, intermedia, primera y Maminas!!!",
+          description: "Participación en el torneo de la ASOCIACIÓN AMATEUR MARPLATENSE DE HOCKEY (AAMH).",
           image: "https://i.pinimg.com/736x/87/03/89/870389975b04170d5f3a2f775e49698f.jpg"
         },
         {
           title: "Patin",
           schedule: "Consultar Horarios",
-          description: "Patin artistico federado en todas sus categorias.",
+          description: "Patin artístico federado en todas sus categorías.",
           image: "https://i.pinimg.com/736x/37/c3/be/37c3be6b3263c6f0ef94a39bfe13e21e.jpg"
         }
       ]
@@ -74,25 +66,15 @@ export default defineComponent({
 
 <style scoped>
 .sport-section {
-  border-radius: 0;
-  overflow: visible;
-  box-shadow: none;
-  background: transparent;
-  padding: 32px 0;
-  /* Espaciado entre secciones */
-  border-bottom: 2px solid rgba(0, 0, 0, 0.1);
-  /* Sutil línea divisoria */
-}
-
-.sport-section:last-child {
-  border-bottom: none;
-  /* Evitar línea en la última sección */
+  padding: 40px 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .sport-image {
-  min-height: 480px;
+  min-height: 450px;
   position: relative;
   overflow: hidden;
+  border-radius: 12px;
 }
 
 .image-overlay {
@@ -103,25 +85,26 @@ export default defineComponent({
   bottom: 0;
   background-size: cover;
   background-position: center;
+  transform: scale(1.1);
+  transition: transform 0.4s ease-in-out;
+}
+
+.sport-image:hover .image-overlay {
+  transform: scale(1);
 }
 
 .sport-content {
-  background: transparent;
-  /* Se elimina el fondo para que se vea integrado */
+  border-radius: 12px;
 }
 
 .q-btn {
-  transition: all 0.3s ease !important;
+  transition: all 0.3s ease;
   font-weight: 500;
 }
 
 .q-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
-}
-
-.text-grey-800 {
-  color: #2d2d2d;
+  transform: translateY(-3px);
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
 }
 
 @media (max-width: 768px) {
@@ -131,12 +114,8 @@ export default defineComponent({
   }
 
   .sport-content {
-    padding: 2rem !important;
+    padding: 1.5rem;
     order: 2;
-  }
-
-  .text-h3 {
-    font-size: 1.75rem !important;
   }
 }
 </style>

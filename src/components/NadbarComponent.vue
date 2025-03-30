@@ -1,5 +1,4 @@
 <template>
-  <!-- Encabezado flotante sobre el contenedor hero-section -->
   <q-banner v-if="!isScrolled && !isMobile" elevated class="text-black"
     style="margin: 20px; position: fixed; top: 0; left: 0; right: 0; z-index: 10; border-radius: 20px; background-color: rgb(26, 26, 29);">
     <q-toolbar>
@@ -11,17 +10,15 @@
       <q-btn label="Socio" color="white" flat class="hover-orange" @click="goToSocio()"></q-btn>
       <q-btn-dropdown label="Deportes" color="white" flat class="hover-orange">
         <q-list>
-          <q-item clickable v-ripple @click="goToDeporte('Futbol')">
-            <q-item-section>Futbol</q-item-section>
-          </q-item>
-          <q-item clickable v-ripple @click="goToDeporte('Patin')">
-            <q-item-section>Patin</q-item-section>
-          </q-item>
-          <q-item clickable v-ripple @click="goToDeporte('Hockey')">
-            <q-item-section>Hockey</q-item-section>
-          </q-item>
-          <q-item clickable v-ripple @click="goToDeporte('Ciclismo')">
-            <q-item-section>Ciclismo</q-item-section>
+          <q-item
+            v-for="deporte in deportes"
+            :key="deporte"
+            clickable
+            v-ripple
+            @click="goToDeporte(deporte)"
+            :class="{'selected-deporte': deporteSeleccionado === deporte}"
+          >
+            <q-item-section>{{ deporte }}</q-item-section>
           </q-item>
         </q-list>
       </q-btn-dropdown>
@@ -32,66 +29,58 @@
     </q-toolbar>
   </q-banner>
 
-  <!-- Modal para mostrar el PDF -->
-  <q-dialog v-model="showFaq" persistent >
+  <q-dialog v-model="showFaq" persistent>
     <q-card class="q-dialog-plugin">
       <q-card-section class="row items-center q-pb-none">
-        <div class="text-h6">Preguntas Frecuentes(FAQ)</div>
+        <div class="text-h6">Preguntas Frecuentes (FAQ)</div>
         <q-space />
         <q-btn icon="close" flat round v-close-popup style="bottom: 5px" />
       </q-card-section>
       <q-card-section class="q-pa-none">
-        <iframe src="~/assets/faq.pdf" width="100%" height="500px"></iframe>
+        <iframe src="src/assets/faq.pdf" width="100%" height="500px"></iframe>
       </q-card-section>
-      <!-- <q-card-actions align="right">
-        <q-btn flat label="Cerrar" color="primary" v-close-popup />
-      </q-card-actions> -->
     </q-card>
   </q-dialog>
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue';
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 
 const router = useRouter();
+const route = useRoute();
 const showFaq = ref(false);
+const deporteSeleccionado = ref<string | null>(
+  Array.isArray(route.params.deporte) ? route.params.deporte[0] ?? null : route.params.deporte ?? null
+);
+
+
+const deportes = ["Hockey", "Patin", "Running", "Arqueria", "Ciclismo"];
 
 const goToDeporte = (deporte: string) => {
+  deporteSeleccionado.value = deporte;
   router.push({ name: 'DeportePage', params: { deporte } });
 };
-const goToHome = () => {
-  router.push({ path: '/' });
-};
-const goToSocio = () => {
-  router.push({ path: '/socio' });
-};
-const goToIsti = () => {
-  router.push({ path: '/institucional' });
-};
-const goToApp = () => {
-  // router.push({ path: '/appcet' });
-  router.push({ path: '/homePerfil' });
-};
-const goToTienda = () => {
-  window.location.href = 'https://cetpinamar.mercadoshops.com.ar/';
-};
+
+const goToHome = () => { router.push({ path: '/' }); };
+const goToSocio = () => { router.push({ path: '/socio' }); };
+const goToIsti = () => { router.push({ path: '/institucional' }); };
+const goToApp = () => { router.push({ path: '/homePerfil' }); };
+const goToTienda = () => { window.location.href = 'https://cetpinamar.mercadoshops.com.ar/'; };
 
 const isScrolled = ref(false);
 const isMobile = ref(false);
 
-const handleResize = () => {
-  isMobile.value = window.innerWidth <= 600;
-};
-
-const handleScroll = () => {
-  isScrolled.value = window.scrollY > 100;
-};
+const handleResize = () => { isMobile.value = window.innerWidth <= 600; };
+const handleScroll = () => { isScrolled.value = window.scrollY > 100; };
 
 onMounted(() => {
   window.addEventListener('scroll', handleScroll);
   window.addEventListener('resize', handleResize);
   handleResize();
+  if (route.params.deporte) {
+    deporteSeleccionado.value = route.params.deporte as string;
+  }
 });
 
 onUnmounted(() => {
@@ -121,5 +110,11 @@ onUnmounted(() => {
   font-weight: 450;
   /* Cambiado a 700 para letras más gruesas */
   font-size: 1.2rem;
+}
+
+.selected-deporte {
+  background-color: orange;
+  color: white;
+  font-weight: bold;
 }
 </style>

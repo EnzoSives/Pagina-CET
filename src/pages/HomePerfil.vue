@@ -53,15 +53,14 @@
         </q-card-section>
 
         <q-card-section class="q-pt-none">
-          <div class="contenedor-credencial" v-if="!isMobile">
-
-            <img src="http://sitio.cetpinamar.com.ar/images/demo/imgr.png" class="credencial-bg" />
-            <div class="texto-ano">2025</div>
-            <div class="texto-apellido">{{ perfilSeleccionado?.apellido }}</div>
-            <div class="texto-nombre">{{ perfilSeleccionado?.nombre }}</div>
-            <div class="socio-nro">{{ perfilSeleccionado?.numeroCliente }}</div>
-            <div class="texto-dni">D.N.I.: {{ perfilSeleccionado?.dni }}</div>
-          </div>
+          <div ref="credencialRef" class="contenedor-credencial" v-if="!isMobile">
+        <img src="http://sitio.cetpinamar.com.ar/images/demo/imgr.png" class="credencial-bg" />
+        <div class="texto-ano">2025</div>
+        <div class="texto-apellido">{{ perfilSeleccionado?.apellido }}</div>
+        <div class="texto-nombre">{{ perfilSeleccionado?.nombre }}</div>
+        <div class="socio-nro">{{ perfilSeleccionado?.numeroCliente }}</div>
+        <div class="texto-dni">D.N.I.: {{ perfilSeleccionado?.dni }}</div>
+      </div>
           <div v-else class="contenedor-credencial-mobile" >
             <img src="http://sitio.cetpinamar.com.ar/images/demo/imgr.png" class="credencial-bg" />
             <div class="texto-ano">2025</div>
@@ -73,6 +72,7 @@
         </q-card-section>
 
         <q-card-actions align="right">
+          <!-- <q-btn flat label="Descargar" color="primary" @click="descargarCredencial" /> -->
           <q-btn flat label="Cerrar" color="primary" v-close-popup />
         </q-card-actions>
       </q-card>
@@ -88,8 +88,8 @@
     <q-tab-panels v-model="tab" animated>
       <!-- Panel de Cuentas de Cobro -->
       <q-tab-panel name="cobro">
-        <div class="text-h6">Cuentas de Cobro</div>
-        <p class="text-grey-7">Visualiza y gestiona tus pagos pendientes</p>
+        <!-- <div class="text-h6">Cuentas de Cobro</div> -->
+        <p class="text-h6 text-grey-7">Visualiza y gestiona tus pagos pendientes</p>
 
         <q-list separator bordered class="rounded-borders">
 
@@ -101,8 +101,8 @@
 
       <!-- Panel de Beneficios -->
       <q-tab-panel name="beneficios">
-        <div class="text-h6">Beneficios</div>
-        <p class="text-grey-7">Aquí puedes ver los beneficios disponibles.</p>
+        <!-- <div class="text-h6">Beneficios</div> -->
+        <p class="text-h6 text-grey-7">Aquí puedes ver los beneficios disponibles.</p>
         <div class="cards-container">
           <BeneficiosCard v-for="beneficio in beneficiosStore.beneficios" :key="beneficio.id" :beneficio="beneficio" />
         </div>
@@ -111,11 +111,11 @@
       <!-- Panel de Buscar Socios -->
       <!-- Panel de Buscar Socios -->
       <q-tab-panel name="buscar">
-        <div class="text-h6">Buscar Socios</div>
-        <p class="text-grey-7">Busca y encuentra otros socios.</p>
+        <!-- <div class="text-h6">Buscar Socios</div> -->
+        <p class="text-h6 text-grey-7">Busca y encuentra otros socios.</p>
 
         <!-- Campo de búsqueda -->
-        <q-input v-model="busqueda" label="Buscar por DNI o Nombre" outlined dense class="q-mb-md">
+        <q-input v-model="busqueda" label="Ingrese el DNI del socio que esta buscando." outlined dense class="q-mb-md">
           <template v-slot:append>
             <q-btn icon="search" flat @click="buscarSocios"></q-btn>
           </template>
@@ -145,7 +145,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, watch, onMounted, watchEffect } from 'vue'
+import { computed, ref, watch, onMounted, watchEffect, nextTick } from 'vue'
 import { usePerfilStore } from 'src/stores/perfilesStore'
 import { useRouter } from 'vue-router'
 import { useBeneficiosStore } from "src/stores/beneficiosStore";
@@ -153,10 +153,14 @@ import { useAuthStore } from 'src/stores/auth';
 import CuentaCobro from 'src/components/CuentaCobro.vue'
 import BeneficiosCard from "src/components/BeneficiosComponent.vue"; // Importa el componente
 import type { Socio } from 'src/stores/perfilesStore';
+// import html2canvas from "html2canvas";
+
+
+const credencialRef = ref(null);
 
 
 const perfilStore = usePerfilStore()
-const { getCuentasCobroPerfilJCETAction, setSocio, socio } = perfilStore
+const { getCuentasCobroPerfilJCETAction, setSocio } = perfilStore
 const router = useRouter()
 const beneficiosStore = useBeneficiosStore();
 const authStore = useAuthStore();
@@ -168,16 +172,28 @@ const sociosEncontrados = ref<Socio[]>([]);
 const buscarSocios = async () => {
   if (!busqueda.value.trim()) return;
   console.log("Buscando socio con DNI:", busqueda.value);
-  await setSocio(busqueda.value); // Llama a la API
-  const resultado = socio; // Obtiene el resultado de la búsqueda
-  console.log("Resultado de la búsqueda de socio:", socio);
+ await setSocio(busqueda.value);
+await nextTick(); // Espera a que Vue actualice el estado
+console.log("Resultado de la búsqueda de socio:", perfilStore.socio);
 
-  if (resultado && resultado.socio) {
-    sociosEncontrados.value = [resultado]; // Si se encuentra, lo agrega a la lista
-  } else {
-    sociosEncontrados.value = []; // Si no hay resultados, vacía la lista
-  }
+if (perfilStore.socio && perfilStore.socio.socio) {
+  sociosEncontrados.value = [perfilStore.socio];
+} else {
+  sociosEncontrados.value = [];
+}
 };
+
+// const descargarCredencial = async () => {
+//   if (!credencialRef.value) return;
+
+//   const canvas = await html2canvas(credencialRef.value);
+//   const imagen = canvas.toDataURL("image/png"); // Convertir a PNG
+
+//   const link = document.createElement("a");
+//   link.href = imagen;
+//   link.download = `credencial_${perfilSeleccionado.value?.nombre || "socio"}.png`;
+//   link.click();
+// };
 
 // Local ref para manejar el selector correctamente
 const perfilIndexLocal = ref(perfilStore.perfilIndex)

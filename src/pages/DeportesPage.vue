@@ -43,24 +43,31 @@
               @click="irAlFormularioBaja" />
           </q-card-section>
           <q-separator></q-separator>
-          <q-card-section>
-            <div class="text-h6 text-primary">Gestión de Pagos</div>
-          </q-card-section>
-          <q-separator />
-          <q-card-section>
-            <div class="row q-col-gutter-sm">
-              <!-- <div class="col-12 col-sm-6">
-                <q-btn label="Pagar Femenino" color="pink-5" class="full-width" @click="abrirPagoModal" icon="paid" />
-              </div> -->
-              <div class="col-12">
-                <q-btn label="Pagar" color="blue-5" class="full-width" @click="abrirPagoModal" icon="paid" />
-              </div>
-              <div class="col-12">
-                <q-btn label="Pagar Deuda" color="red-5" class="full-width q-mt-sm" @click="pagarDeuda"
-                  icon="money_off" />
-              </div>
-            </div>
-          </q-card-section>
+         <q-card-section>
+  <div class="text-h6 text-primary">Gestión de Pagos</div>
+</q-card-section>
+<q-separator />
+<q-card-section>
+  <div class="row q-col-gutter-sm">
+    <div class="col-12">
+      <q-btn label="Pagar" color="blue-5" class="full-width" @click="goTo('https://miclub.cetpinamar.com.ar/#/pagar')" icon="paid" />
+    </div>
+    <div class="col-12">
+      <q-btn label="Ver movimientos" color="green" class="full-width q-mt-sm" @click="movimientos" icon="receipt" />
+    </div>
+
+    <!-- Botones adicionales solo para Ciclismo -->
+    <template v-if="props.deporte === 'Ciclismo'">
+      <div class="col-12">
+        <q-btn label="Pase Bike Park Diario CET" color="orange-5" class="full-width q-mt-sm" @click="goTo('https://www.mercadopago.com.ar/checkout/v1/payment/redirect/?source=link&preference-id=251794130-0dc1b341-680a-4bd4-becd-c9e70c805917&router-request-id=3b390056-de85-4fd7-9ff3-339fbc15fb3f')" icon="directions_bike" />
+      </div>
+      <div class="col-12">
+        <q-btn label="Alquiler Bicicleta Hora CET" color="purple-5" class="full-width q-mt-sm" @click="goTo('https://www.mercadopago.com.ar/checkout/v1/payment/redirect/?source=link&preference-id=251794130-a173d1aa-9683-4be0-9d94-82e73a294da5&router-request-id=89c76a51-347b-4d82-88b0-f894e83f9d14')" icon="pedal_bike" />
+      </div>
+    </template>
+  </div>
+</q-card-section>
+
         </q-card>
       </div>
     </div>
@@ -80,9 +87,9 @@ const props = defineProps<{ deporte: string }>();
 const router = useRouter();
 const pagoModalRef = ref();
 
-const abrirPagoModal = () => {
-  pagoModalRef.value.abrirModal();
-};
+// const abrirPagoModal = () => {
+//   pagoModalRef.value.abrirModal();
+// };
 const deporteDescripcion = ref('');
 
 const cargarDescripcion = async (deporte: string) => {
@@ -104,10 +111,12 @@ watch(() => props.deporte, (newDeporte) => {
   cargarDescripcion(newDeporte);
 });
 const deporteImages: Record<string, string> = {
-  Futbol: 'https://i.pinimg.com/736x/fa/08/06/fa0806d7db438581687ed0fa6c7ef7f4.jpg',
-  Patin: 'https://i.pinimg.com/736x/37/c3/be/37c3be6b3263c6f0ef94a39bfe13e21e.jpg',
-  Hockey: 'https://i.pinimg.com/736x/87/03/89/870389975b04170d5f3a2f775e49698f.jpg',
-  Ciclismo: 'https://i.pinimg.com/736x/d9/61/f9/d961f9695e87098084205cf45f8d596a.jpg',
+  // Futbol: 'https://i.pinimg.com/736x/fa/08/06/fa0806d7db438581687ed0fa6c7ef7f4.jpg',
+  Patin: 'https://images.unsplash.com/photo-1735674055107-e9342d0145df?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+  Hockey: 'https://plus.unsplash.com/premium_photo-1719318342820-42be983c5a37?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+  Ciclismo: 'https://images.unsplash.com/photo-1534787238916-9ba6764efd4f?q=80&w=1931&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+  Running: 'https://images.unsplash.com/photo-1571008887538-b36bb32f4571?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+  Arqueria: 'https://plus.unsplash.com/premium_photo-1718315735016-13eca85e2036?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
 };
 
 // const deporteDescripciones: Record<string, string> = {
@@ -131,10 +140,17 @@ const irAlFormularioAlta = () => {
 const irAlFormularioBaja = () => {
   router.push({ name: 'formulario-baja' });
 };
-
-const pagarDeuda = () => {
-  alert('Aquí se generaría el pago de la deuda.');
+const movimientos = () => {
+  router.push({ name: 'HomePerfil' });
 };
+
+const goTo = (url: string) => {
+  window.open(url, '_blank');
+};
+
+// const pagarDeuda = () => {
+//   alert('Aquí se generaría el pago de la deuda.');
+// };
 </script>
 
 <style scoped>
