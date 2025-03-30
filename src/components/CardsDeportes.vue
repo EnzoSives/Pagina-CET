@@ -39,12 +39,12 @@ export default {
   data() {
     return {
       cards: [
-        {
-          title: "Futbol Escuela",
-          schedule: "Martes y Jueves de 15:45 a 17 hs.",
-          description: "Escuela de Fútbol CET (hasta 12 años) Coordinador: Martin Basma",
-          image: "https://i.pinimg.com/736x/fa/08/06/fa0806d7db438581687ed0fa6c7ef7f4.jpg"
-        },
+        // {
+        //   title: "Futbol Escuela",
+        //   schedule: "Martes y Jueves de 15:45 a 17 hs.",
+        //   description: "Escuela de Fútbol CET (hasta 12 años) Coordinador: Martin Basma",
+        //   image: "https://i.pinimg.com/736x/fa/08/06/fa0806d7db438581687ed0fa6c7ef7f4.jpg"
+        // },
         {
           title: "Hockey",
           schedule: "Lunes a jueves, de 17 a 19:30 hs.",

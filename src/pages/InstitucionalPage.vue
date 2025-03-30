@@ -2,7 +2,7 @@
   <div class="q-pa-md" style="padding-top: 120px;">
     <div class="text-center q-mb-md">
       <q-avatar size="80px">
-        <img src="src/assets/logoCET.png" alt="Logo CET" />
+        <img src="~/assets/logoCET.png" alt="Logo CET" />
       </q-avatar>
       <div class="text-h4 q-mt-md">Club Empleados de Telpin</div>
 

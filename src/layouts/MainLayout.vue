@@ -6,7 +6,7 @@
 
     <!-- Drawer: Menú lateral -->
     <q-drawer v-model="drawerOpen" :width="200" :breakpoint="700" elevated class="bg-black text-white">
-      <q-img src="src/assets/logoCET.png" class="q-mx-auto q-mt-md" style="width: 50px; margin:20px" />
+      <q-img src="~/assets/logoCET.png" class="q-mx-auto q-mt-md" style="width: 50px; margin:20px" />
       <q-list>
         <q-item>
           <q-btn label="Inicio" color="white" flat class="hover-orange" @click="goToHome()"></q-btn>
@@ -73,22 +73,22 @@
             <div class="row items-center q-gutter-sm q-mt-sm">
               <q-btn round class="q-mx-xs">
                 <q-avatar size="42px">
-                  <img src="src/assets/facebook.png" alt="Facebook" />
+                  <img src="~/assets/facebook.png" alt="Facebook" />
                 </q-avatar>
               </q-btn>
               <q-btn round class="q-mx-xs">
                 <q-avatar size="42px">
-                  <img src="src/assets/x.png" alt="X" />
+                  <img src="~/assets/x.png" alt="X" />
                 </q-avatar>
               </q-btn>
               <q-btn round class="q-mx-xs">
                 <q-avatar size="42px">
-                  <img src="src/assets/instagram.png" alt="Instagram" />
+                  <img src="~/assets/instagram.png" alt="Instagram" />
                 </q-avatar>
               </q-btn>
               <q-btn round class="q-mx-xs">
                 <q-avatar size="42px">
-                  <img src="src/assets/wpp.png" alt="WhatsApp" />
+                  <img src="~/assets/wpp.png" alt="WhatsApp" />
                 </q-avatar>
               </q-btn>
             </div>
@@ -151,7 +151,7 @@ const handleResize = () => {
 
 
 const openFaq = () => {
-  window.open('src/assets/faq.pdf', '_blank');  // Esto abre el PDF en una nueva pestaña
+  window.open('~/assets/faq.pdf', '_blank');  // Esto abre el PDF en una nueva pestaña
 };
 
 const goToDeporte = (deporte: string) => {

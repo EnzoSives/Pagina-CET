@@ -4,7 +4,7 @@
     style="margin: 20px; position: fixed; top: 0; left: 0; right: 0; z-index: 10; border-radius: 20px; background-color: rgb(26, 26, 29);">
     <q-toolbar>
       <q-avatar>
-        <img src="src/assets/logoCET.png" alt="logo">
+        <img src="~/assets/logoCET.png" alt="logo">
       </q-avatar>
       <q-toolbar-title class="custom-font text-white"> VIVI EL CLUB!</q-toolbar-title>
       <q-btn label="Inicio" color="white" flat class="hover-orange" @click="goToHome()"></q-btn>
@@ -41,7 +41,7 @@
         <q-btn icon="close" flat round v-close-popup style="bottom: 5px" />
       </q-card-section>
       <q-card-section class="q-pa-none">
-        <iframe src="src/assets/faq.pdf" width="100%" height="500px"></iframe>
+        <iframe src="~/assets/faq.pdf" width="100%" height="500px"></iframe>
       </q-card-section>
       <!-- <q-card-actions align="right">
         <q-btn flat label="Cerrar" color="primary" v-close-popup />
