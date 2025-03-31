@@ -330,7 +330,7 @@ const showCredencial = ref(false);
 
 /* Ajustes para la versión móvil */
 @media (max-width: 767px) {
-    .texto-apellido {
+   .texto-apellido {
       top: 80px;
       left: 30px;
       font-size: 0.9rem;
@@ -354,5 +354,14 @@ const showCredencial = ref(false);
       font-size: 0.7rem;
     }
 
+  .full-width-mobile {
+    width: 100%;
+  }
+
+  .block-center {
+    display: block;
+    margin: 0 auto;
+    margin-bottom: 10px;
+  }
 }
 </style>
