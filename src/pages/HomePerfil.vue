@@ -330,29 +330,6 @@ const showCredencial = ref(false);
 
 /* Ajustes para la versión móvil */
 @media (max-width: 767px) {
-  .texto-dni {
-    left: 200px;
-  }
-
-  .socio-nro {
-    left: 90px;
-    top: 170px;
-  }
-
-  .full-width-mobile {
-    width: 100%;
-  }
-
-  .block-center {
-    display: block;
-    margin: 0 auto;
-    margin-bottom: 10px;
-  }
-
-  /* Ajustes específicos para la credencial en pantallas muy pequeñas */
-  @media (max-width: 736px) {
-
-
     .texto-apellido {
       top: 80px;
       left: 30px;
@@ -376,6 +353,6 @@ const showCredencial = ref(false);
       left: 190px;
       font-size: 0.7rem;
     }
-  }
+
 }
 </style>
