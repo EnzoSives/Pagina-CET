@@ -24,7 +24,7 @@
     </div>
     <DeportesComponent></DeportesComponent>
 
-    <div class="galeriaContent" style="margin-top: 50px;">
+    <div class="galeriaContent">
       <div class="text-h3 text-weight-bolder gradient-text text-center q-mt-lg" >
         Nuestro Espacio
       </div>
@@ -130,6 +130,10 @@ const goToBeneficios = () => {
   font-family: Aldrich, Helvetica Neue, Arial, sans-serif;
   text-transform: uppercase;
   line-height: 1.15;
+}
+
+.galeriaContent {
+   margin-top: 150px;
 }
 
 /* Galería de imágenes más ancha */

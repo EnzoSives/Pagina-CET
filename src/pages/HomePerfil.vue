@@ -1,13 +1,13 @@
 <template>
   <q-page class="q-pa-md" style="padding-top: 100px;">
-    <!-- Selector de Perfiles -->
-    <div class="row justify-end">
+    <!-- Selector de Perfiles y Botón de Logout -->
+    <div class="row justify-end q-mb-md items-center">
       <q-select v-model="perfilIndexLocal" :options="perfilesOptions" label="Seleccionar Perfil" outlined dense
-        emit-value map-options class="q-mb-md" style="width: 250px;" />
-      <q-btn icon="logout" style="height: 38px; width: 20px; margin-left: 20px" @click="authStore.logout"></q-btn>
+        emit-value map-options :style="isMobile ? 'width: 70%' : 'width: 250px'" class="q-mb-xs q-mb-sm-none" />
+      <q-btn icon="logout" style="height: 35px; margin-left: 20px" @click="authStore.logout"></q-btn>
     </div>
 
-    <!-- Tarjeta de Perfil -->
+    <!-- Tarjeta de Perfil - Versión Desktop -->
     <q-card v-if="!isMobile" class="q-pa-md row items-center" style="height: 150px;">
       <q-avatar size="80px" class="q-mr-md">
         <img :src="perfilSeleccionado?.url || 'https://cdn.quasar.dev/img/avatar.png'" />
@@ -24,44 +24,48 @@
         <q-btn color="primary" icon="badge" label="Credencial" @click="showCredencial = true" />
       </div>
     </q-card>
-    <q-card v-else class="q-pa-md" style="min-height: 150px;">
-      <div class="row items-center q-col-gutter-md">
-        <div class="col-12 col-sm-auto text-center">
+
+    <!-- Tarjeta de Perfil - Versión Mobile -->
+    <q-card v-else class="q-pa-md">
+      <div class="column items-center q-col-gutter-md">
+        <div class="col-12 text-center">
           <q-avatar size="80px">
             <img :src="perfilSeleccionado?.url || 'https://cdn.quasar.dev/img/avatar.png'" />
           </q-avatar>
         </div>
-        <div class="col-12 col-sm text-center text-sm-left">
+        <div class="col-12 text-center">
           <div class="text-h6">{{ perfilSeleccionado?.nombre }} {{ perfilSeleccionado?.apellido }}</div>
           <div class="text-subtitle2 text-grey-7">
-            <q-icon name="badge" /> N° Cliente: {{ perfilSeleccionado?.numeroCliente }}
-            <q-icon name="event" class="q-ml-md" /> DNI: {{ perfilSeleccionado?.dni }}
+            <div><q-icon name="badge" /> N° Cliente: {{ perfilSeleccionado?.numeroCliente }}</div>
+            <div><q-icon name="event" /> DNI: {{ perfilSeleccionado?.dni }}</div>
           </div>
         </div>
-        <div class="col-12 col-sm-auto text-center q-mt-sm q-mt-sm-none">
-          <q-badge color="grey-3" text-color="black" class="q-pa-xs"> Socio Activo </q-badge>
-          <q-btn color="primary" icon="badge" label="Credencial" @click="showCredencial = true" />
+        <div class="col-12 text-center">
+          <q-badge color="grey-3" text-color="black" class="q-pa-xs q-mb-sm block-center"> Socio Activo </q-badge>
+          <q-btn color="primary" icon="badge" label="Credencial" @click="showCredencial = true" class="full-width-mobile" />
         </div>
       </div>
     </q-card>
 
-    <!-- Modal de Credencial -->
-    <q-dialog v-model="showCredencial" >
-      <q-card class="bg-white">
+    <!-- Modal de Credencial - Ajustes para Mobile -->
+    <q-dialog v-model="showCredencial">
+      <q-card class="bg-white" :style="isMobile ? 'width: 90%' : ''">
         <q-card-section class="row items-center">
           <div class="text-h6">Credencial Digital</div>
+          <q-space />
+          <q-btn icon="close" flat round dense v-close-popup />
         </q-card-section>
 
         <q-card-section class="q-pt-none">
           <div ref="credencialRef" class="contenedor-credencial" v-if="!isMobile">
-        <img src="http://sitio.cetpinamar.com.ar/images/demo/imgr.png" class="credencial-bg" />
-        <div class="texto-ano">2025</div>
-        <div class="texto-apellido">{{ perfilSeleccionado?.apellido }}</div>
-        <div class="texto-nombre">{{ perfilSeleccionado?.nombre }}</div>
-        <div class="socio-nro">{{ perfilSeleccionado?.numeroCliente }}</div>
-        <div class="texto-dni">D.N.I.: {{ perfilSeleccionado?.dni }}</div>
-      </div>
-          <div v-else class="contenedor-credencial-mobile" >
+            <img src="http://sitio.cetpinamar.com.ar/images/demo/imgr.png" class="credencial-bg" />
+            <div class="texto-ano">2025</div>
+            <div class="texto-apellido">{{ perfilSeleccionado?.apellido }}</div>
+            <div class="texto-nombre">{{ perfilSeleccionado?.nombre }}</div>
+            <div class="socio-nro">{{ perfilSeleccionado?.numeroCliente }}</div>
+            <div class="texto-dni">D.N.I.: {{ perfilSeleccionado?.dni }}</div>
+          </div>
+          <div v-else class="contenedor-credencial-mobile">
             <img src="http://sitio.cetpinamar.com.ar/images/demo/imgr.png" class="credencial-bg" />
             <div class="texto-ano">2025</div>
             <div class="texto-apellido">{{ perfilSeleccionado?.apellido }}</div>
@@ -71,66 +75,57 @@
           </div>
         </q-card-section>
 
-        <q-card-actions align="right">
-          <!-- <q-btn flat label="Descargar" color="primary" @click="descargarCredencial" /> -->
+        <q-card-actions align="right" class="q-px-md q-pb-md">
           <q-btn flat label="Cerrar" color="primary" v-close-popup />
         </q-card-actions>
       </q-card>
     </q-dialog>
 
     <!-- Pestañas de Navegación -->
-    <q-tabs v-model="tab" class="q-mt-md" dense>
-      <q-tab name="cobro" label="Cuentas de Cobro" />
-      <q-tab name="beneficios" label="Beneficios" />
-      <q-tab name="buscar" label="Buscar Socios" />
+    <q-tabs v-model="tab" class="q-mt-md" dense align="justify" :inline-label="!isMobile">
+      <q-tab name="cobro" :label="isMobile ? '' : 'Cuentas de Cobro'" icon="account_balance_wallet" />
+      <q-tab name="beneficios" :label="isMobile ? '' : 'Beneficios'" icon="card_giftcard" />
+      <q-tab name="buscar" :label="isMobile ? '' : 'Buscar Socios'" icon="search" />
     </q-tabs>
 
     <q-tab-panels v-model="tab" animated>
       <!-- Panel de Cuentas de Cobro -->
-      <q-tab-panel name="cobro">
-        <!-- <div class="text-h6">Cuentas de Cobro</div> -->
-        <p class="text-h6 text-grey-7">Visualiza y gestiona tus pagos pendientes</p>
+      <q-tab-panel name="cobro" :class="isMobile ? 'q-pa-sm' : 'q-pa-md'">
+        <p class="text-h6 text-grey-7" :class="isMobile ? 'text-subtitle1' : ''">Visualiza y gestiona tus pagos pendientes</p>
 
         <q-list separator bordered class="rounded-borders">
-
           <CuentaCobro :eID="perfilSeleccionado?.id || ''" />
-
-
         </q-list>
       </q-tab-panel>
 
       <!-- Panel de Beneficios -->
-      <q-tab-panel name="beneficios">
-        <!-- <div class="text-h6">Beneficios</div> -->
-        <p class="text-h6 text-grey-7">Aquí puedes ver los beneficios disponibles.</p>
+      <q-tab-panel name="beneficios" :class="isMobile ? 'q-pa-sm' : 'q-pa-md'">
+        <p class="text-h6 text-grey-7" :class="isMobile ? 'text-subtitle1' : ''">Aquí puedes ver los beneficios disponibles.</p>
         <div class="cards-container">
           <BeneficiosCard v-for="beneficio in beneficiosStore.beneficios" :key="beneficio.id" :beneficio="beneficio" />
         </div>
       </q-tab-panel>
 
       <!-- Panel de Buscar Socios -->
-      <!-- Panel de Buscar Socios -->
-      <q-tab-panel name="buscar">
-        <!-- <div class="text-h6">Buscar Socios</div> -->
-        <p class="text-h6 text-grey-7">Busca y encuentra otros socios.</p>
+      <q-tab-panel name="buscar" :class="isMobile ? 'q-pa-sm' : 'q-pa-md'">
+        <p class="text-h6 text-grey-7" :class="isMobile ? 'text-subtitle1' : ''">Busca y encuentra otros socios.</p>
 
         <!-- Campo de búsqueda -->
-        <q-input v-model="busqueda" label="Ingrese el DNI del socio que esta buscando." outlined dense class="q-mb-md">
+        <q-input v-model="busqueda" label="Ingrese el DNI del socio" outlined dense class="q-mb-md" @keyup.enter="buscarSocios">
           <template v-slot:append>
             <q-btn icon="search" flat @click="buscarSocios"></q-btn>
           </template>
         </q-input>
 
         <!-- Lista de resultados -->
-        <q-list separator bordered v-if="sociosEncontrados.length > 0" style="width: 30%;">
+        <q-list separator bordered v-if="sociosEncontrados.length > 0" :style="isMobile ? 'width: 100%' : 'width: 300px'">
           <q-item v-for="socio in sociosEncontrados" :key="socio.socio ?? ''" clickable>
             <q-item-section>
               <q-item-label>{{ socio.nombre }}</q-item-label>
               <q-item-label caption>{{ socio.documento }} | Socio: {{ socio.socio }}</q-item-label>
-              <q-item-label caption>Nacimiento: {{ socio.fechaNacimiento }}</q-item-label>
             </q-item-section>
             <q-item-section side>
-              <q-badge text-color="black" :label="socio.estado || 'Estado no disponible'" />
+              <q-badge text-color="black" :label="socio.estado || 'N/D'" />
             </q-item-section>
           </q-item>
         </q-list>
@@ -145,20 +140,16 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, watch, onMounted, watchEffect, nextTick } from 'vue'
+import { computed, ref, watch, onMounted, watchEffect, nextTick, onUnmounted } from 'vue'
 import { usePerfilStore } from 'src/stores/perfilesStore'
 import { useRouter } from 'vue-router'
 import { useBeneficiosStore } from "src/stores/beneficiosStore";
 import { useAuthStore } from 'src/stores/auth';
 import CuentaCobro from 'src/components/CuentaCobro.vue'
-import BeneficiosCard from "src/components/BeneficiosComponent.vue"; // Importa el componente
+import BeneficiosCard from "src/components/BeneficiosComponent.vue";
 import type { Socio } from 'src/stores/perfilesStore';
-// import html2canvas from "html2canvas";
-
 
 const credencialRef = ref(null);
-
-
 const perfilStore = usePerfilStore()
 const { getCuentasCobroPerfilJCETAction, setSocio } = perfilStore
 const router = useRouter()
@@ -168,32 +159,20 @@ const authStore = useAuthStore();
 const busqueda = ref('');
 const sociosEncontrados = ref<Socio[]>([]);
 
-// Función para buscar socios por DNI o nombre
+// Función para buscar socios por DNI
 const buscarSocios = async () => {
   if (!busqueda.value.trim()) return;
   console.log("Buscando socio con DNI:", busqueda.value);
- await setSocio(busqueda.value);
-await nextTick(); // Espera a que Vue actualice el estado
-console.log("Resultado de la búsqueda de socio:", perfilStore.socio);
+  await setSocio(busqueda.value);
+  await nextTick();
+  console.log("Resultado de la búsqueda de socio:", perfilStore.socio);
 
-if (perfilStore.socio && perfilStore.socio.socio) {
-  sociosEncontrados.value = [perfilStore.socio];
-} else {
-  sociosEncontrados.value = [];
-}
+  if (perfilStore.socio && perfilStore.socio.socio) {
+    sociosEncontrados.value = [perfilStore.socio];
+  } else {
+    sociosEncontrados.value = [];
+  }
 };
-
-// const descargarCredencial = async () => {
-//   if (!credencialRef.value) return;
-
-//   const canvas = await html2canvas(credencialRef.value);
-//   const imagen = canvas.toDataURL("image/png"); // Convertir a PNG
-
-//   const link = document.createElement("a");
-//   link.href = imagen;
-//   link.download = `credencial_${perfilSeleccionado.value?.nombre || "socio"}.png`;
-//   link.click();
-// };
 
 // Local ref para manejar el selector correctamente
 const perfilIndexLocal = ref(perfilStore.perfilIndex)
@@ -220,16 +199,18 @@ watchEffect(() => {
     getCuentasCobroPerfilJCETAction(perfilSeleccionado.value.id)
   }
 })
+
 // Redirigir si no hay perfil seleccionado
 if (perfilStore.perfilIndex === null || perfilStore.perfilIndex === undefined) {
   router.push('/perfiles')
 }
+
 // Estado para saber si estamos en modo móvil
 const isMobile = ref(false);
 
 // Función para verificar si estamos en modo móvil
 const checkIfMobile = () => {
-  isMobile.value = window.innerWidth <= 768; // Considerar móvil si la pantalla es de 768px o menor
+  isMobile.value = window.innerWidth < 768; // Considerar móvil si la pantalla es menor a 768px
 };
 
 // Función para manejar el redimensionamiento de la ventana
@@ -242,24 +223,22 @@ onMounted(() => {
   checkIfMobile();
   // Agregar listener para detectar cambios en el tamaño de la ventana
   window.addEventListener('resize', handleResize);
-});
 
-
-// Cargar cuentas de cobro al iniciar
-onMounted(() => {
+  // Cargar cuentas de cobro y beneficios
   if (perfilSeleccionado.value) {
     getCuentasCobroPerfilJCETAction(perfilSeleccionado.value.id)
   }
-})
-onMounted(() => {
   beneficiosStore.fetchBeneficios();
 });
 
-const tab = ref('cobro')
+// Limpiar el event listener al desmontar el componente
+onUnmounted(() => {
+  window.removeEventListener('resize', handleResize);
+});
 
+const tab = ref('cobro')
 const showCredencial = ref(false);
 </script>
-
 
 <style scoped>
 .texto-apellido,
@@ -274,11 +253,8 @@ const showCredencial = ref(false);
 .cards-container {
   display: flex;
   flex-wrap: wrap;
-  /* Permite que las cards bajen a la siguiente línea si no caben */
   gap: 20px;
-  /* Espaciado entre cards */
   justify-content: center;
-  /* Alinear al centro */
 }
 
 .contenedor-credencial {
@@ -294,8 +270,9 @@ const showCredencial = ref(false);
 
 .contenedor-credencial-mobile {
   position: relative;
-  width: 350px;
-  height: 250px;
+  width: 100%;
+  max-width: 320px;
+  height: 200px;
   margin: 0 auto;
   background: linear-gradient(45deg, #003366, #0066cc);
   border-radius: 10px;
@@ -351,11 +328,56 @@ const showCredencial = ref(false);
   font-size: 0.8rem;
 }
 
-.texto-web {
-  position: absolute;
-  bottom: 20px;
-  left: 20px;
-  font-size: 0.8rem;
-  opacity: 0.8;
+/* Ajustes para la versión móvil */
+@media (max-width: 767px) {
+  .texto-dni {
+    left: 200px;
+  }
+
+  .socio-nro {
+    left: 90px;
+    top: 170px;
+  }
+
+  .full-width-mobile {
+    width: 100%;
+  }
+
+  .block-center {
+    display: block;
+    margin: 0 auto;
+    margin-bottom: 10px;
+  }
+
+  /* Ajustes específicos para la credencial en pantallas muy pequeñas */
+  @media (max-width: 400px) {
+    .contenedor-credencial-mobile {
+      height: 180px;
+    }
+
+    .texto-apellido {
+      top: 80px;
+      left: 20px;
+      font-size: 0.9rem;
+    }
+
+    .texto-nombre {
+      top: 100px;
+      left: 20px;
+      font-size: 0.9rem;
+    }
+
+    .socio-nro {
+      top: 135px;
+      left: 70px;
+      font-size: 0.7rem;
+    }
+
+    .texto-dni {
+      top: 120px;
+      left: 160px;
+      font-size: 0.7rem;
+    }
+  }
 }
 </style>
