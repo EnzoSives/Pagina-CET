@@ -350,32 +350,30 @@ const showCredencial = ref(false);
   }
 
   /* Ajustes específicos para la credencial en pantallas muy pequeñas */
-  @media (max-width: 400px) {
-    .contenedor-credencial-mobile {
-      height: 180px;
-    }
+  @media (max-width: 736px) {
+
 
     .texto-apellido {
       top: 80px;
-      left: 20px;
+      left: 30px;
       font-size: 0.9rem;
     }
 
     .texto-nombre {
       top: 100px;
-      left: 20px;
+      left: 30px;
       font-size: 0.9rem;
     }
 
     .socio-nro {
-      top: 135px;
-      left: 70px;
+      top: 153px;
+      left: 90px;
       font-size: 0.7rem;
     }
 
     .texto-dni {
-      top: 120px;
-      left: 160px;
+      top: 130px;
+      left: 190px;
       font-size: 0.7rem;
     }
   }
