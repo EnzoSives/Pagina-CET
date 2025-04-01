@@ -1,5 +1,5 @@
 <template>
-  <q-card class="q-pa-md shadow-2 full-width card-container">
+  <q-card class="q-pa-md shadow-2 full-width card-container bg-grey-2">
     <div class="text-h5 text-primary text-center">Socio</div>
     <q-card-section>
       <p class="text-body1 text-justify">

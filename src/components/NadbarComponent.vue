@@ -1,6 +1,6 @@
 <template>
   <q-banner v-if="!isScrolled && !isMobile" elevated class="text-black"
-    style="margin: 20px; position: fixed; top: 0; left: 0; right: 0; z-index: 10; border-radius: 20px; background-color: rgb(26, 26, 29);">
+    style="margin: 20px; position: fixed; top: 0; left: 0; right: 0; z-index: 10; border-radius: 20px; background-color: rgb(26, 26, 29); margin-bottom: 150px">
     <q-toolbar>
       <q-avatar>
         <img src="~/assets/logoCET.png" alt="logo">

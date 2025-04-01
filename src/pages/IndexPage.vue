@@ -1,5 +1,5 @@
 <template>
-  <q-page>
+  <q-page class="bg-grey-2">
     <!-- Sección Hero con imagen de fondo -->
     <div class="hero-section"
       :style="{ backgroundImage: 'url(https://cetpinamar.com.ar/images/demo/backgrounds/03.png)' }">
@@ -8,24 +8,24 @@
           <h2 class="text-content-cet">CET</h2>
           <p class="text-content">Club empleados Telpin</p>
         </div>
-        <div>
-          <q-btn style="margin-right: 10px;" label="Iniciar sesión" color="orange-10" @click="goToLogin()"></q-btn>
-          <q-btn style="margin-right: 10px;" label="Ser socio" color="orange-10"
+        <div class="button-wrapper">
+          <q-btn class="mobile-button" label="Iniciar sesión" color="orange-10" @click="goToLogin()" icon-right="login"></q-btn>
+          <q-btn class="mobile-button" label="Ser socio" color="orange-10"
             :href="'https://docs.google.com/forms/d/e/1FAIpQLSd8c8tQjiLs01-gDbRoET4kdYYyxzAhbO-BI8vqkOrolAMENg/viewform'"
-            target="_blank"></q-btn>
-          <q-btn label="Beneficios" color="orange-10" @click="goToBeneficios()"></q-btn>
+            target="_blank" icon-right="person_add"></q-btn>
+          <q-btn class="mobile-button" label="Beneficios" color="orange-10" @click="goToBeneficios()" icon-right="star"></q-btn>
         </div>
       </div>
     </div>
 
-    <div class="text-h3 text-weight-bolder gradient-text text-center q-mt-lg"
+    <div class="text-h4 text-weight-bolder gradient-text text-center q-mt-lg"
       style="margin-top: 50px; margin-bottom: 30px; font-family: Aldrich, sans-serif;">
       Nuestras Actividades Principales
     </div>
     <DeportesComponent></DeportesComponent>
 
     <div class="galeriaContent">
-      <div class="text-h3 text-weight-bolder gradient-text text-center q-mt-lg" >
+      <div class="text-h4 text-weight-bolder gradient-text text-center q-mt-lg" style="margin-bottom: 50px;">
         Nuestro Espacio
       </div>
 
@@ -35,10 +35,16 @@
           :class="['gallery-item', `item-${index + 1}`]" />
       </div>
 
-      <!-- Swiper Carousel para móviles -->
-      <div v-else class="q-pa-md">
-        <swiper :modules="[Pagination, Navigation]" :slides-per-view="2" :space-between="10" :effect="'fade'" navigation pagination>
-          <swiper-slide v-for="(image, index) in images" :key="index">
+      <!-- Swiper Carousel mejorado para móviles -->
+      <div v-else class="mobile-gallery-container">
+        <swiper
+          :modules="[Pagination, Navigation]"
+          :slides-per-view="1"
+          :space-between="20"
+          :pagination="{ clickable: true }"
+          :navigation="true"
+          class="mobile-swiper">
+          <swiper-slide v-for="(image, index) in images" :key="index" class="mobile-swiper-slide">
             <img :src="image" class="carousel-image" />
           </swiper-slide>
         </swiper>
@@ -132,9 +138,7 @@ const goToBeneficios = () => {
   line-height: 1.15;
 }
 
-.galeriaContent {
-   margin-top: 150px;
-}
+
 
 /* Galería de imágenes más ancha */
 .gallery-grid {
@@ -187,27 +191,79 @@ const goToBeneficios = () => {
   grid-column: span 2;
 }
 
-/* Clases para el carousel */
+/* Mejoras en visualización móvil */
+.button-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.mobile-button {
+  margin-right: 10px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.mobile-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Mejoras para el carrusel en móvil */
+.mobile-gallery-container {
+  padding: 0 15px 40px;
+}
+
+.mobile-swiper {
+  width: 100%;
+}
+
+.mobile-swiper-slide {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .carousel-image {
   max-height: 230px;
-  max-width: 100%;
-  object-fit: scale-down;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
   border-radius: 8px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
   display: block;
   margin: 0 auto;
   padding-bottom: 40px;
 }
 
 @media (max-width: 600px) {
+  .hero-section {
+    background-position: center;
+  }
+
+  .content {
+    padding-left: 20px;
+    padding-right: 20px;
+    width: 90%;
+  }
+
   .content div:last-child {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 15px;
+    width: 100%;
   }
 
-  .content div:last-child .q-btn {
+  .content div:last-child .q-btn,
+  .mobile-button {
     margin-right: 0;
-    width: 80%;
+    width: 100%;
+    border-radius: 8px;
+    height: 48px; /* Altura táctil óptima */
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    justify-content: space-between;
+    padding: 0 15px;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25);
   }
 
   .text-content-cet {
@@ -216,6 +272,45 @@ const goToBeneficios = () => {
 
   .text-content {
     font-size: 1.2rem;
+  }
+
+  /* Mejoras del carrusel en móvil */
+  .carousel-image {
+    height: 260px;
+    width: 100%;
+    object-fit: cover;
+  }
+
+  /* Estilo para los botones de navegación del carrusel */
+  :deep(.swiper-button-next),
+  :deep(.swiper-button-prev) {
+    color: #FF8E3C;
+    background: rgba(255, 255, 255, 0.8);
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  :deep(.swiper-button-next:after),
+  :deep(.swiper-button-prev:after) {
+    font-size: 18px;
+  }
+
+  :deep(.swiper-pagination-bullet-active) {
+    background: #FF8E3C;
+  }
+}
+
+@media (max-width: 400px) {
+  .text-content-cet {
+    font-size: 3.5rem;
+  }
+
+  .carousel-image {
+    height: 220px;
   }
 }
 </style>

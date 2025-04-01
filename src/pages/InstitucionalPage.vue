@@ -1,55 +1,80 @@
 <template>
-  <div class="q-pa-md" style="padding-top: 120px;">
-    <div class="text-center q-mb-md">
-      <q-avatar size="80px">
+  <div class="q-pa-md" style="max-width: 1200px; margin: 0 auto; padding-top: 120px">
+    <!-- Cabecera con logo y título -->
+    <div class="text-center q-mb-xl">
+      <!-- <q-avatar size="100px" class="shadow-5">
         <img src="~/assets/logoCET.png" alt="Logo CET" />
-      </q-avatar>
-      <div class="text-h4 q-mt-md">Club Empleados de Telpin</div>
-
+      </q-avatar> -->
+      <div class="text-h3 q-mt-md text-weight-bold text-primary">Club Empleados de Telpin</div>
+      <div class="text-subtitle1 text-grey-7">Asociación Civil - Pinamar, Buenos Aires</div>
     </div>
 
-    <q-card class="q-pa-md bg-primary text-white">
-      <q-card-section>
-        <p>
-          En la localidad de Pinamar Partido de Pinamar de la Provincia de Buenos Aires, donde tendrá su domicilio
-          social,
-          queda constituida una Asociación de carácter civil denominada: Club Empleados de Telpin Asociación Civil, que
-          tendrá por objeto:
-        </p>
-        <ul>
-          <li>Ejercer el mantenimiento, fortalecimiento y desarrollo del sentimiento del amor al deporte como un medio
-            de
-            unión entre los socios y sus familias.</li>
-          <li>Promover la práctica y enseñanza de todos los deportes.</li>
-          <li>Promover las actividades culturales.</li>
-          <li>Promover actividades sociales que contribuyan a fortalecer los vínculos entre los socios y sus familias.
-          </li>
-          <li>Relacionarse con otras instituciones similares del país.</li>
-          <li>Adquirir, arrendar o gerenciar espacios inmuebles apropiados como así también los bienes muebles
-            necesarios
-            para la consecución de sus fines.</li>
-          <li>Desarrollar un ambiente de cordialidad y solidaridad entre sus asociados y propender al mejoramiento
-            intelectual y cultural de los mismos.</li>
-        </ul>
-      </q-card-section>
-    </q-card>
-
-    <div class="text-h5 text-center q-mt-lg">Comisión Directiva (2022-2023)</div>
-    <q-separator class="q-my-md" />
-
-    <div class="row q-col-gutter-md justify-center">
-      <q-card v-for="(miembro, index) in directiva" :key="index" class="col-12 col-md-3 q-pa-md text-center">
+    <!-- Sección de Objetivos -->
+    <div class="q-mb-xl">
+      <div class="text-h4 text-center q-mb-md text-primary">Nuestros Objetivos</div>
+      <q-card class="objetivos-card bg-primary text-white shadow-10">
         <q-card-section>
-          <div class="text-h6">{{ miembro.nombre }}</div>
-          <div class="text-subtitle2 text-grey">{{ miembro.cargo }}</div>
+          <p class="text-body1">
+            En la localidad de Pinamar Partido de Pinamar de la Provincia de Buenos Aires, donde tendrá su domicilio
+            social, queda constituida una Asociación de carácter civil denominada: Club Empleados de Telpin Asociación Civil, que
+            tendrá por objeto:
+          </p>
+          <div class="objetivos-lista q-mt-md">
+            <q-item v-for="(objetivo, index) in objetivos" :key="index" class="objetivo-item">
+              <q-item-section avatar>
+                <q-icon name="check_circle" size="sm" color="white" />
+              </q-item-section>
+              <q-item-section>{{ objetivo }}</q-item-section>
+            </q-item>
+          </div>
         </q-card-section>
       </q-card>
+    </div>
+
+    <!-- Sección Comisión Directiva -->
+    <div class="q-mb-xl">
+      <div class="text-h4 text-center q-mb-md text-primary">
+        Comisión Directiva
+        <div class="text-subtitle1 text-grey-7">Período 2022-2023</div>
+      </div>
+
+      <q-separator class="q-my-lg" color="primary" />
+
+      <div class="row q-col-gutter-md justify-center">
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3" v-for="(miembro, index) in directiva" :key="index">
+          <q-card class="miembro-card" flat bordered>
+            <q-card-section class="bg-grey-2 text-center">
+              <q-avatar size="80px" color="primary" text-color="white" class="shadow-3">
+                {{ getInitials(miembro.nombre) }}
+              </q-avatar>
+              <div class="text-h6 q-mt-sm">{{ miembro.nombre }}</div>
+              <q-badge color="primary" class="q-py-xs q-mt-sm">
+                {{ miembro.cargo }}
+              </q-badge>
+            </q-card-section>
+            <q-card-actions class="justify-center">
+              <q-btn flat color="primary" icon="email" size="sm" round />
+              <q-btn flat color="primary" icon="phone" size="sm" round />
+            </q-card-actions>
+          </q-card>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue';
+
+const objetivos = ref([
+  'Ejercer el mantenimiento, fortalecimiento y desarrollo del sentimiento del amor al deporte como un medio de unión entre los socios y sus familias.',
+  'Promover la práctica y enseñanza de todos los deportes.',
+  'Promover las actividades culturales.',
+  'Promover actividades sociales que contribuyan a fortalecer los vínculos entre los socios y sus familias.',
+  'Relacionarse con otras instituciones similares del país.',
+  'Adquirir, arrendar o gerenciar espacios inmuebles apropiados como así también los bienes muebles necesarios para la consecución de sus fines.',
+  'Desarrollar un ambiente de cordialidad y solidaridad entre sus asociados y propender al mejoramiento intelectual y cultural de los mismos.'
+]);
 
 const directiva = ref([
   { nombre: 'Juan Pablo Bianucci', cargo: 'Presidente' },
@@ -67,24 +92,43 @@ const directiva = ref([
   { nombre: 'Matias Melo', cargo: 'Vocal Suplente' },
   { nombre: 'Gustavo Freire', cargo: 'Vocal Suplente' },
 ]);
+
+// Función para obtener las iniciales del nombre
+const getInitials = (nombre: any) => {
+  return nombre
+    .split(' ')
+    .map((word: any) => word.charAt(0))
+    .join('')
+    .substring(0, 2)
+    .toUpperCase();
+};
 </script>
 
 <style scoped>
-ul {
-  list-style-type: none;
-  padding: 0;
+.objetivos-card {
+  border-radius: 12px;
 }
 
-li {
-  margin: 5px 0;
+.objetivo-item {
+  padding: 8px 0;
 }
 
-.q-card {
-  transition: 0.3s;
-  margin: 5px;
+.miembro-card {
+  transition: all 0.3s ease;
+  border-radius: 12px;
+  overflow: hidden;
 }
 
-.q-card:hover {
-  background-color: beige;
+.miembro-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.q-avatar {
+  transition: transform 0.3s ease;
+}
+
+.miembro-card:hover .q-avatar {
+  transform: scale(1.05);
 }
 </style>

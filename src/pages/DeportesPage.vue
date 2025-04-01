@@ -1,5 +1,5 @@
 <template>
-  <div class="q-pa-md bg-light-blue-1" style="min-height: 100vh; padding-top: 100px;">
+  <div class="q-pa-md" style="min-height: 100vh; padding-top: 100px;">
     <!-- Encabezado con imagen del deporte como portada -->
     <div class="portada-container">
       <q-img :src="getDeporteImage(deporte)" class="portada-img">
@@ -14,12 +14,12 @@
       <div class="col-12 col-md-9">
         <q-card class="full-height shadow-2">
           <q-card-section>
-            <div class="text-h6 text-primary">Info del Deporte</div>
+            <div class="text-h6 text-primary">Informacion</div>
           </q-card-section>
           <q-separator />
           <q-card-section>
-  <p class="text-body1 text-grey-8" v-html="deporteDescripcion"></p>
-</q-card-section>
+            <p class="text-body1 text-grey-8" v-html="deporteDescripcion"></p>
+          </q-card-section>
 
         </q-card>
       </div>
@@ -155,7 +155,7 @@ const goTo = (url: string) => {
 
 <style scoped>
 .bg-light-blue-1 {
-  background-color: #E3F2FD;
+  background-color:rgb(255, 255, 255);
 }
 
 .portada-container {

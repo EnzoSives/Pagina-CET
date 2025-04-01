@@ -54,7 +54,7 @@
     </q-drawer>
 
     <!-- Contenedor principal de la página -->
-    <q-page-container style="background-color: white;">
+    <q-page-container style="background-color: #f5f5f5;">
       <router-view />
     </q-page-container>
 
