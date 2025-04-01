@@ -94,7 +94,7 @@ const deporteDescripcion = ref('');
 
 const cargarDescripcion = async (deporte: string) => {
   try {
-    const response = await fetch('src/assets/deportes.json'); // Ruta correcta del JSON
+    const response = await fetch('/deportes.json'); // Ruta correcta del JSON
     const data = await response.json();
     deporteDescripcion.value = data[deporte] || 'Información no disponible.';
   } catch (error) {
