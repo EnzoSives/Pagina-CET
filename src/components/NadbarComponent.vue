@@ -37,7 +37,7 @@
         <q-btn icon="close" flat round v-close-popup style="bottom: 5px" />
       </q-card-section>
       <q-card-section class="q-pa-none">
-        <iframe src="~/assets/faq.pdf" width="100%" height="500px"></iframe>
+        <iframe src="/faq.pdf" width="100%" height="500px"></iframe>
       </q-card-section>
     </q-card>
   </q-dialog>

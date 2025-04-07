@@ -102,10 +102,10 @@
           <!-- Derecha: Mapa -->
           <div class="col-12 col-md-6">
             <div class="text-h6">
-              <q-icon name="location_on" class="q-mr-sm" />
-              Cómo llegar
+              <!-- <q-icon name="location_on" class="q-mr-sm" />
+              Cómo llegar -->
 
-              <q-btn color="primary" icon="directions" flat @click="goToGoogleMaps">
+              <q-btn label="Cómo llegar" color="primary" icon="directions" flat @click="goToGoogleMaps">
                 <q-tooltip>
                   Ir a ruta
                 </q-tooltip>

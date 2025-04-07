@@ -69,6 +69,23 @@
 </q-card-section>
 
         </q-card>
+
+        <!-- Sección de Calendario -->
+<q-card class="q-mt-md shadow-2">
+  <q-card-section>
+    <div class="text-h6 text-primary">Horarios del Deporte</div>
+  </q-card-section>
+  <q-separator />
+  <q-card-section class="q-pa-none">
+    <iframe
+      :src="calendarUrl"
+      style="border: 0; width: 100%; height: 600px;"
+      frameborder="0"
+      scrolling="no">
+    </iframe>
+  </q-card-section>
+</q-card>
+
       </div>
     </div>
 
@@ -78,7 +95,7 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, ref, onMounted,watch } from 'vue';
+import { defineProps, ref, onMounted,watch, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import PagosModal from 'components/PagosModal.vue';
 
@@ -101,6 +118,17 @@ const cargarDescripcion = async (deporte: string) => {
     console.error('Error al cargar la descripción:', error);
   }
 };
+
+const calendarUrls: Record<string, string> = {
+  Patin: 'https://calendar.google.com/calendar/embed?src=tu_calendario_patin%40group.calendar.google.com&ctz=America%2FArgentina%2FBuenos_Aires',
+  Hockey: 'https://calendar.google.com/calendar/embed?src=tu_calendario_hockey%40group.calendar.google.com&ctz=America%2FArgentina%2FBuenos_Aires',
+  Ciclismo: 'https://calendar.google.com/calendar/embed?src=tu_calendario_ciclismo%40group.calendar.google.com&ctz=America%2FArgentina%2FBuenos_Aires',
+  Running: 'https://calendar.google.com/calendar/embed?src=tu_calendario_running%40group.calendar.google.com&ctz=America%2FArgentina%2FBuenos_Aires',
+  Arqueria: 'https://calendar.google.com/calendar/embed?src=tu_calendario_arqueria%40group.calendar.google.com&ctz=America%2FArgentina%2FBuenos_Aires',
+};
+
+const calendarUrl = computed(() => calendarUrls[props.deporte] || '');
+
 
 onMounted(() => {
   cargarDescripcion(props.deporte);
