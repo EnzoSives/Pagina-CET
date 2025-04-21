@@ -9,6 +9,7 @@ import BeneficiosPage from 'src/pages/BeneficiosPage.vue'
 import AdmPerfiles from 'src/pages/AdmPerfiles.vue'
 import HomePerfil from 'src/pages/HomePerfil.vue'
 import MovimientosPage from 'src/pages/MovimientosPage.vue'
+import AgenteN8N from 'src/pages/AgenteN8N.vue'
 
 const routes: RouteRecordRaw[] = [
   {
@@ -46,6 +47,12 @@ const routes: RouteRecordRaw[] = [
         path: '/movimientos',
         name: 'Movimientos',
         component: MovimientosPage,
+        meta: { requiresAuth: true },
+      },
+      {
+        path: '/agenteia',
+        name: 'AgenteIA',
+        component: AgenteN8N,
         meta: { requiresAuth: true },
       },
     ],

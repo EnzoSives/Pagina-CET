@@ -1,19 +1,34 @@
 <template>
-  <q-page class="q-pa-md" style="padding-top: 100px;">
+  <q-page class="q-pa-md" style="padding-top: 100px">
     <!-- Selector de Perfiles y Botón de Logout -->
     <div class="row justify-end q-mb-md items-center">
-      <q-select v-model="perfilIndexLocal" :options="perfilesOptions" label="Seleccionar Perfil" outlined dense
-        emit-value map-options :style="isMobile ? 'width: 70%' : 'width: 250px'" class="q-mb-xs q-mb-sm-none" />
-      <q-btn icon="logout" style="height: 35px; margin-left: 20px" @click="authStore.logout"></q-btn>
+      <q-select
+        v-model="perfilIndexLocal"
+        :options="perfilesOptions"
+        label="Seleccionar Perfil"
+        outlined
+        dense
+        emit-value
+        map-options
+        :style="isMobile ? 'width: 70%' : 'width: 250px'"
+        class="q-mb-xs q-mb-sm-none"
+      />
+      <q-btn
+        icon="logout"
+        style="height: 35px; margin-left: 20px"
+        @click="authStore.logout"
+      ></q-btn>
     </div>
 
     <!-- Tarjeta de Perfil - Versión Desktop -->
-    <q-card v-if="!isMobile" class="q-pa-md row items-center" style="height: 150px;">
+    <q-card v-if="!isMobile" class="q-pa-md row items-center" style="height: 150px">
       <q-avatar size="80px" class="q-mr-md">
         <img :src="perfilSeleccionado?.url || 'https://cdn.quasar.dev/img/avatar.png'" />
       </q-avatar>
       <div class="col">
-        <div class="text-h6">{{ perfilSeleccionado?.nombre }} {{ perfilSeleccionado?.apellido }}</div>
+        <div class="text-h6">
+          {{ perfilSeleccionado?.nombre }} {{ perfilSeleccionado?.apellido }}
+        </div>
         <div class="text-subtitle2 text-grey-7">
           <q-icon name="badge" /> N° Cliente: {{ perfilSeleccionado?.numeroCliente }}
           <q-icon name="event" class="q-ml-md" /> DNI: {{ perfilSeleccionado?.dni }}
@@ -34,15 +49,25 @@
           </q-avatar>
         </div>
         <div class="col-12 text-center">
-          <div class="text-h6">{{ perfilSeleccionado?.nombre }} {{ perfilSeleccionado?.apellido }}</div>
+          <div class="text-h6">
+            {{ perfilSeleccionado?.nombre }} {{ perfilSeleccionado?.apellido }}
+          </div>
           <div class="text-subtitle2 text-grey-7">
             <div><q-icon name="badge" /> N° Cliente: {{ perfilSeleccionado?.numeroCliente }}</div>
             <div><q-icon name="event" /> DNI: {{ perfilSeleccionado?.dni }}</div>
           </div>
         </div>
         <div class="col-12 text-center">
-          <q-badge color="grey-3" text-color="black" class="q-pa-xs q-mb-sm block-center"> Socio Activo </q-badge>
-          <q-btn color="primary" icon="badge" label="Credencial" @click="showCredencial = true" class="full-width-mobile" />
+          <q-badge color="grey-3" text-color="black" class="q-pa-xs q-mb-sm block-center">
+            Socio Activo
+          </q-badge>
+          <q-btn
+            color="primary"
+            icon="badge"
+            label="Credencial"
+            @click="showCredencial = true"
+            class="full-width-mobile"
+          />
         </div>
       </div>
     </q-card>
@@ -83,7 +108,11 @@
 
     <!-- Pestañas de Navegación -->
     <q-tabs v-model="tab" class="q-mt-md" dense align="justify" :inline-label="!isMobile">
-      <q-tab name="cobro" :label="isMobile ? '' : 'Cuentas de Cobro'" icon="account_balance_wallet" />
+      <q-tab
+        name="cobro"
+        :label="isMobile ? '' : 'Cuentas de Cobro'"
+        icon="account_balance_wallet"
+      />
       <q-tab name="beneficios" :label="isMobile ? '' : 'Beneficios'" icon="card_giftcard" />
       <q-tab name="buscar" :label="isMobile ? '' : 'Buscar Socios'" icon="search" />
     </q-tabs>
@@ -91,7 +120,9 @@
     <q-tab-panels v-model="tab" animated>
       <!-- Panel de Cuentas de Cobro -->
       <q-tab-panel name="cobro" :class="isMobile ? 'q-pa-sm' : 'q-pa-md'">
-        <p class="text-h6 text-grey-7" :class="isMobile ? 'text-subtitle1' : ''">Visualiza y gestiona tus pagos pendientes</p>
+        <p class="text-h6 text-grey-7" :class="isMobile ? 'text-subtitle1' : ''">
+          Visualiza y gestiona tus pagos pendientes
+        </p>
 
         <q-list separator bordered class="rounded-borders">
           <CuentaCobro :eID="perfilSeleccionado?.id || ''" />
@@ -100,25 +131,50 @@
 
       <!-- Panel de Beneficios -->
       <q-tab-panel name="beneficios" :class="isMobile ? 'q-pa-sm' : 'q-pa-md'">
-        <p class="text-h6 text-grey-7" :class="isMobile ? 'text-subtitle1' : ''">Aquí puedes ver los beneficios disponibles.</p>
-        <div class="cards-container">
-          <BeneficiosCard v-for="beneficio in beneficiosStore.beneficios" :key="beneficio.id" :beneficio="beneficio" />
+        <p class="text-h6 text-grey-7" :class="isMobile ? 'text-subtitle1' : ''">
+          Aquí puedes ver los beneficios disponibles.
+        </p>
+
+        <!-- 👇 Botón y modal para crear beneficio -->
+        <AgregarBeneficio />
+
+        <!-- 👇 Lista de cards -->
+        <div class="cards-container q-mt-md">
+          <BeneficiosCard
+            v-for="beneficio in beneficiosStore.beneficios"
+            :key="beneficio.id"
+            :beneficio="beneficio"
+          />
         </div>
       </q-tab-panel>
 
       <!-- Panel de Buscar Socios -->
       <q-tab-panel name="buscar" :class="isMobile ? 'q-pa-sm' : 'q-pa-md'">
-        <p class="text-h6 text-grey-7" :class="isMobile ? 'text-subtitle1' : ''">Busca y encuentra otros socios.</p>
+        <p class="text-h6 text-grey-7" :class="isMobile ? 'text-subtitle1' : ''">
+          Busca y encuentra otros socios.
+        </p>
 
         <!-- Campo de búsqueda -->
-        <q-input v-model="busqueda" label="Ingrese el DNI del socio" outlined dense class="q-mb-md" @keyup.enter="buscarSocios">
+        <q-input
+          v-model="busqueda"
+          label="Ingrese el DNI del socio"
+          outlined
+          dense
+          class="q-mb-md"
+          @keyup.enter="buscarSocios"
+        >
           <template v-slot:append>
             <q-btn icon="search" flat @click="buscarSocios"></q-btn>
           </template>
         </q-input>
 
         <!-- Lista de resultados -->
-        <q-list separator bordered v-if="sociosEncontrados.length > 0" :style="isMobile ? 'width: 100%' : 'width: 300px'">
+        <q-list
+          separator
+          bordered
+          v-if="sociosEncontrados.length > 0"
+          :style="isMobile ? 'width: 100%' : 'width: 300px'"
+        >
           <q-item v-for="socio in sociosEncontrados" :key="socio.socio ?? ''" clickable>
             <q-item-section>
               <q-item-label>{{ socio.nombre }}</q-item-label>
@@ -143,43 +199,47 @@
 import { computed, ref, watch, onMounted, watchEffect, nextTick, onUnmounted } from 'vue'
 import { usePerfilStore } from 'src/stores/perfilesStore'
 import { useRouter } from 'vue-router'
-import { useBeneficiosStore } from "src/stores/beneficiosStore";
-import { useAuthStore } from 'src/stores/auth';
+import { useBeneficiosStore } from 'src/stores/beneficiosStore'
+import { useAuthStore } from 'src/stores/auth'
 import CuentaCobro from 'src/components/CuentaCobro.vue'
-import BeneficiosCard from "src/components/BeneficiosComponent.vue";
-import type { Socio } from 'src/stores/perfilesStore';
+import BeneficiosCard from 'src/components/BeneficiosComponent.vue'
+import type { Socio } from 'src/stores/perfilesStore'
+import AgregarBeneficio from 'src/components/AgregarBeneficio.vue'
 
-const credencialRef = ref(null);
+const credencialRef = ref(null)
 const perfilStore = usePerfilStore()
 const { getCuentasCobroPerfilJCETAction, setSocio } = perfilStore
 const router = useRouter()
-const beneficiosStore = useBeneficiosStore();
-const authStore = useAuthStore();
+const beneficiosStore = useBeneficiosStore()
+const authStore = useAuthStore()
 
-const busqueda = ref('');
-const sociosEncontrados = ref<Socio[]>([]);
+const busqueda = ref('')
+const sociosEncontrados = ref<Socio[]>([])
 
 // Función para buscar socios por DNI
 const buscarSocios = async () => {
-  if (!busqueda.value.trim()) return;
-  console.log("Buscando socio con DNI:", busqueda.value);
-  await setSocio(busqueda.value);
-  await nextTick();
-  console.log("Resultado de la búsqueda de socio:", perfilStore.socio);
+  if (!busqueda.value.trim()) return
+  console.log('Buscando socio con DNI:', busqueda.value)
+  await setSocio(busqueda.value)
+  await nextTick()
+  console.log('Resultado de la búsqueda de socio:', perfilStore.socio)
 
   if (perfilStore.socio && perfilStore.socio.socio) {
-    sociosEncontrados.value = [perfilStore.socio];
+    sociosEncontrados.value = [perfilStore.socio]
   } else {
-    sociosEncontrados.value = [];
+    sociosEncontrados.value = []
   }
-};
+}
 
 // Local ref para manejar el selector correctamente
 const perfilIndexLocal = ref(perfilStore.perfilIndex)
 
 // Opciones para el selector
 const perfilesOptions = computed(() =>
-  perfilStore.perfiles.map((perfil, index) => ({ label: `${perfil.nombre} ${perfil.apellido}`, value: index }))
+  perfilStore.perfiles.map((perfil, index) => ({
+    label: `${perfil.nombre} ${perfil.apellido}`,
+    value: index,
+  })),
 )
 
 // Perfil seleccionado
@@ -195,7 +255,7 @@ watch(perfilIndexLocal, (newIndex) => {
 // Ejecutar la actualización de `cuentasCobros` cada vez que cambie el perfil seleccionado
 watchEffect(() => {
   if (perfilSeleccionado.value) {
-    console.log("Cargando cuentas de cobro para el perfil:", perfilSeleccionado.value)
+    console.log('Cargando cuentas de cobro para el perfil:', perfilSeleccionado.value)
     getCuentasCobroPerfilJCETAction(perfilSeleccionado.value.id)
   }
 })
@@ -206,38 +266,38 @@ if (perfilStore.perfilIndex === null || perfilStore.perfilIndex === undefined) {
 }
 
 // Estado para saber si estamos en modo móvil
-const isMobile = ref(false);
+const isMobile = ref(false)
 
 // Función para verificar si estamos en modo móvil
 const checkIfMobile = () => {
-  isMobile.value = window.innerWidth < 768; // Considerar móvil si la pantalla es menor a 768px
-};
+  isMobile.value = window.innerWidth < 768 // Considerar móvil si la pantalla es menor a 768px
+}
 
 // Función para manejar el redimensionamiento de la ventana
 const handleResize = () => {
-  checkIfMobile();
-};
+  checkIfMobile()
+}
 
 // Verificar el tamaño de la pantalla al montar el componente
 onMounted(() => {
-  checkIfMobile();
+  checkIfMobile()
   // Agregar listener para detectar cambios en el tamaño de la ventana
-  window.addEventListener('resize', handleResize);
+  window.addEventListener('resize', handleResize)
 
   // Cargar cuentas de cobro y beneficios
   if (perfilSeleccionado.value) {
     getCuentasCobroPerfilJCETAction(perfilSeleccionado.value.id)
   }
-  beneficiosStore.fetchBeneficios();
-});
+  beneficiosStore.fetchBeneficios()
+})
 
 // Limpiar el event listener al desmontar el componente
 onUnmounted(() => {
-  window.removeEventListener('resize', handleResize);
-});
+  window.removeEventListener('resize', handleResize)
+})
 
 const tab = ref('cobro')
-const showCredencial = ref(false);
+const showCredencial = ref(false)
 </script>
 
 <style scoped>
@@ -289,6 +349,12 @@ const showCredencial = ref(false);
   object-fit: cover;
 }
 
+.cards-container {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+}
+
 .texto-ano {
   position: absolute;
   top: 20px;
@@ -330,29 +396,29 @@ const showCredencial = ref(false);
 
 /* Ajustes para la versión móvil */
 @media (max-width: 767px) {
-   .texto-apellido {
-      top: 80px;
-      left: 30px;
-      font-size: 0.9rem;
-    }
+  .texto-apellido {
+    top: 80px;
+    left: 30px;
+    font-size: 0.9rem;
+  }
 
-    .texto-nombre {
-      top: 100px;
-      left: 30px;
-      font-size: 0.9rem;
-    }
+  .texto-nombre {
+    top: 100px;
+    left: 30px;
+    font-size: 0.9rem;
+  }
 
-    .socio-nro {
-      top: 153px;
-      left: 90px;
-      font-size: 0.7rem;
-    }
+  .socio-nro {
+    top: 153px;
+    left: 90px;
+    font-size: 0.7rem;
+  }
 
-    .texto-dni {
-      top: 130px;
-      left: 190px;
-      font-size: 0.7rem;
-    }
+  .texto-dni {
+    top: 130px;
+    left: 190px;
+    font-size: 0.7rem;
+  }
 
   .full-width-mobile {
     width: 100%;

@@ -34,19 +34,25 @@
           <q-card-section class="q-pa-none">
             <!-- ALTA / BAJA -->
             <q-expansion-item icon="person" label="Inscripciones" default-opened>
-              <div class="q-gutter-sm q-mt-sm">
+              <div class="q-pa-sm">
                 <q-btn
                   label="Formulario de Alta"
-                  color="green-5"
-                  class="full-width"
                   icon="person_add"
+                  class="full-width q-mb-sm"
+                  color="positive"
+                  rounded
+                  no-caps
+                  unelevated
                   @click="irAlFormularioAlta"
                 />
                 <q-btn
                   label="Formulario de Baja"
-                  color="red-5"
-                  class="full-width"
                   icon="person_remove"
+                  class="full-width"
+                  color="negative"
+                  rounded
+                  no-caps
+                  unelevated
                   @click="irAlFormularioBaja"
                 />
               </div>
@@ -54,19 +60,25 @@
 
             <!-- PAGOS -->
             <q-expansion-item icon="paid" label="Pagos">
-              <div class="q-gutter-sm q-mt-sm">
+              <div class="q-pa-sm">
                 <q-btn
                   label="Pagar"
-                  color="blue-5"
-                  class="full-width"
                   icon="paid"
+                  class="full-width q-mb-sm"
+                  color="primary"
+                  rounded
+                  no-caps
+                  unelevated
                   @click="goTo('https://miclub.cetpinamar.com.ar/#/pagar')"
                 />
                 <q-btn
                   label="Ver movimientos"
-                  color="green"
-                  class="full-width"
                   icon="receipt"
+                  class="full-width"
+                  color="teal-5"
+                  rounded
+                  no-caps
+                  unelevated
                   @click="movimientos"
                 />
               </div>
@@ -78,12 +90,15 @@
               icon="directions_bike"
               label="Extras de Ciclismo"
             >
-              <div class="q-gutter-sm q-mt-sm">
+              <div class="q-pa-sm">
                 <q-btn
                   label="Pase Bike Park Diario CET"
-                  color="orange-5"
-                  class="full-width"
                   icon="directions_bike"
+                  class="full-width q-mb-sm"
+                  color="orange-5"
+                  rounded
+                  no-caps
+                  unelevated
                   @click="
                     goTo(
                       'https://www.mercadopago.com.ar/checkout/v1/payment/redirect/?source=link&preference-id=251794130-0dc1b341-680a-4bd4-becd-c9e70c805917',
@@ -92,9 +107,12 @@
                 />
                 <q-btn
                   label="Alquiler Bicicleta Hora CET"
-                  color="purple-5"
-                  class="full-width"
                   icon="pedal_bike"
+                  class="full-width"
+                  color="purple-4"
+                  rounded
+                  no-caps
+                  unelevated
                   @click="
                     goTo(
                       'https://www.mercadopago.com.ar/checkout/v1/payment/redirect/?source=link&preference-id=251794130-a173d1aa-9683-4be0-9d94-82e73a294da5',
@@ -154,10 +172,10 @@ const deporteImages: Record<string, string> = {
   // Futbol: 'https://i.pinimg.com/736x/fa/08/06/fa0806d7db438581687ed0fa6c7ef7f4.jpg',
   Patin:
     'https://images.unsplash.com/photo-1735674055107-e9342d0145df?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-  Hockey:
-    'https://plus.unsplash.com/premium_photo-1719318342820-42be983c5a37?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+  Hockey: '/imgs/hockey.png',
   Ciclismo:
-    'https://images.unsplash.com/photo-1534787238916-9ba6764efd4f?q=80&w=1931&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    // 'https://images.unsplash.com/photo-1534787238916-9ba6764efd4f?q=80&w=1931&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    '/imgs/ciclismo.jpg',
   Running:
     'https://images.unsplash.com/photo-1571008887538-b36bb32f4571?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
   Arqueria:
@@ -189,27 +207,23 @@ const goTo = (url: string) => {
 .portada-container {
   position: relative;
   width: 100%;
-  height: 220px;
-  border-radius: 10px;
+  height: 300px;
   overflow: hidden;
+  border-radius: 12px;
 }
 
 .portada-img {
-  width: 100%;
   height: 100%;
+  width: 100%;
   object-fit: cover;
 }
 
 .portada-overlay {
   position: absolute;
   bottom: 0;
-  width: 100%;
-  height: 70%;
-  background: rgba(0, 0, 0, 0.5);
-  text-align: center;
-  padding: 20px 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  left: 0;
+  right: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.6), transparent);
+  padding: 20px;
 }
 </style>

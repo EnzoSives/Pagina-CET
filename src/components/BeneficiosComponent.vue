@@ -1,20 +1,43 @@
 <template>
   <q-card class="q-pa-md beneficiosCards">
-    <q-card-section class="row items-center justify-between">
-      <q-title>{{ beneficio.nombrefantasia.toUpperCase() }}</q-title>
-      <div class="row items-center">
-        <q-toggle v-if="perfilStore.admin" v-model="check" label="Aprobado" dense @update:model-value="formChecked" />
-        <q-btn-group v-if="editable" class="q-ml-sm">
-          <q-btn flat round icon="edit" color="green" outline @click="emitEditar" />
-          <q-btn flat round icon="delete" color="red" outline @click="emitEliminar" />
-        </q-btn-group>
+    <q-card-section class="q-gutter-sm q-pa-sm">
+      <div class="row items-center justify-between">
+        <!-- Nombre del beneficio -->
+        <div class="text-h6 text-uppercase">{{ beneficio.nombrefantasia }}</div>
+
+        <!-- Acciones -->
+        <div class="column items-end">
+          <q-btn-group>
+            <!-- <q-btn
+              dense
+              round
+              icon="edit"
+              color="green"
+              style="margin-right: 5px"
+              outline
+              @click="emitEditar"
+            /> -->
+
+            <q-btn dense round icon="delete" color="red" outline @click="eliminarBeneficio" />
+          </q-btn-group>
+          <!-- Botones -->
+        </div>
       </div>
+      <!-- Toggle -->
+      <q-toggle
+        v-if="perfilStore.admin && beneficio.chequeado !== undefined"
+        v-model="check"
+        label="Aprobado"
+        dense
+        @update:model-value="formChecked"
+        class="q-mb-xs"
+      />
     </q-card-section>
 
     <q-card-section>
       <div class="row items-center">
         <div class="col">
-          <q-subtitle>{{ beneficio.titulo.toUpperCase() }}</q-subtitle>
+          <q-subtitle>{{ beneficio.titulo?.toUpperCase() }}</q-subtitle>
         </div>
         <div class="col-auto">
           <q-avatar v-if="url" size="70px">
@@ -23,17 +46,19 @@
         </div>
       </div>
       <div class="q-mt-sm">
-        <p class="text-grey-4">{{ beneficio.descripcion.toUpperCase() }}</p>
+        <p class="text-grey-4">{{ beneficio.descripcion?.toUpperCase() }}</p>
       </div>
     </q-card-section>
 
     <q-separator color="grey-8"></q-separator>
 
-    <q-card-section class="text-grey text-italic">
+    <q-card-section
+      class="text-grey text-italic"
+      v-if="beneficio.rubro || beneficio.direccion || beneficio.telefono"
+    >
       <em>
-        {{ beneficio.rubro.toUpperCase() }} -
-        {{ beneficio.direccion.toUpperCase() }} -
-        {{ beneficio.telefono.toUpperCase() }}
+        {{ beneficio.rubro?.toUpperCase() }} - {{ beneficio.direccion?.toUpperCase() }} -
+        {{ beneficio.telefono?.toUpperCase() }}
       </em>
     </q-card-section>
   </q-card>
@@ -47,7 +72,7 @@ import { ref as storageRef, getDownloadURL } from 'firebase/storage'
 import type { FirebaseError } from 'firebase/app'
 import { usePerfilStore } from 'src/stores/perfilesStore'
 import { db } from 'src/firebase'
-import { doc, updateDoc } from 'firebase/firestore'
+import { doc, updateDoc, deleteDoc } from 'firebase/firestore'
 
 const props = defineProps<{
   beneficio: {
@@ -82,40 +107,62 @@ const cargarImagen = () => {
         url.value = downloadUrl
       })
       .catch((error: FirebaseError) => {
-        console.error("Error al cargar imagen:", error.message)
+        console.error('Error al cargar imagen:', error.message)
       })
+  }
+}
+
+const eliminarBeneficio = async () => {
+  const beneficio = props.beneficio
+
+  const confirmacion = confirm(
+    `¿Estás seguro de que querés eliminar el beneficio "${beneficio.nombrefantasia}"?`,
+  )
+  if (!confirmacion) return
+
+  try {
+    await deleteDoc(doc(db, 'beneficios', beneficio.id))
+    console.log('Beneficio eliminado correctamente')
+    if (props.index !== undefined) {
+      emit('form-eliminar', props.index)
+    }
+  } catch (error) {
+    console.error('Error al eliminar beneficio:', error)
   }
 }
 
 const formChecked = async (val: boolean) => {
   check.value = val
   try {
-    const beneficioRef = doc(db, "beneficios", props.beneficio.id)
+    const beneficioRef = doc(db, 'beneficios', props.beneficio.id)
     await updateDoc(beneficioRef, { chequeado: val })
   } catch (error) {
-    console.error("Error actualizando beneficio:", error)
+    console.error('Error actualizando beneficio:', error)
   }
 }
 
-const emitEditar = () => {
-  if (props.index !== undefined) {
-    emit('form-editar', props.index)
-  }
-}
+// const emitEditar = () => {
+//   if (props.index !== undefined) {
+//     emit('form-editar', props.index)
+//   }
+// }
 
-const emitEliminar = () => {
-  if (props.index !== undefined) {
-    emit('form-eliminar', props.index)
-  }
-}
+// const emitEliminar = () => {
+//   if (props.index !== undefined) {
+//     emit('form-eliminar', props.index)
+//   }
+// }
 
-watch(() => props.beneficio.logo, (newLogo) => {
-  if (newLogo) {
-    cargarImagen()
-  } else {
-    url.value = null
-  }
-})
+watch(
+  () => props.beneficio.logo,
+  (newLogo) => {
+    if (newLogo) {
+      cargarImagen()
+    } else {
+      url.value = null
+    }
+  },
+)
 
 onMounted(() => {
   cargarImagen()
@@ -128,15 +175,58 @@ onMounted(() => {
   border-radius: 24px;
   background: linear-gradient(135deg, #1e1e22, #292932);
   color: white;
-  max-width: 350px;
-  transition: transform 0.2s ease-in-out;
+  max-width: 500px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+  overflow: hidden;
 }
 
 .beneficiosCards:hover {
-  transform: scale(1.02);
+  transform: scale(1.03);
+  box-shadow: 0 6px 30px rgba(0, 0, 0, 0.6);
+}
+
+.q-card-section:first-of-type {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 12px;
+}
+.text-h6 {
+  font-weight: bold;
+  font-size: 1.2rem;
+  color: #4fc3f7;
+}
+.text-h6:hover {
+  color: #81d4fa;
+}
+.q-subtitle {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #ffffff;
 }
 
 p {
-  letter-spacing: 1px;
+  font-size: 0.95rem;
+  line-height: 1.4;
+  color: #cccccc;
+  margin: 0;
+  letter-spacing: 0.5px;
+}
+
+q-avatar img,
+q-img {
+  border-radius: 12px;
+}
+
+.q-btn-group .q-btn {
+  transition:
+    background-color 0.2s,
+    transform 0.2s;
+}
+
+.q-btn-group .q-btn:hover {
+  transform: scale(1.1);
+  background-color: rgba(255, 255, 255, 0.08);
 }
 </style>

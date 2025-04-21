@@ -4,7 +4,12 @@
       <q-page-container>
         <q-page padding>
           <div class="row justify-center q-gutter-lg">
-            <q-card v-for="(card, index) in cards" :key="index" class="my-card" style="width: 300px; height: 500px">
+            <q-card
+              v-for="(card, index) in cards"
+              :key="index"
+              class="my-card"
+              style="width: 300px; height: 500px"
+            >
               <div class="flip-card-inner">
                 <!-- Front side -->
                 <div class="flip-card-front">
@@ -19,9 +24,9 @@
                   <h3>{{ card.title }}</h3>
                   <p>{{ card.description }}</p>
                   <div>
-                    <q-btn color="primary" label="Pagar" style="margin-left: 5px;" />
-                    <q-btn color="primary" label="Alta" style="margin-left: 5px;" />
-                    <q-btn color="primary" label="Baja" style="margin-left: 5px;" />
+                    <q-btn color="primary" label="Pagar" style="margin-left: 5px" />
+                    <q-btn color="primary" label="Alta" style="margin-left: 5px" />
+                    <q-btn color="primary" label="Baja" style="margin-left: 5px" />
                   </div>
                 </div>
               </div>
@@ -35,7 +40,7 @@
 
 <script lang="ts">
 export default {
-  name: "CardDeportes",
+  name: 'CardDeportes',
   data() {
     return {
       cards: [
@@ -46,21 +51,29 @@ export default {
         //   image: "https://i.pinimg.com/736x/fa/08/06/fa0806d7db438581687ed0fa6c7ef7f4.jpg"
         // },
         {
-          title: "Hockey",
-          schedule: "Lunes a jueves, de 17 a 19:30 hs.",
-          description: "Participación en el torneo de la ASOCIACIÓN AMATEUR MARPLATENSE DE HOCKEY (AAMH). Escuela de Hockey, 9na división (hasta 10 años), 8va. 7ma, 6ta, 5ta, intermedia, primera y Maminas!!!",
-          image: "https://i.pinimg.com/736x/87/03/89/870389975b04170d5f3a2f775e49698f.jpg"
+          title: 'Hockey',
+          schedule: 'Lunes a jueves, de 17 a 19:30 hs.',
+          description:
+            'Participación en el torneo de la ASOCIACIÓN AMATEUR MARPLATENSE DE HOCKEY (AAMH). Escuela de Hockey, 9na división (hasta 10 años), 8va. 7ma, 6ta, 5ta, intermedia, primera y Maminas!!!',
+          image: 'https://i.pinimg.com/736x/87/03/89/870389975b04170d5f3a2f775e49698f.jpg',
         },
         {
-          title: "Patin",
-          schedule: "Consultar Horarios",
-          description: "Patin artistico federado en todas sus categorias.",
-          image: "https://i.pinimg.com/736x/37/c3/be/37c3be6b3263c6f0ef94a39bfe13e21e.jpg"
-        }
-      ]
-    };
-  }
-};
+          title: 'Ciclismo',
+          schedule: 'Consultar Horarios',
+          description:
+            'Circuito MTB para todos los niveles. (Bike Park). Grupos de ciclismo inicial, recreativo y entrenamiento.Alquiler de bicicletas.Parador MTB',
+          image: '',
+        },
+        {
+          title: 'Patin',
+          schedule: 'Consultar Horarios',
+          description: 'Patin artistico federado en todas sus categorias.',
+          image: 'https://i.pinimg.com/736x/37/c3/be/37c3be6b3263c6f0ef94a39bfe13e21e.jpg',
+        },
+      ],
+    }
+  },
+}
 </script>
 
 <style scoped>
