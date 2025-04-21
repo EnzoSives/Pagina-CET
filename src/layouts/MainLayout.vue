@@ -65,7 +65,13 @@
           ></q-btn>
         </q-item>
         <q-item>
-          <q-btn label="?Faq" color="white" flat class="hover-orange" @click="openFaq"></q-btn>
+          <q-btn
+            label="Agente IA"
+            color="white"
+            flat
+            class="hover-orange"
+            @click="goToAgente()"
+          ></q-btn>
         </q-item>
         <q-item>
           <q-btn label="App CET" color="white" flat class="hover-orange" @click="goToApp()"></q-btn>
@@ -201,8 +207,12 @@ const handleResize = () => {
   isMobile.value = window.innerWidth <= 600
 }
 
-const openFaq = () => {
-  window.open('~/assets/faq.pdf', '_blank') // Esto abre el PDF en una nueva pestaña
+// const openFaq = () => {
+//   window.open('~/assets/faq.pdf', '_blank') // Esto abre el PDF en una nueva pestaña
+// }
+
+const goToAgente = () => {
+  router.push({ path: '/agenteia' })
 }
 
 const goTo = (url: string) => {
