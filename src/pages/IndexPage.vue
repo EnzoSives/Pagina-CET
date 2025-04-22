@@ -1,38 +1,66 @@
 <template>
   <q-page class="bg-grey-2">
     <!-- Sección Hero con imagen de fondo -->
-    <div class="hero-section"
-      :style="{ backgroundImage: 'url(https://cetpinamar.com.ar/images/demo/backgrounds/03.png)' }">
+    <div
+      class="hero-section"
+      :style="{ backgroundImage: 'url(https://cetpinamar.com.ar/images/demo/backgrounds/03.png)' }"
+    >
       <div class="content">
         <div>
           <h2 class="text-content-cet">CET</h2>
           <p class="text-content">Club empleados Telpin</p>
         </div>
         <div class="button-wrapper">
-          <q-btn class="mobile-button" label="Iniciar sesión" color="orange-10" @click="goToLogin()" icon-right="login"></q-btn>
-          <q-btn class="mobile-button" label="Ser socio" color="orange-10"
+          <q-btn
+            class="mobile-button"
+            label="Iniciar sesión"
+            color="orange-10"
+            @click="goToLogin()"
+            icon-right="login"
+          ></q-btn>
+          <q-btn
+            class="mobile-button"
+            label="Ser socio"
+            color="orange-10"
             :href="'https://docs.google.com/forms/d/e/1FAIpQLSd8c8tQjiLs01-gDbRoET4kdYYyxzAhbO-BI8vqkOrolAMENg/viewform'"
-            target="_blank" icon-right="person_add"></q-btn>
-          <q-btn class="mobile-button" label="Beneficios" color="orange-10" @click="goToBeneficios()" icon-right="star"></q-btn>
+            target="_blank"
+            icon-right="person_add"
+          ></q-btn>
+          <q-btn
+            class="mobile-button"
+            label="Beneficios"
+            color="orange-10"
+            @click="goToBeneficios()"
+            icon-right="star"
+          ></q-btn>
         </div>
       </div>
     </div>
 
-    <div class="text-h4 text-weight-bolder gradient-text text-center q-mt-lg"
-      style="margin-top: 50px; margin-bottom: 30px; font-family: Aldrich, sans-serif;">
+    <div
+      class="text-h4 text-weight-bolder gradient-text text-center q-mt-lg"
+      style="margin-top: 50px; margin-bottom: 30px; font-family: Aldrich, sans-serif"
+    >
       Nuestras Actividades Principales
     </div>
     <DeportesComponent></DeportesComponent>
 
     <div class="galeriaContent">
-      <div class="text-h4 text-weight-bolder gradient-text text-center q-mt-lg" style="margin-bottom: 50px;">
+      <div
+        class="text-h4 text-weight-bolder gradient-text text-center q-mt-lg"
+        style="margin-bottom: 70px; margin-top: 50px"
+      >
         Nuestro Espacio
       </div>
 
       <!-- Galería Grid para pantallas grandes -->
       <div v-if="!isMobile" class="gallery-grid">
-        <img v-for="(image, index) in images" :key="`grid-${index}`" :src="image"
-          :class="['gallery-item', `item-${index + 1}`]" />
+        <img
+          v-for="(image, index) in images"
+          :key="`grid-${index}`"
+          :src="image"
+          :class="['gallery-item', `item-${index + 1}`]"
+        />
       </div>
 
       <!-- Swiper Carousel mejorado para móviles -->
@@ -43,7 +71,8 @@
           :space-between="20"
           :pagination="{ clickable: true }"
           :navigation="true"
-          class="mobile-swiper">
+          class="mobile-swiper"
+        >
           <swiper-slide v-for="(image, index) in images" :key="index" class="mobile-swiper-slide">
             <img :src="image" class="carousel-image" />
           </swiper-slide>
@@ -54,57 +83,57 @@
 </template>
 
 <script setup lang="ts">
-import DeportesComponent from 'components/DeportesComponet.vue';
-import { ref, onMounted, onBeforeUnmount } from 'vue';
-import { useRouter } from 'vue-router';
-import { Swiper, SwiperSlide } from 'swiper/vue';
-import { Pagination, Navigation } from 'swiper/modules';
-import 'swiper/css';
-import 'swiper/css/pagination';
-import 'swiper/css/navigation';
+import DeportesComponent from 'components/DeportesComponet.vue'
+import { ref, onMounted, onBeforeUnmount } from 'vue'
+import { useRouter } from 'vue-router'
+import { Swiper, SwiperSlide } from 'swiper/vue'
+import { Pagination, Navigation } from 'swiper/modules'
+import 'swiper/css'
+import 'swiper/css/pagination'
+import 'swiper/css/navigation'
 
-const router = useRouter();
+const router = useRouter()
 // const slide = ref(0); // Para controlar el carousel
 
 // Estado para saber si estamos en modo móvil
-const isMobile = ref(false);
+const isMobile = ref(false)
 
 // Función para verificar si estamos en modo móvil
 const checkIfMobile = () => {
-  isMobile.value = window.innerWidth <= 768; // Considerar móvil si la pantalla es de 768px o menor
-};
+  isMobile.value = window.innerWidth <= 768 // Considerar móvil si la pantalla es de 768px o menor
+}
 
 // Función para manejar el redimensionamiento de la ventana
 const handleResize = () => {
-  checkIfMobile();
-};
+  checkIfMobile()
+}
 
 // Verificar el tamaño de la pantalla al montar el componente
 onMounted(() => {
-  checkIfMobile();
+  checkIfMobile()
   // Agregar listener para detectar cambios en el tamaño de la ventana
-  window.addEventListener('resize', handleResize);
-});
+  window.addEventListener('resize', handleResize)
+})
 
 // Limpiar el listener cuando el componente se desmonta
 onBeforeUnmount(() => {
-  window.removeEventListener('resize', handleResize);
-});
+  window.removeEventListener('resize', handleResize)
+})
 
 const images = ref([
-  'https://i.pinimg.com/736x/33/21/7f/33217f1b0127b5e076c015e154f83b88.jpg',
-  'https://i.pinimg.com/736x/b4/60/84/b46084953d3a783d5cdee7d29e1338d0.jpg',
+  'public/imgs/cancha-aerea-1.png',
+  'public/imgs/cancha-aerea-2.png',
   'https://i.pinimg.com/736x/47/ee/6f/47ee6f000404cf5311b3885d638a0910.jpg',
   'https://i.pinimg.com/736x/71/1d/52/711d52a098414991b7d75452355ec09e.jpg',
-  'https://i.pinimg.com/736x/9d/39/48/9d39487846a38248347ae86f6ee7ba2a.jpg'
-]);
+  'https://i.pinimg.com/736x/9d/39/48/9d39487846a38248347ae86f6ee7ba2a.jpg',
+])
 
 const goToLogin = () => {
-  router.push({ path: '/login' });
-};
+  router.push({ path: '/login' })
+}
 const goToBeneficios = () => {
-  router.push({ path: '/beneficios' });
-};
+  router.push({ path: '/beneficios' })
+}
 </script>
 
 <style scoped>
@@ -133,12 +162,14 @@ const goToBeneficios = () => {
   transform: translateY(-50%);
   text-align: left;
   padding-left: 40px;
-  font-family: Aldrich, Helvetica Neue, Arial, sans-serif;
+  font-family:
+    Aldrich,
+    Helvetica Neue,
+    Arial,
+    sans-serif;
   text-transform: uppercase;
   line-height: 1.15;
 }
-
-
 
 /* Galería de imágenes más ancha */
 .gallery-grid {
@@ -163,7 +194,7 @@ const goToBeneficios = () => {
 }
 
 .text-content-cet {
-  font-family: "Aldrich", serif;
+  font-family: 'Aldrich', serif;
   font-optical-sizing: auto;
   font-weight: 700;
   font-style: normal;
@@ -171,7 +202,7 @@ const goToBeneficios = () => {
 }
 
 .text-content {
-  font-family: "Aldrich", serif;
+  font-family: 'Aldrich', serif;
   font-optical-sizing: auto;
   font-weight: 500;
   font-style: normal;
@@ -200,7 +231,9 @@ const goToBeneficios = () => {
 
 .mobile-button {
   margin-right: 10px;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .mobile-button:hover {
@@ -284,7 +317,7 @@ const goToBeneficios = () => {
   /* Estilo para los botones de navegación del carrusel */
   :deep(.swiper-button-next),
   :deep(.swiper-button-prev) {
-    color: #FF8E3C;
+    color: #ff8e3c;
     background: rgba(255, 255, 255, 0.8);
     width: 35px;
     height: 35px;
@@ -300,7 +333,7 @@ const goToBeneficios = () => {
   }
 
   :deep(.swiper-pagination-bullet-active) {
-    background: #FF8E3C;
+    background: #ff8e3c;
   }
 }
 
