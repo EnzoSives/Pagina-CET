@@ -98,6 +98,8 @@ const router = useRouter()
 // Estado para saber si estamos en modo móvil
 const isMobile = ref(false)
 
+const base = process.env.BASE_URL || '/'
+
 // Función para verificar si estamos en modo móvil
 const checkIfMobile = () => {
   isMobile.value = window.innerWidth <= 768 // Considerar móvil si la pantalla es de 768px o menor
@@ -121,11 +123,11 @@ onBeforeUnmount(() => {
 })
 
 const images = ref([
-  'public/imgs/cancha-aerea-1.png',
-  'public/imgs/cancha-aerea-2.png',
-  'https://i.pinimg.com/736x/47/ee/6f/47ee6f000404cf5311b3885d638a0910.jpg',
-  'https://i.pinimg.com/736x/71/1d/52/711d52a098414991b7d75452355ec09e.jpg',
-  'https://i.pinimg.com/736x/9d/39/48/9d39487846a38248347ae86f6ee7ba2a.jpg',
+  `${base}imgs/cancha-aerea-1.png`,
+  `${base}imgs/cancha-aerea-2.png`,
+  `${base}imgs/DJI_0019.JPG`,//Cambiar
+  `${base}imgs/Arqueria2.jpeg`,
+  `${base}imgs/DJI_0019.JPG`,
 ])
 
 const goToLogin = () => {

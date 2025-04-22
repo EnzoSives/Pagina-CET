@@ -146,6 +146,7 @@ const props = defineProps<{ deporte: string }>()
 const router = useRouter()
 const pagoModalRef = ref()
 const deporteDescripcion = ref('')
+const base = process.env.BASE_URL || '/'
 
 const cargarDescripcion = async (deporte: string) => {
   try {
@@ -179,7 +180,7 @@ const deporteImages: Record<string, string> = {
   Running:
     'https://images.unsplash.com/photo-1571008887538-b36bb32f4571?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
   Arqueria:
-    'https://plus.unsplash.com/premium_photo-1718315735016-13eca85e2036?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    `${base}imgs/Arqueria4.JPG`,
 }
 
 const getDeporteImage = (deporte: string): string => {

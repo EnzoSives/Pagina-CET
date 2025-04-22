@@ -57,6 +57,8 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 
+const base = process.env.BASE_URL || '/'
+
 export default defineComponent({
   name: 'DeportesSecciones',
   data() {
@@ -89,13 +91,13 @@ export default defineComponent({
           description:
             'Clases de arquería para todas las edades. Participación en torneos locales y nacionales.',
           image:
-            'https://plus.unsplash.com/premium_photo-1718315735016-13eca85e2036?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+            `${base}imgs/Arqueria4.jpeg`,
         },
         {
           title: 'Running',
-          schedule: 'Consultar Horarios',
+          schedule: 'Lunes, miércoles y viernes - 8hs / 19hs (8 hs. o 19 hs.).',
           description:
-            'Entrenamiento de running para todas las edades y niveles. Participación en carreras locales y nacionales.',
+            'Lo importante es moverse y disfrutar, no el nivel. 15 años en adelante ',
           image:
             'https://images.unsplash.com/photo-1571008887538-b36bb32f4571?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
         },
