@@ -124,7 +124,7 @@
                     alt="WhatsApp"
                     @click="
                       goTo(
-                        'https://api.whatsapp.com/send/?phone=542254495253&text=Hola+CET%21&type=phone_number&app_absent=0',
+                        'https://api.whatsapp.com/send/?phone=542254625253&text=Hola+CET%21&type=phone_number&app_absent=0',
                       )
                     "
                   />
