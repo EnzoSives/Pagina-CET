@@ -172,7 +172,7 @@ watch(
 const deporteImages: Record<string, string> = {
   // Futbol: 'https://i.pinimg.com/736x/fa/08/06/fa0806d7db438581687ed0fa6c7ef7f4.jpg',
   Patin:
-    'https://images.unsplash.com/photo-1735674055107-e9342d0145df?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    '/imgs/Patin.jpeg',
   Hockey: '/imgs/hockey.png',
   Ciclismo:
     // 'https://images.unsplash.com/photo-1534787238916-9ba6764efd4f?q=80&w=1931&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',

@@ -1,78 +1,50 @@
 <template>
   <q-page class="bg-grey-2">
     <!-- Sección Hero con imagen de fondo -->
-    <div
-      class="hero-section"
-      :style="{ backgroundImage: 'url(https://cetpinamar.com.ar/images/demo/backgrounds/03.png)' }"
-    >
+    <div class="hero-section"
+      :style="{ backgroundImage: 'url(https://cetpinamar.com.ar/images/demo/backgrounds/03.png)' }">
       <div class="content">
         <div>
-          <h2 class="text-content-cet">CET</h2>
+          <h2 class="text-content-cet">PINAMAR-CET</h2>
           <p class="text-content">Club empleados Telpin</p>
         </div>
         <div class="button-wrapper">
-          <q-btn
-            class="mobile-button"
-            label="Iniciar sesión"
-            color="orange-10"
-            @click="goToLogin()"
-            icon-right="login"
-          ></q-btn>
-          <q-btn
-            class="mobile-button"
-            label="Ser socio"
-            color="orange-10"
+          <q-btn class="mobile-button" label="Iniciar sesión" color="orange-10" @click="goToLogin()"
+            icon-right="login"></q-btn>
+          <q-btn class="mobile-button" label="Ser socio" color="orange-10"
             :href="'https://docs.google.com/forms/d/e/1FAIpQLSd8c8tQjiLs01-gDbRoET4kdYYyxzAhbO-BI8vqkOrolAMENg/viewform'"
-            target="_blank"
-            icon-right="person_add"
-          ></q-btn>
-          <q-btn
-            class="mobile-button"
-            label="Beneficios"
-            color="orange-10"
-            @click="goToBeneficios()"
-            icon-right="star"
-          ></q-btn>
+            target="_blank" icon-right="person_add"></q-btn>
+          <q-btn class="mobile-button" label="Beneficios" color="orange-10" @click="goToBeneficios()"
+            icon-right="star"></q-btn>
+          <q-btn class="mobile-button" label="Calendarios" color="orange-10" @click="goToCalendario"
+            icon-right="event" />
+
         </div>
       </div>
     </div>
 
-    <div
-      class="text-h4 text-weight-bolder gradient-text text-center q-mt-lg"
-      style="margin-top: 50px; margin-bottom: 30px; font-family: Aldrich, sans-serif"
-    >
+    <div class="text-h4 text-weight-bolder gradient-text text-center q-mt-lg"
+      style="margin-top: 50px; margin-bottom: 30px; font-family: Aldrich, sans-serif">
       Nuestras Actividades Principales
     </div>
     <DeportesComponent></DeportesComponent>
 
     <div class="galeriaContent">
-      <div
-        class="text-h4 text-weight-bolder gradient-text text-center q-mt-lg"
-        style="margin-bottom: 70px; margin-top: 50px"
-      >
+      <div class="text-h4 text-weight-bolder gradient-text text-center q-mt-lg"
+        style="margin-bottom: 70px; margin-top: 50px">
         Nuestro Espacio
       </div>
 
       <!-- Galería Grid para pantallas grandes -->
       <div v-if="!isMobile" class="gallery-grid">
-        <img
-          v-for="(image, index) in images"
-          :key="`grid-${index}`"
-          :src="image"
-          :class="['gallery-item', `item-${index + 1}`]"
-        />
+        <img v-for="(image, index) in images" :key="`grid-${index}`" :src="image"
+          :class="['gallery-item', `item-${index + 1}`]" />
       </div>
 
       <!-- Swiper Carousel mejorado para móviles -->
       <div v-else class="mobile-gallery-container">
-        <swiper
-          :modules="[Pagination, Navigation]"
-          :slides-per-view="1"
-          :space-between="20"
-          :pagination="{ clickable: true }"
-          :navigation="true"
-          class="mobile-swiper"
-        >
+        <swiper :modules="[Pagination, Navigation]" :slides-per-view="1" :space-between="20"
+          :pagination="{ clickable: true }" :navigation="true" class="mobile-swiper">
           <swiper-slide v-for="(image, index) in images" :key="index" class="mobile-swiper-slide">
             <img :src="image" class="carousel-image" />
           </swiper-slide>
@@ -135,6 +107,9 @@ const goToLogin = () => {
 }
 const goToBeneficios = () => {
   router.push({ path: '/beneficios' })
+}
+const goToCalendario = () => {
+  router.push({ path: '/calendarios' })
 }
 </script>
 
@@ -293,7 +268,8 @@ const goToBeneficios = () => {
     margin-right: 0;
     width: 100%;
     border-radius: 8px;
-    height: 48px; /* Altura táctil óptima */
+    height: 48px;
+    /* Altura táctil óptima */
     font-weight: 500;
     letter-spacing: 0.5px;
     justify-content: space-between;

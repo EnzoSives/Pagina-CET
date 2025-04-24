@@ -10,6 +10,7 @@ import AdmPerfiles from 'src/pages/AdmPerfiles.vue'
 import HomePerfil from 'src/pages/HomePerfil.vue'
 import MovimientosPage from 'src/pages/MovimientosPage.vue'
 import AgenteN8N from 'src/pages/AgenteN8N.vue'
+import CalendariosPage from 'src/pages/CalendariosPage.vue'
 
 const routes: RouteRecordRaw[] = [
   {
@@ -27,7 +28,11 @@ const routes: RouteRecordRaw[] = [
         name: 'Beneficios',
         component: BeneficiosPage,
       },
-
+      {
+        path: '/calendarios',
+        name: 'Calendarios',
+        component: CalendariosPage,
+      },
       // 🔒 Rutas protegidas
       { path: '/appcet', name: 'AppCet', component: AppCet, meta: { requiresAuth: true } },
 
