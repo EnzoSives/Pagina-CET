@@ -26,7 +26,7 @@ onMounted(() => {
 
 <template>
   <!-- 🔧 Este contenedor es necesario para que el chat se renderice -->
-  <div style="padding-top: 70px; margin: 30px">
+  <div style="padding-top: 70px; margin: 30px; height: 90%">
     <div
       id="n8n-chat"
       style="
@@ -36,6 +36,7 @@ onMounted(() => {
         border-radius: 8px;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         overflow: hidden;
+        height: 95%;
       "
     ></div>
   </div>
