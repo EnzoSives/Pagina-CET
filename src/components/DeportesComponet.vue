@@ -75,8 +75,7 @@ export default defineComponent({
           title: 'Patin',
           schedule: 'Consultar Horarios',
           description: 'Patin artístico federado en todas sus categorías.',
-          image:
-            'https://images.unsplash.com/photo-1735674055107-e9342d0145df?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+          image: '/imgs/Patin.jpeg',
         },
         {
           title: 'Ciclismo',
@@ -90,14 +89,12 @@ export default defineComponent({
           schedule: 'Consultar Horarios',
           description:
             'Clases de arquería para todas las edades. Participación en torneos locales y nacionales.',
-          image:
-            `${base}imgs/Arqueria4.jpeg`,
+          image: `${base}imgs/Arqueria4.jpeg`,
         },
         {
           title: 'Running',
           schedule: 'Lunes, miércoles y viernes - 8hs / 19hs (8 hs. o 19 hs.).',
-          description:
-            'Lo importante es moverse y disfrutar, no el nivel. 15 años en adelante ',
+          description: 'Lo importante es moverse y disfrutar, no el nivel. 15 años en adelante ',
           image:
             'https://images.unsplash.com/photo-1571008887538-b36bb32f4571?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
         },
