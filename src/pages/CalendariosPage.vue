@@ -1,17 +1,29 @@
 <template>
   <div class="calendar-wrapper">
-    <q-select
-      v-model="selectedCalendar"
-      :options="calendarOptions"
-      label="Seleccioná un calendario"
-      emit-value
-      map-options
-      class="q-mb-md"
-      filled
-    />
+    <div class="q-mb-md">
+      <p class="text-body1 text-justify">
+        Selecciona el calendario que quieras ver. Puedes seleccionar varios calendarios a la vez.
+      </p>
+      <div class="row q-gutter-sm">
+        <q-chip
+          v-for="calendar in calendarOptions"
+          :key="calendar.value"
+          clickable
+          size="15px"
+          :selected="selectedCalendars.includes(calendar.value)"
+          @click="toggleCalendar(calendar.value)"
+          :color="selectedCalendars.includes(calendar.value) ? 'primary' : 'grey-4'"
+          :text-color="selectedCalendars.includes(calendar.value) ? 'white' : 'black'"
+        >
+          {{ calendar.label }}
+        </q-chip>
+      </div>
+    </div>
+
     <div class="calendar-container">
       <iframe
-        :src="selectedCalendar"
+        v-if="combinedCalendarUrl"
+        :src="combinedCalendarUrl"
         style="border: 0"
         frameborder="0"
         scrolling="no"
@@ -22,27 +34,56 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 
 const calendarOptions = [
   {
     label: 'USO Cancha CET',
-    value:
-      'https://calendar.google.com/calendar/embed?src=c_kct0r8oq4upn8pmtvohbtuuh1o%40group.calendar.google.com&ctz=America%2FArgentina%2FBuenos_Aires',
+    value: 'c_kct0r8oq4upn8pmtvohbtuuh1o@group.calendar.google.com',
   },
   {
     label: 'AAMH Fechas',
-    value:
-      'https://calendar.google.com/calendar/embed?src=c_classroom217cc033%40group.calendar.google.com&ctz=America%2FArgentina%2FBuenos_Aires',
+    value: 'c_classroom217cc033@group.calendar.google.com',
   },
   {
     label: 'Arquería',
     value:
-      'https://calendar.google.com/calendar/embed?src=c_d5378e2b1c72b33e246637c2dfcf682be0d29338bd327c6cac48fa414af5f04c%40group.calendar.google.com&ctz=America%2FArgentina%2FBuenos_Aires',
+      'c_d5378e2b1c72b33e246637c2dfcf682be0d29338bd327c6cac48fa414af5f04c@group.calendar.google.com',
   },
 ]
 
-const selectedCalendar = ref(calendarOptions[0]?.value || '')
+const selectedCalendars = ref<string[]>(
+  calendarOptions[0] ? [calendarOptions[0].value] : [], // el primer calendario si existe
+)
+
+// Genera la URL combinada
+const combinedCalendarUrl = computed(() => {
+  if (selectedCalendars.value.length === 0) return ''
+
+  const base = 'https://calendar.google.com/calendar/embed?'
+  const params = selectedCalendars.value
+    .map((calendarId) => `src=${encodeURIComponent(calendarId)}`)
+    .join('&')
+
+  // Opcional: agregar zona horaria y modo de vista
+  const timezone = 'ctz=America%2FArgentina%2FBuenos_Aires'
+  const viewMode = 'mode=WEEK' // 👈 nuevo
+
+  return `${base}${params}&${timezone}&${viewMode}`
+})
+
+function toggleCalendar(calendarValue: string) {
+  const index = selectedCalendars.value.indexOf(calendarValue)
+
+  if (index > -1) {
+    // Si ya estaba seleccionado y hay más de uno, lo deselecciona
+    if (selectedCalendars.value.length > 1) {
+      selectedCalendars.value.splice(index, 1)
+    }
+  } else {
+    selectedCalendars.value.push(calendarValue)
+  }
+}
 </script>
 
 <style scoped>
@@ -56,6 +97,7 @@ const selectedCalendar = ref(calendarOptions[0]?.value || '')
   position: relative;
   width: 100%;
   aspect-ratio: 16 / 9;
+  margin-bottom: 20px;
 }
 
 .calendar-container iframe {

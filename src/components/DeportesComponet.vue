@@ -75,7 +75,7 @@ export default defineComponent({
           title: 'Patin',
           schedule: 'Consultar Horarios',
           description: 'Patin artístico federado en todas sus categorías.',
-          image: '/imgs/Patin.jpeg',
+          image: 'https://i.pinimg.com/736x/37/c3/be/37c3be6b3263c6f0ef94a39bfe13e21e.jpg',
         },
         {
           title: 'Ciclismo',
