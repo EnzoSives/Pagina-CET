@@ -58,7 +58,6 @@ const routes: RouteRecordRaw[] = [
         path: '/agenteia',
         name: 'AgenteIA',
         component: AgenteN8N,
-        meta: { requiresAuth: true },
       },
     ],
   },

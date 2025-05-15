@@ -40,17 +40,21 @@ const calendarOptions = [
   {
     label: 'USO Cancha CET',
     value: 'c_kct0r8oq4upn8pmtvohbtuuh1o@group.calendar.google.com',
+    color: '#f4511e', // Tangerine
   },
   {
     label: 'AAMH Fechas',
     value: 'c_classroom217cc033@group.calendar.google.com',
+    color: '#33b679', // Sage
   },
   {
     label: 'Arquería',
-    value:
-      'c_d5378e2b1c72b33e246637c2dfcf682be0d29338bd327c6cac48fa414af5f04c@group.calendar.google.com',
+    value: 'c_d5378e2b1c72b33e246637c2dfcf682be0d29338bd327c6cac48fa414af5f04c@group.calendar.google.com',
+    color: '#039be5', // Peacock
   },
 ]
+
+
 
 const selectedCalendars = ref<string[]>(
   calendarOptions[0] ? [calendarOptions[0].value] : [], // el primer calendario si existe
@@ -62,15 +66,19 @@ const combinedCalendarUrl = computed(() => {
 
   const base = 'https://calendar.google.com/calendar/embed?'
   const params = selectedCalendars.value
-    .map((calendarId) => `src=${encodeURIComponent(calendarId)}`)
+    .map((calendarId) => {
+      const calendar = calendarOptions.find((c) => c.value === calendarId)
+      const colorParam = calendar?.color ? `&color=${encodeURIComponent(calendar.color)}` : ''
+      return `src=${encodeURIComponent(calendarId)}${colorParam}`
+    })
     .join('&')
 
-  // Opcional: agregar zona horaria y modo de vista
   const timezone = 'ctz=America%2FArgentina%2FBuenos_Aires'
-  const viewMode = 'mode=WEEK' // 👈 nuevo
+  const viewMode = 'mode=WEEK'
 
   return `${base}${params}&${timezone}&${viewMode}`
 })
+
 
 function toggleCalendar(calendarValue: string) {
   const index = selectedCalendars.value.indexOf(calendarValue)
