@@ -14,7 +14,9 @@
       background: #a8a8a8;
       background: linear-gradient(90deg, rgba(168, 168, 168, 1) 0%, rgba(224, 224, 224, 1) 0%, rgba(51, 51, 51, 1) 39%);
       margin-bottom: 150px;
+      
     "
+
   >
     <q-toolbar>
       <q-avatar size="55px">
@@ -159,7 +161,7 @@ onUnmounted(() => {
 }
 
 .selected-deporte {
-  background-color: orange;
+  background-color: rgb(40, 126, 255);
   color: white;
   font-weight: bold;
 }

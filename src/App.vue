@@ -1,5 +1,5 @@
 <template>
-  <nadbar-component />
+  <nadbar-component style="margin-bottom: 90px;"/>
   <router-view style="font-family: Aldrich;" />
 </template>
 
