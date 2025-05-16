@@ -11,15 +11,16 @@
       right: 0;
       z-index: 10;
       border-radius: 20px;
-      background-color: rgb(26, 26, 29);
+      background: #a8a8a8;
+      background: linear-gradient(90deg, rgba(168, 168, 168, 1) 0%, rgba(224, 224, 224, 1) 0%, rgba(51, 51, 51, 1) 39%);
       margin-bottom: 150px;
     "
   >
     <q-toolbar>
-      <q-avatar>
+      <q-avatar size="55px">
         <img src="~/assets/logoCET.png" alt="logo" />
       </q-avatar>
-      <q-toolbar-title class="custom-font text-white"> VIVI EL CLUB!</q-toolbar-title>
+      <q-toolbar-title class="custom-font text-white" > VIVI EL CLUB!</q-toolbar-title>
       <q-btn label="Inicio" color="white" flat class="hover-orange" @click="goToHome()"></q-btn>
       <q-btn label="Socio" color="white" flat class="hover-orange" @click="goToSocio()"></q-btn>
       <q-btn-dropdown label="Deportes" color="white" flat class="hover-orange">
@@ -154,6 +155,7 @@ onUnmounted(() => {
   font-weight: 450;
   /* Cambiado a 700 para letras más gruesas */
   font-size: 1.2rem;
+  color: rgb(2,37,65);
 }
 
 .selected-deporte {

@@ -283,7 +283,7 @@ onMounted(() => {
     new Style({
       image: new Icon({
         src: logoCET,
-        scale: 0.3,
+        scale: 0.1,
       }),
     }),
   )

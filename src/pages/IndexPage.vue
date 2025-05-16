@@ -9,14 +9,14 @@
           <p class="text-content">Club empleados Telpin</p>
         </div>
         <div class="button-wrapper">
-          <q-btn class="mobile-button" label="Iniciar sesión" color="orange-10" @click="goToLogin()"
+            <q-btn class="mobile-button" label="Iniciar sesión" color="orange-8"  @click="goToLogin()"
             icon-right="login"></q-btn>
-          <q-btn class="mobile-button" label="Ser socio" color="orange-10"
+          <q-btn class="mobile-button" label="Ser socio" color="orange-8" 
             :href="'https://docs.google.com/forms/d/e/1FAIpQLSd8c8tQjiLs01-gDbRoET4kdYYyxzAhbO-BI8vqkOrolAMENg/viewform'"
             target="_blank" icon-right="person_add"></q-btn>
-          <q-btn class="mobile-button" label="Beneficios" color="orange-10" @click="goToBeneficios()"
+          <q-btn class="mobile-button" label="Beneficios" color="orange-8"  @click="goToBeneficios()"
             icon-right="star"></q-btn>
-          <q-btn class="mobile-button" label="Calendarios" color="orange-10" @click="goToCalendario"
+          <q-btn class="mobile-button" label="Calendarios" color="orange-8"  @click="goToCalendario"
             icon-right="event" />
 
         </div>
