@@ -16,7 +16,7 @@
       :width="200"
       :breakpoint="700"
       elevated
-      class="bg-black text-white"
+      class="bg-grey text-white"
     >
       <q-img
         src="~/assets/logoCET.png"
@@ -283,7 +283,7 @@ onMounted(() => {
     new Style({
       image: new Icon({
         src: logoCET,
-        scale: 0.1,
+        scale: 0.02, // puedes ajustar este valor para hacer el ícono aún más pequeño si lo deseas
       }),
     }),
   )
@@ -326,7 +326,7 @@ onMounted(() => {
 }
 
 .selected-deporte {
-  background-color: orange;
+  background-color: rgb(40, 126, 255);;
   color: white;
   font-weight: bold;
 }

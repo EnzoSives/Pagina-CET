@@ -11,8 +11,8 @@
       right: 0;
       z-index: 10;
       border-radius: 20px;
-      background: #a8a8a8;
-      background: linear-gradient(90deg, rgba(168, 168, 168, 1) 0%, rgba(224, 224, 224, 1) 0%, rgba(51, 51, 51, 1) 39%);
+     background-color: rgb(26, 26, 29);
+
       margin-bottom: 150px;
       
     "

@@ -2,7 +2,8 @@
   <q-page class="bg-grey-2">
     <!-- Sección Hero con imagen de fondo -->
     <div class="hero-section"
-      :style="{ backgroundImage: 'url(https://cetpinamar.com.ar/images/demo/backgrounds/03.png)' }">
+      :style="{ backgroundImage: 'url(src/assets/imagen-cet.png)' }">
+      <!-- :style="{ backgroundImage: 'url(https://cetpinamar.com.ar/images/demo/backgrounds/03.png)' }"> -->
       <div class="content">
         <div>
           <h2 class="text-content-cet">PINAMAR-CET</h2>
@@ -103,7 +104,7 @@ const images = ref([
 ])
 
 const goToLogin = () => {
-  router.push({ path: '/login' })
+  router.push({ path: '/homePerfil' })
 }
 const goToBeneficios = () => {
   router.push({ path: '/beneficios' })
@@ -129,7 +130,7 @@ const goToCalendario = () => {
   color: white;
   margin: 0;
   padding: 0;
-  z-index: 1;
+  /* z-index: 1; */
 }
 
 .content {

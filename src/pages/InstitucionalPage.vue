@@ -10,26 +10,22 @@
     </div>
 
     <!-- Sección de Objetivos -->
-    <div class="q-mb-xl">
-      <div class="text-h4 text-center q-mb-md text-primary">Nuestros Objetivos</div>
-      <q-card class="objetivos-card bg-primary text-white shadow-10">
-        <q-card-section>
-          <p class="text-body1">
-            En la localidad de Pinamar Partido de Pinamar de la Provincia de Buenos Aires, donde tendrá su domicilio
-            social, queda constituida una Asociación de carácter civil denominada: Club Empleados de Telpin Asociación Civil, que
-            tendrá por objeto:
-          </p>
-          <div class="objetivos-lista q-mt-md">
-            <q-item v-for="(objetivo, index) in objetivos" :key="index" class="objetivo-item">
-              <q-item-section avatar>
-                <q-icon name="check_circle" size="sm" color="white" />
-              </q-item-section>
-              <q-item-section>{{ objetivo }}</q-item-section>
-            </q-item>
-          </div>
-        </q-card-section>
-      </q-card>
-    </div>
+  <!-- Objetivos -->
+    <q-card class="objetivos-card bg-primary text-white shadow-10 q-mb-xl">
+      <q-card-section class="text-justify">
+        <p class="text-body1 q-mb-md">
+          En la localidad de Pinamar, el Club Empleados de Telpin es una Asociación Civil que persigue los siguientes objetivos:
+        </p>
+        <q-list dense>
+          <q-item v-for="(objetivo, index) in objetivos" :key="index" class="objetivo-item">
+            <q-item-section avatar>
+              <q-icon name="check_circle" size="md" color="white" />
+            </q-item-section>
+            <q-item-section class="text-body2">{{ objetivo }}</q-item-section>
+          </q-item>
+        </q-list>
+      </q-card-section>
+    </q-card>
 
     <!-- Sección Comisión Directiva -->
     <div class="q-mb-xl">

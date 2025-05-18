@@ -59,7 +59,7 @@
             </q-expansion-item>
 
             <!-- PAGOS -->
-            <q-expansion-item icon="paid" label="Pagos">
+            <q-expansion-item icon="paid" label="Pagos" default-opened>
               <div class="q-pa-sm">
                 <q-btn
                   label="Pagar"
@@ -89,6 +89,7 @@
               v-if="props.deporte === 'Ciclismo'"
               icon="directions_bike"
               label="Extras de Ciclismo"
+              default-opened
             >
               <div class="q-pa-sm">
                 <q-btn
@@ -125,9 +126,9 @@
         </q-card>
 
         <!-- Calendario -->
-        <div class="q-mt-md">
+        <!-- <div class="q-mt-md">
           <CalendarioDeporte :deporte="deporte" />
-        </div>
+        </div> -->
       </div>
     </div>
 
@@ -140,7 +141,7 @@
 import { defineProps, ref, onMounted, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import PagosModal from 'components/PagosModal.vue'
-import CalendarioDeporte from 'components/CalendarioDeporte.vue'
+// import CalendarioDeporte from 'components/CalendarioDeporte.vue'
 
 const props = defineProps<{ deporte: string }>()
 const router = useRouter()
