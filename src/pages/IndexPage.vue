@@ -2,7 +2,7 @@
   <q-page class="bg-grey-2">
     <!-- Sección Hero con imagen de fondo -->
     <div class="hero-section"
-      :style="{ backgroundImage: 'url(src/assets/imagen-cet.png)' }">
+      :style="{ backgroundImage: `url(${require('src/assets/imagen-cet.png')})` }">
       <!-- :style="{ backgroundImage: 'url(https://cetpinamar.com.ar/images/demo/backgrounds/03.png)' }"> -->
       <div class="content">
         <div>
