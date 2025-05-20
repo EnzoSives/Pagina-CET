@@ -1,1 +1,10 @@
 // app global css in SCSS form
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Aldrich&display=swap');
+
+body {
+  font-family: 'Roboto', sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Aldrich', sans-serif;
+}

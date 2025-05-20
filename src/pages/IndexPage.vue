@@ -3,7 +3,6 @@
     <!-- Sección Hero con imagen de fondo -->
     <div class="hero-section"
       :style="{ backgroundImage: 'url(/imgs/imagen-cet.png)' }">
-      <!-- :style="{ backgroundImage: 'url(https://cetpinamar.com.ar/images/demo/backgrounds/03.png)' }"> -->
       <div class="content">
         <div>
           <h2 class="text-content-cet">PINAMAR-CET</h2>
@@ -25,7 +24,7 @@
     </div>
 
     <div class="text-h4 text-weight-bolder gradient-text text-center q-mt-lg"
-      style="margin-top: 50px; margin-bottom: 30px; font-family: Aldrich, sans-serif">
+      style="margin-top: 50px; margin-bottom: 30px;">
       Nuestras Actividades Principales
     </div>
     <DeportesComponent></DeportesComponent>
@@ -56,7 +55,7 @@
 </template>
 
 <script setup lang="ts">
-import DeportesComponent from 'components/DeportesComponet.vue'
+import DeportesComponent from 'components/DeportesComponent.vue'
 import { ref, onMounted, onBeforeUnmount } from 'vue'
 import { useRouter } from 'vue-router'
 import { Swiper, SwiperSlide } from 'swiper/vue'
@@ -66,7 +65,6 @@ import 'swiper/css/pagination'
 import 'swiper/css/navigation'
 
 const router = useRouter()
-// const slide = ref(0); // Para controlar el carousel
 
 // Estado para saber si estamos en modo móvil
 const isMobile = ref(false)
@@ -98,7 +96,7 @@ onBeforeUnmount(() => {
 const images = ref([
   `${base}imgs/cancha-aerea-1.png`,
   `${base}imgs/cancha-aerea-2.png`,
-  `${base}imgs/DJI_0019.JPG`,//Cambiar
+  `${base}imgs/DJI_0019.JPG`,
   `${base}imgs/Arqueria2.jpeg`,
   `${base}imgs/DJI_0019.JPG`,
 ])
@@ -115,8 +113,6 @@ const goToCalendario = () => {
 </script>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Aldrich&family=Cherry+Cream+Soda&family=Oswald:wght@200..700&family=Roboto&family=Roboto+Slab:wght@100..900&display=swap');
-
 /* Hero section */
 .hero-section {
   position: relative;
@@ -130,11 +126,22 @@ const goToCalendario = () => {
   color: white;
   margin: 0;
   padding: 0;
-  /* z-index: 1; */
+}
+
+.hero-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.15); /* Subtle dark overlay */
+  z-index: 0; /* Behind the content */
 }
 
 .content {
-  position: absolute;
+  position: relative; /* Changed from absolute for z-index stacking */
+  z-index: 1; /* Above the overlay */
   left: 20px;
   top: 50%;
   transform: translateY(-50%);
@@ -185,6 +192,13 @@ const goToCalendario = () => {
   font-weight: 500;
   font-style: normal;
   font-size: 1.5rem;
+}
+
+.gradient-text {
+  color: #1976D2; /* $primary */
+  /* text-align: center; is already applied via class 'text-center' */
+  /* font-weight: bolder; is already applied via class 'text-weight-bolder' */
+  /* font-family: 'Aldrich' should be inherited from global H4 styles */
 }
 
 /* Ajuste de imágenes más grandes */
@@ -296,7 +310,7 @@ const goToCalendario = () => {
   /* Estilo para los botones de navegación del carrusel */
   :deep(.swiper-button-next),
   :deep(.swiper-button-prev) {
-    color: #ff8e3c;
+    color: #FF9800; /* $accent */
     background: rgba(255, 255, 255, 0.8);
     width: 35px;
     height: 35px;
@@ -312,7 +326,7 @@ const goToCalendario = () => {
   }
 
   :deep(.swiper-pagination-bullet-active) {
-    background: #ff8e3c;
+    background: #FF9800; /* $accent */
   }
 }
 

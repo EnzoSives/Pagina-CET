@@ -142,8 +142,6 @@
           <!-- Derecha: Mapa -->
           <div class="col-12 col-md-6">
             <div class="text-h6">
-              <!-- <q-icon name="location_on" class="q-mr-sm" />
-              Cómo llegar -->
 
               <q-btn
                 label="Cómo llegar"
@@ -196,7 +194,6 @@ const deporteSeleccionado = ref<string | null>(
 const deportes = ['Hockey', 'Patin', 'Running', 'Arqueria', 'Ciclismo']
 
 const goToDeportes = (deporte: string) => {
-  console.log(deporte) // Verifica que se está pasando el valor correcto
   deporteSeleccionado.value = deporte
   router.push({ name: 'DeportePage', params: { deporte } })
 }
@@ -207,10 +204,6 @@ const handleResize = () => {
   isMobile.value = window.innerWidth <= 600
 }
 
-// const openFaq = () => {
-//   window.open('~/assets/faq.pdf', '_blank') // Esto abre el PDF en una nueva pestaña
-// }
-
 const goToAgente = () => {
   router.push({ path: '/agenteia' })
 }
@@ -219,9 +212,6 @@ const goTo = (url: string) => {
   window.open(url, '_blank')
 }
 
-// const goToDeporte = (deporte: string) => {
-//   router.push({ name: 'DeportePage', params: { deporte } });
-// };
 const goToHome = () => {
   router.push({ path: '/' })
 }
@@ -232,7 +222,6 @@ const goToIsti = () => {
   router.push({ path: '/institucional' })
 }
 const goToApp = () => {
-  // router.push({ path: '/appcet' });
   router.push({ path: '/homePerfil' })
 }
 const goToTienda = () => {
@@ -326,8 +315,12 @@ onMounted(() => {
 }
 
 .selected-deporte {
-  background-color: rgb(40, 126, 255);;
+  background-color: #287EFF; /* $selected-blue */
   color: white;
   font-weight: bold;
+}
+
+.hover-orange:hover {
+  color: #FF9800 !important; /* $accent - using important to ensure override if needed with flat buttons */
 }
 </style>

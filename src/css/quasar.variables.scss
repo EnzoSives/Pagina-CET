@@ -14,7 +14,7 @@
 
 $primary   : #1976D2;
 $secondary : #26A69A;
-$accent    : #9C27B0;
+$accent    : #FF9800; // Material Orange 500
 
 $dark      : #1D1D1D;
 $dark-page : #121212;
@@ -23,3 +23,7 @@ $positive  : #21BA45;
 $negative  : #C10015;
 $info      : #31CCEC;
 $warning   : #F2C037;
+
+// Custom Variables
+$selected-blue   : #287EFF; // rgb(40, 126, 255)
+$title-dark-blue : #022541; // rgb(2, 37, 65)

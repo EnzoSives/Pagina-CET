@@ -2,7 +2,7 @@
   <q-banner
     v-if="!isScrolled && !isMobile"
     elevated
-    class="text-black"
+    class="text-black bg-dark"
     style="
       margin: 20px;
       position: fixed;
@@ -11,18 +11,12 @@
       right: 0;
       z-index: 10;
       border-radius: 20px;
-     background-color: rgb(26, 26, 29);
-
-      margin-bottom: 150px;
-      
     "
-
   >
     <q-toolbar>
       <q-avatar size="55px">
         <img src="~/assets/logoCET.png" alt="logo" />
       </q-avatar>
-      <q-toolbar-title class="custom-font text-white" > </q-toolbar-title>
       
       <q-btn label="Inicio" color="white" flat class="hover-orange" @click="goToHome()"></q-btn>
       <q-btn label="Socio" color="white" flat class="hover-orange" @click="goToSocio()"></q-btn>
@@ -138,8 +132,6 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Aldrich&family=Cherry+Cream+Soda&family=Oswald:wght@200..700&family=Roboto&family=Roboto+Slab:wght@100..900&display=swap');
-
 .q-dialog-plugin {
   width: 80%;
   max-width: 1500px;
@@ -150,7 +142,7 @@ onUnmounted(() => {
 }
 
 .hover-orange:hover {
-  color: orange;
+  color: #FF9800; /* $accent */
 }
 
 .custom-font {
@@ -158,11 +150,11 @@ onUnmounted(() => {
   font-weight: 450;
   /* Cambiado a 700 para letras más gruesas */
   font-size: 1.2rem;
-  color: rgb(2,37,65);
+  color: #022541; /* $title-dark-blue */
 }
 
 .selected-deporte {
-  background-color: rgb(40, 126, 255);
+  background-color: #287EFF; /* $selected-blue */
   color: white;
   font-weight: bold;
 }
