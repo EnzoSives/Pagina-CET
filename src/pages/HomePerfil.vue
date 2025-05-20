@@ -83,7 +83,7 @@
 
         <q-card-section class="q-pt-none">
           <div ref="credencialRef" class="contenedor-credencial" v-if="!isMobile">
-            <img src="http://sitio.cetpinamar.com.ar/images/demo/imgr.png" class="credencial-bg" />
+            <img src="~/assets/credencial.png" class="credencial-bg" />
             <div class="texto-ano">2025</div>
             <div class="texto-apellido">{{ perfilSeleccionado?.apellido }}</div>
             <div class="texto-nombre">{{ perfilSeleccionado?.nombre }}</div>
@@ -91,7 +91,7 @@
             <div class="texto-dni">D.N.I.: {{ perfilSeleccionado?.dni }}</div>
           </div>
           <div v-else class="contenedor-credencial-mobile">
-            <img src="http://sitio.cetpinamar.com.ar/images/demo/imgr.png" class="credencial-bg" />
+            <img src="~/assets/credencial.png" class="credencial-bg" />
             <div class="texto-ano">2025</div>
             <div class="texto-apellido">{{ perfilSeleccionado?.apellido }}</div>
             <div class="texto-nombre">{{ perfilSeleccionado?.nombre }}</div>

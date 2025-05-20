@@ -22,7 +22,8 @@
       <q-avatar size="55px">
         <img src="~/assets/logoCET.png" alt="logo" />
       </q-avatar>
-      <q-toolbar-title class="custom-font text-white" > VIVI EL CLUB!</q-toolbar-title>
+      <q-toolbar-title class="custom-font text-white" > </q-toolbar-title>
+      
       <q-btn label="Inicio" color="white" flat class="hover-orange" @click="goToHome()"></q-btn>
       <q-btn label="Socio" color="white" flat class="hover-orange" @click="goToSocio()"></q-btn>
       <q-btn-dropdown label="Deportes" color="white" flat class="hover-orange">
