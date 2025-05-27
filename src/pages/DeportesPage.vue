@@ -189,11 +189,11 @@ const getDeporteImage = (deporte: string): string => {
 }
 
 const irAlFormularioAlta = () => {
-  router.push({ name: 'formulario-alta' })
+  window.open('https://docs.google.com/forms/d/e/1FAIpQLSd8c8tQjiLs01-gDbRoET4kdYYyxzAhbO-BI8vqkOrolAMENg/viewform', '_blank')
 }
 
 const irAlFormularioBaja = () => {
-  router.push({ name: 'formulario-baja' })
+  window.open('https://docs.google.com/forms/d/e/1FAIpQLSfpUwZ7Wj20XL-Le_kER63u6zCxT5j3gT1gJYQLZDGk4398xA/viewform', '_blank')
 }
 
 const movimientos = () => {
