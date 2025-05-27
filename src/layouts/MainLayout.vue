@@ -1,28 +1,11 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-btn
-      v-if="isMobile"
-      dense
-      flat
-      @click="drawerOpen = !drawerOpen"
-      round
-      icon="menu"
-      style="margin: 20px; position: fixed; z-index: 10"
-    />
+    <q-btn v-if="isMobile" dense flat @click="drawerOpen = !drawerOpen" round icon="menu"
+      style="margin: 20px; position: fixed; z-index: 10" />
 
     <!-- Drawer: Menú lateral -->
-    <q-drawer
-      v-model="drawerOpen"
-      :width="200"
-      :breakpoint="700"
-      elevated
-      class="bg-grey text-white"
-    >
-      <q-img
-        src="~/assets/logoCET.png"
-        class="q-mx-auto q-mt-md"
-        style="width: 50px; margin: 20px"
-      />
+    <q-drawer v-model="drawerOpen" :width="200" :breakpoint="700" elevated class="bg-grey text-white">
+      <q-img src="~/assets/logoCET.png" class="q-mx-auto q-mt-md" style="width: 50px; margin: 20px" />
       <q-list>
         <q-item>
           <q-btn label="Inicio" color="white" flat class="hover-orange" @click="goToHome()"></q-btn>
@@ -33,45 +16,21 @@
         <q-item>
           <q-btn-dropdown label="Deportes" color="white" flat class="hover-orange">
             <q-list>
-              <q-item
-                v-for="deporte in deportes"
-                :key="deporte"
-                clickable
-                v-ripple
-                @click="goToDeportes(deporte)"
-                :class="{ 'selected-deporte': deporteSeleccionado === deporte }"
-              >
+              <q-item v-for="deporte in deportes" :key="deporte" clickable v-ripple @click="goToDeportes(deporte)"
+                :class="{ 'selected-deporte': deporteSeleccionado === deporte }">
                 <q-item-section>{{ deporte }}</q-item-section>
               </q-item>
             </q-list>
           </q-btn-dropdown>
         </q-item>
         <q-item>
-          <q-btn
-            label="Institucional"
-            color="white"
-            flat
-            class="hover-orange"
-            @click="goToIsti()"
-          ></q-btn>
+          <q-btn label="Institucional" color="white" flat class="hover-orange" @click="goToIsti()"></q-btn>
         </q-item>
         <q-item>
-          <q-btn
-            label="Tienda"
-            color="white"
-            flat
-            class="hover-orange"
-            @click="goToTienda()"
-          ></q-btn>
+          <q-btn label="Tienda" color="white" flat class="hover-orange" @click="goToTienda()"></q-btn>
         </q-item>
         <q-item>
-          <q-btn
-            label="Agente IA"
-            color="white"
-            flat
-            class="hover-orange"
-            @click="goToAgente()"
-          ></q-btn>
+          <q-btn label="Agente IA" color="white" flat class="hover-orange" @click="goToAgente()"></q-btn>
         </q-item>
         <q-item>
           <q-btn label="App CET" color="white" flat class="hover-orange" @click="goToApp()"></q-btn>
@@ -100,42 +59,36 @@
             <div class="row items-center q-gutter-sm q-mt-sm">
               <q-btn round class="q-mx-xs">
                 <q-avatar size="42px">
-                  <img
-                    src="~/assets/facebook.png"
-                    alt="Facebook"
-                    @click="goTo('https://www.facebook.com/cetpinamar/')"
-                  />
+                  <img src="~/assets/facebook.png" alt="Facebook"
+                    @click="goTo('https://www.facebook.com/cetpinamar/')" />
                 </q-avatar>
+                <q-tooltip> Ir a Facebook </q-tooltip>
               </q-btn>
 
               <q-btn round class="q-mx-xs">
                 <q-avatar size="42px">
-                  <img
-                    src="~/assets/instagram.png"
-                    alt="Instagram"
-                    @click="goTo('https://www.instagram.com/cetpinamar/#')"
-                  />
+                  <img src="~/assets/instagram.png" alt="Instagram"
+                    @click="goTo('https://www.instagram.com/cetpinamar/#')" />
                 </q-avatar>
+                <q-tooltip> Ir a Instagram </q-tooltip>
               </q-btn>
               <q-btn round class="q-mx-xs">
                 <q-avatar size="42px">
-                  <img
-                    src="~/assets/wpp.png"
-                    alt="WhatsApp"
-                    @click="
-                      goTo(
-                        'https://api.whatsapp.com/send/?phone=542254625253&text=Hola+CET%21&type=phone_number&app_absent=0',
-                      )
-                    "
-                  />
+                  <img src="~/assets/wpp.png" alt="WhatsApp" @click="
+                    goTo(
+                      'https://api.whatsapp.com/send/?phone=542254625253&text=Hola+CET%21&type=phone_number&app_absent=0',
+                    )
+                    " />
                 </q-avatar>
+                <q-tooltip> Ir a WhatsApp </q-tooltip>
               </q-btn>
-              <q-btn round class="q-mx-xs">
+              <q-btn round class="q-mx-xs" @click="goTo('mailto:info@cetpinamar.com.ar')">
                 <q-avatar size="50px">
                   <img src="~/assets/email.png" alt="Mail" />
                 </q-avatar>
-                <q-tooltip> info@cetpinamar.com.ar </q-tooltip>
+                <q-tooltip> Enviar Mail </q-tooltip>
               </q-btn>
+
             </div>
           </div>
 
@@ -145,13 +98,7 @@
               <!-- <q-icon name="location_on" class="q-mr-sm" />
               Cómo llegar -->
 
-              <q-btn
-                label="Cómo llegar"
-                color="primary"
-                icon="directions"
-                flat
-                @click="goToGoogleMaps"
-              >
+              <q-btn label="Cómo llegar" color="primary" icon="directions" flat @click="goToGoogleMaps">
                 <q-tooltip> Ir a ruta </q-tooltip>
               </q-btn>
             </div>
@@ -326,7 +273,8 @@ onMounted(() => {
 }
 
 .selected-deporte {
-  background-color: rgb(40, 126, 255);;
+  background-color: rgb(40, 126, 255);
+  ;
   color: white;
   font-weight: bold;
 }
