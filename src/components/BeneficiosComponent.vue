@@ -24,14 +24,8 @@
         </div>
       </div>
       <!-- Toggle -->
-      <q-toggle
-        v-if="perfilStore.admin && beneficio.chequeado !== undefined"
-        v-model="check"
-        label="Aprobado"
-        dense
-        @update:model-value="formChecked"
-        class="q-mb-xs"
-      />
+      <q-toggle v-if="perfilStore.admin && beneficio.chequeado !== undefined" v-model="check" label="Aprobado" dense
+        @update:model-value="formChecked" class="q-mb-xs" />
     </q-card-section>
 
     <q-card-section>
@@ -52,10 +46,7 @@
 
     <q-separator color="grey-8"></q-separator>
 
-    <q-card-section
-      class="text-grey text-italic"
-      v-if="beneficio.rubro || beneficio.direccion || beneficio.telefono"
-    >
+    <q-card-section class="text-grey text-italic" v-if="beneficio.rubro || beneficio.direccion || beneficio.telefono">
       <em>
         {{ beneficio.rubro?.toUpperCase() }} - {{ beneficio.direccion?.toUpperCase() }} -
         {{ beneficio.telefono?.toUpperCase() }}
@@ -192,14 +183,17 @@ onMounted(() => {
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   padding-bottom: 12px;
 }
+
 .text-h6 {
   font-weight: bold;
   font-size: 1.2rem;
   color: #4fc3f7;
 }
+
 .text-h6:hover {
   color: #81d4fa;
 }
+
 .q-subtitle {
   font-size: 1.1rem;
   font-weight: bold;

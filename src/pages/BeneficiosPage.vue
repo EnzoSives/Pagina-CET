@@ -1,5 +1,5 @@
 <template>
-  <q-page class="q-pa-md flex flex-center column" style="padding-top: 70px;">
+  <q-page class="q-pa-md flex flex-center column" style="padding-top: 100px;">
     <!-- Tarjeta principal -->
     <q-card class="info-card">
       <q-card-section>
@@ -10,8 +10,7 @@
 
       <!-- Imagen de la credencial -->
       <q-card-section class="text-center">
-        <q-img src="~/assets/credencial.png" alt="Credencial de socio" class="credencial-img"
-          spinner-color="primary" />
+        <q-img src="~/assets/credencial.png" alt="Credencial de socio" class="credencial-img" spinner-color="primary" />
       </q-card-section>
 
       <q-card-section>

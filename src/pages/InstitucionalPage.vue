@@ -10,11 +10,12 @@
     </div>
 
     <!-- Sección de Objetivos -->
-  <!-- Objetivos -->
+    <!-- Objetivos -->
     <q-card class="objetivos-card bg-primary text-white shadow-10 q-mb-xl">
       <q-card-section class="text-justify">
         <p class="text-body1 q-mb-md">
-          En la localidad de Pinamar, el Club Empleados de Telpin es una Asociación Civil que persigue los siguientes objetivos:
+          En la localidad de Pinamar, el Club Empleados de Telpin es una Asociación Civil que persigue los siguientes
+          objetivos:
         </p>
         <q-list dense>
           <q-item v-for="(objetivo, index) in objetivos" :key="index" class="objetivo-item">
@@ -76,7 +77,7 @@ const directiva = ref([
   { nombre: 'Juan Pablo Bianucci', cargo: 'Presidente' },
   { nombre: 'Patricio Javier O\'neill', cargo: 'Vicepresidente' },
   { nombre: 'Abel Eduardo Casado', cargo: 'Secretario' },
-  { nombre: 'Maria Josefina Feliciangeli', cargo: 'Pro Secretaria' },
+  { nombre: 'Maria J. Feliciangeli', cargo: 'Pro Secretaria' },
   { nombre: 'Mariela Corán', cargo: 'Tesorero' },
   { nombre: 'Ximena Miguez', cargo: 'Pro Tesorero' },
   { nombre: 'Juan Novo', cargo: 'Vocal Titular' },

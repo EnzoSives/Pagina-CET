@@ -5,30 +5,18 @@
         Selecciona el calendario que quieras ver. Puedes seleccionar varios calendarios a la vez.
       </p>
       <div class="row q-gutter-sm">
-        <q-chip
-          v-for="calendar in calendarOptions"
-          :key="calendar.value"
-          clickable
-          size="15px"
-          :selected="selectedCalendars.includes(calendar.value)"
-          @click="toggleCalendar(calendar.value)"
+        <q-chip v-for="calendar in calendarOptions" :key="calendar.value" clickable size="15px"
+          :selected="selectedCalendars.includes(calendar.value)" @click="toggleCalendar(calendar.value)"
           :color="selectedCalendars.includes(calendar.value) ? 'primary' : 'grey-4'"
-          :text-color="selectedCalendars.includes(calendar.value) ? 'white' : 'black'"
-        >
+          :text-color="selectedCalendars.includes(calendar.value) ? 'white' : 'black'">
           {{ calendar.label }}
         </q-chip>
       </div>
     </div>
 
     <div class="calendar-container">
-      <iframe
-        v-if="combinedCalendarUrl"
-        :src="combinedCalendarUrl"
-        style="border: 0"
-        frameborder="0"
-        scrolling="no"
-        allowfullscreen
-      ></iframe>
+      <iframe v-if="combinedCalendarUrl" :src="combinedCalendarUrl" style="border: 0" frameborder="0" scrolling="no"
+        allowfullscreen></iframe>
     </div>
   </div>
 </template>

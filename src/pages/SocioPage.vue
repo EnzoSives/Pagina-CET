@@ -5,7 +5,8 @@
       <p class="text-body1 text-justify">
         Si sos socio del CET, tenés beneficios en comercios adheridos que podés consultar en la app del CET.
       </p>
-      <q-btn color="primary" label="Quiero Asociarme al CET" class="full-width"  @click="goTo('https://docs.google.com/forms/d/e/1FAIpQLSd8c8tQjiLs01-gDbRoET4kdYYyxzAhbO-BI8vqkOrolAMENg/viewform')"/>
+      <q-btn color="primary" label="Quiero Asociarme al CET" class="full-width"
+        @click="goTo('https://docs.google.com/forms/d/e/1FAIpQLSd8c8tQjiLs01-gDbRoET4kdYYyxzAhbO-BI8vqkOrolAMENg/viewform')" />
     </q-card-section>
 
     <q-separator />
@@ -22,7 +23,8 @@
             </q-item-label>
           </q-item-section>
           <q-item-section side>
-            <q-btn color="primary" label="Registrate" class="full-width" style="margin: 10px" @click="goTo('https://docs.google.com/forms/d/e/1FAIpQLSd8c8tQjiLs01-gDbRoET4kdYYyxzAhbO-BI8vqkOrolAMENg/viewform')"/>
+            <q-btn color="primary" label="Registrate" class="full-width" style="margin: 10px"
+              @click="goTo('https://docs.google.com/forms/d/e/1FAIpQLSd8c8tQjiLs01-gDbRoET4kdYYyxzAhbO-BI8vqkOrolAMENg/viewform')" />
           </q-item-section>
         </q-item>
 
@@ -34,7 +36,8 @@
             </q-item-label>
           </q-item-section>
           <q-item-section side>
-            <q-btn color="primary" label="Pago Mensual Débito Automático" class="full-width" style="margin: 10px" @click="goTo('https://www.mercadopago.com.ar/subscriptions/checkout?preapproval_plan_id=79be242f4a2c4f22b9f5e09a1ccefc9e')"/>
+            <q-btn color="primary" label="Pago Mensual Débito Automático" class="full-width" style="margin: 10px"
+              @click="goTo('https://www.mercadopago.com.ar/subscriptions/checkout?preapproval_plan_id=79be242f4a2c4f22b9f5e09a1ccefc9e')" />
           </q-item-section>
         </q-item>
 
@@ -46,7 +49,8 @@
             </q-item-label>
           </q-item-section>
           <q-item-section side>
-            <q-btn color="primary" label="Pago Anual" class="full-width" style="margin: 10px" @click="goTo('https://www.mercadopago.com.ar/subscriptions/checkout?preapproval_plan_id=ea3c3e1a5d5c47dfb7f4b7aa46da3860')" />
+            <q-btn color="primary" label="Pago Anual" class="full-width" style="margin: 10px"
+              @click="goTo('https://www.mercadopago.com.ar/subscriptions/checkout?preapproval_plan_id=ea3c3e1a5d5c47dfb7f4b7aa46da3860')" />
           </q-item-section>
         </q-item>
       </q-list>
@@ -75,13 +79,14 @@ const goTo = (url: string) => {
 }
 
 .card-container {
-  padding-top: 120px;
+  padding-top: 125px;
   min-height: auto;
 }
 
 @media (max-width: 600px) {
   .card-container {
-    padding-top: 60px; /* Reducir aún más en móviles */
+    padding-top: 60px;
+    /* Reducir aún más en móviles */
   }
 
   .text-h5 {

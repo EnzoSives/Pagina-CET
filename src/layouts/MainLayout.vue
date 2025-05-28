@@ -51,7 +51,7 @@
           <!-- Izquierda: Información y Redes Sociales -->
           <div class="col-12 col-md-6" style="margin-top: 20px">
             <div class="text-h6">CET - Club Empleados Telpin</div>
-            <div class="text-subtitle2">© 2024 Todos los derechos reservados.</div>
+            <div class="text-subtitle2">© 2025 Todos los derechos reservados.</div>
             <div class="text-h6 q-mt-md" style="margin-top: 50px">
               <q-icon name="phone_in_talk" class="q-mr-sm" />
               Contáctanos

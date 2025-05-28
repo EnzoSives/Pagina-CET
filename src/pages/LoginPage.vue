@@ -17,9 +17,9 @@
         </q-form>
       </q-card-section>
 
-      <q-card-section class="text-center">
+      <!-- <q-card-section class="text-center">
         <q-btn flat label="¿No tienes cuenta? Regístrate" color="primary" @click="$router.push('/register')" />
-      </q-card-section>
+      </q-card-section> -->
 
       <!-- Mostrar errores -->
       <q-dialog v-model="showError" persistent>

@@ -22,30 +22,14 @@
             <p class="text-body1 q-mb-xl text-grey-800">{{ sport.description }}</p>
 
             <div class="row q-gutter-sm">
-              <q-btn
-                color="deep-purple-6"
-                label="Pagar"
-                icon="paid"
-                class="q-px-xl rounded-borders"
-                :href="'https://miclub.cetpinamar.com.ar/#/pagar?monto=0'"
-                target="_blank"
-              />
-              <q-btn
-                color="teal-6"
-                label="Alta"
-                icon="person_add"
-                class="q-px-xl rounded-borders"
+              <q-btn color="deep-purple-6" label="Pagar" icon="paid" class="q-px-xl rounded-borders"
+                :href="'https://miclub.cetpinamar.com.ar/#/pagar?monto=0'" target="_blank" />
+              <q-btn color="teal-6" label="Alta" icon="person_add" class="q-px-xl rounded-borders"
                 :href="'https://docs.google.com/forms/d/e/1FAIpQLSd8c8tQjiLs01-gDbRoET4kdYYyxzAhbO-BI8vqkOrolAMENg/viewform'"
-                target="_blank"
-              />
-              <q-btn
-                color="pink-6"
-                label="Baja"
-                icon="person_remove"
-                class="q-px-xl rounded-borders"
+                target="_blank" />
+              <q-btn color="pink-6" label="Baja" icon="person_remove" class="q-px-xl rounded-borders"
                 :href="'https://docs.google.com/forms/d/e/1FAIpQLSfpUwZ7Wj20XL-Le_kER63u6zCxT5j3gT1gJYQLZDGk4398xA/viewform'"
-                target="_blank"
-              />
+                target="_blank" />
             </div>
           </div>
         </div>
@@ -107,14 +91,24 @@ export default defineComponent({
 <style scoped>
 .sport-section {
   padding: 40px 0;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  animation: fadeInUp 0.6s ease-in-out;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #ffffff, #f1f1f1);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease;
+}
+
+.sport-section:hover {
+  transform: translateY(-5px);
 }
 
 .sport-image {
-  min-height: 450px;
+  min-height: 400px;
   position: relative;
   overflow: hidden;
-  border-radius: 12px;
+  border-radius: 16px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  z-index: 1;
 }
 
 .image-overlay {
@@ -125,37 +119,77 @@ export default defineComponent({
   bottom: 0;
   background-size: cover;
   background-position: center;
-  transform: scale(1.1);
-  transition: transform 0.4s ease-in-out;
+  filter: brightness(0.9) contrast(1.1);
+  transform: scale(1.05);
+  transition: transform 0.5s ease;
 }
 
 .sport-image:hover .image-overlay {
-  transform: scale(1);
+  transform: scale(1.02);
 }
 
 .sport-content {
-  border-radius: 12px;
+  border-radius: 16px;
+  background: #fff;
+  padding: 2rem;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.05);
 }
 
 .q-btn {
   transition: all 0.3s ease;
-  font-weight: 500;
+  font-weight: 600;
+  border-radius: 10px;
+  text-transform: none;
 }
 
 .q-btn:hover {
   transform: translateY(-3px);
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
 }
 
 @media (max-width: 768px) {
   .sport-image {
-    min-height: 300px;
+    min-height: 240px;
     order: 1;
   }
 
   .sport-content {
     padding: 1.5rem;
     order: 2;
+  }
+
+  .q-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .row.q-gutter-sm {
+    flex-direction: column;
+  }
+
+  .text-h3 {
+    font-size: 1.5rem;
+  }
+
+  .text-body1 {
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+
+  .sport-section {
+    padding: 24px 0;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 </style>

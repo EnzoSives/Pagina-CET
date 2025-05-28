@@ -35,91 +35,39 @@
             <!-- ALTA / BAJA -->
             <q-expansion-item icon="person" label="Inscripciones" default-opened>
               <div class="q-pa-sm">
-                <q-btn
-                  label="Formulario de Alta"
-                  icon="person_add"
-                  class="full-width q-mb-sm"
-                  color="positive"
-                  rounded
-                  no-caps
-                  unelevated
-                  @click="irAlFormularioAlta"
-                />
-                <q-btn
-                  label="Formulario de Baja"
-                  icon="person_remove"
-                  class="full-width"
-                  color="negative"
-                  rounded
-                  no-caps
-                  unelevated
-                  @click="irAlFormularioBaja"
-                />
+                <q-btn label="Formulario de Alta" icon="person_add" class="full-width q-mb-sm" color="green-14" rounded
+                  outline unelevated @click="irAlFormularioAlta" />
+                <q-btn label="Formulario de Baja" icon="person_remove" class="full-width" color="red" rounded outline
+                  unelevated @click="irAlFormularioBaja" />
               </div>
             </q-expansion-item>
 
             <!-- PAGOS -->
             <q-expansion-item icon="paid" label="Pagos" default-opened>
               <div class="q-pa-sm">
-                <q-btn
-                  label="Pagar"
-                  icon="paid"
-                  class="full-width q-mb-sm"
-                  color="primary"
-                  rounded
-                  no-caps
-                  unelevated
-                  @click="goTo('https://miclub.cetpinamar.com.ar/#/pagar')"
-                />
-                <q-btn
-                  label="Ver movimientos"
-                  icon="receipt"
-                  class="full-width"
-                  color="teal-5"
-                  rounded
-                  no-caps
-                  unelevated
-                  @click="movimientos"
-                />
+                <q-btn label="Pagar" icon="paid" class="full-width q-mb-sm" color="primary" rounded outline unelevated
+                  @click="goTo('https://miclub.cetpinamar.com.ar/#/pagar')" />
+                <q-btn label="Ver movimientos" icon="receipt" class="full-width" color="teal-5" rounded outline
+                  unelevated @click="movimientos" />
               </div>
             </q-expansion-item>
 
             <!-- EXTRAS CICLISMO -->
-            <q-expansion-item
-              v-if="props.deporte === 'Ciclismo'"
-              icon="directions_bike"
-              label="Extras de Ciclismo"
-              default-opened
-            >
+            <q-expansion-item v-if="props.deporte === 'Ciclismo'" icon="directions_bike" label="Extras de Ciclismo"
+              default-opened>
               <div class="q-pa-sm">
-                <q-btn
-                  label="Pase Bike Park Diario CET"
-                  icon="directions_bike"
-                  class="full-width q-mb-sm"
-                  color="orange-5"
-                  rounded
-                  no-caps
-                  unelevated
-                  @click="
+                <q-btn label="Pase Bike Park Diario CET" icon="directions_bike" class="full-width q-mb-sm"
+                  color="orange-5" rounded outline unelevated @click="
                     goTo(
                       'https://www.mercadopago.com.ar/checkout/v1/payment/redirect/?source=link&preference-id=251794130-0dc1b341-680a-4bd4-becd-c9e70c805917',
                     )
-                  "
-                />
-                <q-btn
-                  label="Alquiler Bicicleta Hora CET"
-                  icon="pedal_bike"
-                  class="full-width"
-                  color="purple-4"
-                  rounded
-                  no-caps
-                  unelevated
-                  @click="
+                    " />
+                <q-btn label="Alquiler Bicicleta Hora CET" icon="pedal_bike" class="full-width" color="purple-4" rounded
+                  outline unelevated @click="
                     goTo(
                       'https://www.mercadopago.com.ar/checkout/v1/payment/redirect/?source=link&preference-id=251794130-a173d1aa-9683-4be0-9d94-82e73a294da5',
                     )
-                  "
-                />
+                    " />
               </div>
             </q-expansion-item>
           </q-card-section>
