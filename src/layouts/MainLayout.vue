@@ -140,7 +140,7 @@ const deporteSeleccionado = ref<string | null>(
     : (route.params.deporte ?? null),
 )
 
-const deportes = ['Hockey', 'Patin', 'Running', 'Arqueria', 'Ciclismo']
+const deportes = ['Hockey', 'Patin', 'Running', 'Arquería3D', 'Ciclismo']
 
 const goToDeportes = (deporte: string) => {
   console.log(deporte) // Verifica que se está pasando el valor correcto

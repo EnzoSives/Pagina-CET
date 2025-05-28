@@ -69,7 +69,7 @@ export default defineComponent({
           image: '/imgs/ciclismo.jpg',
         },
         {
-          title: 'Arquería',
+          title: 'Arquería3D',
           schedule: 'Consultar Horarios',
           description:
             'Clases de arquería para todas las edades. Participación en torneos locales y nacionales.',

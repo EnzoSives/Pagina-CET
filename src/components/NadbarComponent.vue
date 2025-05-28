@@ -1,9 +1,5 @@
 <template>
-  <q-banner
-    v-if="!isScrolled && !isMobile"
-    elevated
-    class="text-black"
-    style="
+  <q-banner v-if="!isScrolled && !isMobile" elevated class="text-black" style="
       margin: 20px;
       position: fixed;
       top: 0;
@@ -15,46 +11,26 @@
 
       margin-bottom: 150px;
       
-    "
-
-  >
+    ">
     <q-toolbar>
       <q-avatar size="55px">
         <img src="~/assets/logoCET.png" alt="logo" />
       </q-avatar>
-      <q-toolbar-title class="custom-font text-white" > </q-toolbar-title>
-      
+      <q-toolbar-title class="custom-font text-white"> </q-toolbar-title>
+
       <q-btn label="Inicio" color="white" flat class="hover-orange" @click="goToHome()"></q-btn>
       <q-btn label="Socio" color="white" flat class="hover-orange" @click="goToSocio()"></q-btn>
       <q-btn-dropdown label="Deportes" color="white" flat class="hover-orange">
         <q-list>
-          <q-item
-            v-for="deporte in deportes"
-            :key="deporte"
-            clickable
-            v-ripple
-            @click="goToDeporte(deporte)"
-            :class="{ 'selected-deporte': deporteSeleccionado === deporte }"
-          >
+          <q-item v-for="deporte in deportes" :key="deporte" clickable v-ripple @click="goToDeporte(deporte)"
+            :class="{ 'selected-deporte': deporteSeleccionado === deporte }">
             <q-item-section>{{ deporte }}</q-item-section>
           </q-item>
         </q-list>
       </q-btn-dropdown>
-      <q-btn
-        label="Institucional"
-        color="white"
-        flat
-        class="hover-orange"
-        @click="goToIsti()"
-      ></q-btn>
+      <q-btn label="Institucional" color="white" flat class="hover-orange" @click="goToIsti()"></q-btn>
       <q-btn label="Tienda" color="white" flat class="hover-orange" @click="goToTienda()"></q-btn>
-      <q-btn
-        label="Agente IA"
-        color="white"
-        flat
-        class="hover-orange"
-        @click="goToAgente()"
-      ></q-btn>
+      <q-btn label="Agente IA" color="white" flat class="hover-orange" @click="goToAgente()"></q-btn>
       <q-btn label="App CET" color="white" flat class="hover-orange" @click="goToApp()"></q-btn>
     </q-toolbar>
   </q-banner>
@@ -86,7 +62,7 @@ const deporteSeleccionado = ref<string | null>(
     : (route.params.deporte ?? null),
 )
 
-const deportes = ['Hockey', 'Patin', 'Running', 'Arqueria', 'Ciclismo']
+const deportes = ['Hockey', 'Patin', 'Running', 'Arquería3D', 'Ciclismo']
 
 const goToDeporte = (deporte: string) => {
   deporteSeleccionado.value = deporte
@@ -158,7 +134,7 @@ onUnmounted(() => {
   font-weight: 450;
   /* Cambiado a 700 para letras más gruesas */
   font-size: 1.2rem;
-  color: rgb(2,37,65);
+  color: rgb(2, 37, 65);
 }
 
 .selected-deporte {
