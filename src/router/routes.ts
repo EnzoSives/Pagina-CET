@@ -11,6 +11,7 @@ import HomePerfil from 'src/pages/HomePerfil.vue'
 import MovimientosPage from 'src/pages/MovimientosPage.vue'
 import AgenteN8N from 'src/pages/AgenteN8N.vue'
 import CalendariosPage from 'src/pages/CalendariosPage.vue'
+import ResetPassword from 'src/pages/ResetPassword.vue'
 
 const routes: RouteRecordRaw[] = [
   {
@@ -23,6 +24,7 @@ const routes: RouteRecordRaw[] = [
       { path: '/institucional', name: 'Institucional', component: InstitucionalPage },
       { path: '/login', name: 'Login', component: LoginPage },
       { path: '/register', name: 'Register', component: RegisterPage },
+      { path: '/reset-password', name: 'ResetPassword', component: ResetPassword },
       {
         path: '/beneficios',
         name: 'Beneficios',
