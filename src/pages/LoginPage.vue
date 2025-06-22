@@ -23,6 +23,11 @@
 
           <q-btn flat label="¿Olvidaste tu contraseña?" color="primary" class="q-mt-sm full-width"
             @click="$router.push('/reset-password')" :disable="loading" />
+
+          <q-separator></q-separator>
+
+          <q-btn flat label="Registrarse" color="secondary" class="q-mt-sm full-width"
+            @click="$router.push('/register')" :disable="loading" />
         </q-form>
       </q-card-section>
 
