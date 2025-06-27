@@ -33,7 +33,21 @@
       <div class="text-h4 text-center q-mb-md text-primary">
         Comisión Directiva
         <div class="text-subtitle1 text-grey-7">Período 2022-2023</div>
-      </div>
+        <div>
+            <q-btn
+            color="primary"
+            class="q-mt-md"
+            label="Documentación"
+            :target="'_blank'"
+            :href="'https://sites.google.com/cetpinamar.com.ar/comision2021/inicio'"
+            icon-right="open_in_new"
+            >
+          <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">
+            Ir al Sitio
+          </q-tooltip>
+          </q-btn>
+          </div>
+        </div>
 
       <q-separator class="q-my-lg" color="primary" />
 

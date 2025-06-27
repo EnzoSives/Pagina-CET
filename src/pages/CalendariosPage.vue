@@ -42,10 +42,9 @@ const calendarOptions = [
   },
 ]
 
-
-
+// Inicializar con todos los calendarios seleccionados por defecto
 const selectedCalendars = ref<string[]>(
-  calendarOptions[0] ? [calendarOptions[0].value] : [], // el primer calendario si existe
+  calendarOptions.map(calendar => calendar.value)
 )
 
 // Genera la URL combinada
