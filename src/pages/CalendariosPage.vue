@@ -5,6 +5,11 @@
         Selecciona el calendario que quieras ver. Puedes seleccionar varios calendarios a la vez.
       </p>
       <div class="row q-gutter-sm">
+        <q-chip clickable size="15px" @click="toggleAllCalendars" :color="allCalendarsSelected ? 'negative' : 'primary'"
+          :text-color="allCalendarsSelected ? 'white' : 'white'">
+          {{ allCalendarsSelected ? 'Deseleccionar Todos' : 'Seleccionar Todos' }}
+        </q-chip>
+
         <q-chip v-for="calendar in calendarOptions" :key="calendar.value" clickable size="15px"
           :selected="selectedCalendars.includes(calendar.value)" @click="toggleCalendar(calendar.value)"
           :color="selectedCalendars.includes(calendar.value) ? 'primary' : 'grey-4'"
@@ -42,11 +47,13 @@ const calendarOptions = [
   },
 ]
 
+// Inicializa selectedCalendars con todos los valores de calendarOptions
+const selectedCalendars = ref<string[]>(calendarOptions.map(calendar => calendar.value))
 
-
-const selectedCalendars = ref<string[]>(
-  calendarOptions[0] ? [calendarOptions[0].value] : [], // el primer calendario si existe
-)
+// Determina si todos los calendarios están seleccionados
+const allCalendarsSelected = computed(() => {
+  return selectedCalendars.value.length === calendarOptions.length
+})
 
 // Genera la URL combinada
 const combinedCalendarUrl = computed(() => {
@@ -67,17 +74,25 @@ const combinedCalendarUrl = computed(() => {
   return `${base}${params}&${timezone}&${viewMode}`
 })
 
-
 function toggleCalendar(calendarValue: string) {
   const index = selectedCalendars.value.indexOf(calendarValue)
 
   if (index > -1) {
-    // Si ya estaba seleccionado y hay más de uno, lo deselecciona
-    if (selectedCalendars.value.length > 1) {
-      selectedCalendars.value.splice(index, 1)
-    }
+    // Si ya estaba seleccionado, lo deselecciona
+    selectedCalendars.value.splice(index, 1)
   } else {
+    // Si no estaba seleccionado, lo añade
     selectedCalendars.value.push(calendarValue)
+  }
+}
+
+function toggleAllCalendars() {
+  if (allCalendarsSelected.value) {
+    // Si todos están seleccionados, deselecciona todos
+    selectedCalendars.value = []
+  } else {
+    // Si no todos están seleccionados, selecciona todos
+    selectedCalendars.value = calendarOptions.map(calendar => calendar.value)
   }
 }
 </script>
