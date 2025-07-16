@@ -1,16 +1,10 @@
 <template>
   <div class="q-pa-md" style="max-width: 1200px; margin: 0 auto; padding-top: 120px">
-    <!-- Cabecera con logo y título -->
     <div class="text-center q-mb-xl">
-      <!-- <q-avatar size="100px" class="shadow-5">
-        <img src="~/assets/logoCET.png" alt="Logo CET" />
-      </q-avatar> -->
       <div class="text-h3 q-mt-md text-weight-bold text-primary">Club Empleados de Telpin</div>
       <div class="text-subtitle1 text-grey-7">Asociación Civil - Pinamar, Buenos Aires</div>
     </div>
 
-    <!-- Sección de Objetivos -->
-    <!-- Objetivos -->
     <q-card class="objetivos-card bg-primary text-white shadow-10 q-mb-xl">
       <q-card-section class="text-justify">
         <p class="text-body1 q-mb-md">
@@ -28,26 +22,19 @@
       </q-card-section>
     </q-card>
 
-    <!-- Sección Comisión Directiva -->
     <div class="q-mb-xl">
       <div class="text-h4 text-center q-mb-md text-primary">
         Comisión Directiva
-        <div class="text-subtitle1 text-grey-7">Período 2022-2023</div>
+        <div class="text-subtitle1 text-grey-7">Período 2024</div>
         <div>
-            <q-btn
-            color="primary"
-            class="q-mt-md"
-            label="Documentación"
-            :target="'_blank'"
-            :href="'https://sites.google.com/cetpinamar.com.ar/comision2021/inicio'"
-            icon-right="open_in_new"
-            >
-          <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">
-            Ir al Sitio
-          </q-tooltip>
+          <q-btn color="primary" class="q-mt-md" label="Documentación" :target="'_blank'"
+            :href="'https://sites.google.com/cetpinamar.com.ar/comision2021/inicio'" icon-right="open_in_new">
+            <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">
+              Ir al Sitio
+            </q-tooltip>
           </q-btn>
-          </div>
         </div>
+      </div>
 
       <q-separator class="q-my-lg" color="primary" />
 
@@ -89,19 +76,23 @@ const objetivos = ref([
 
 const directiva = ref([
   { nombre: 'Juan Pablo Bianucci', cargo: 'Presidente' },
-  { nombre: 'Patricio Javier O\'neill', cargo: 'Vicepresidente' },
-  { nombre: 'Abel Eduardo Casado', cargo: 'Secretario' },
-  { nombre: 'Maria J. Feliciangeli', cargo: 'Pro Secretaria' },
-  { nombre: 'Mariela Corán', cargo: 'Tesorero' },
-  { nombre: 'Ximena Miguez', cargo: 'Pro Tesorero' },
+  { nombre: 'Rodrigo Oliver', cargo: 'Vicepresidente' },
+  { nombre: 'Patricio Javier ONeill', cargo: 'Secretario' },
+  { nombre: 'Maria J. Feliciangeli', cargo: 'Pro Secretario' },
+  { nombre: 'Ximena Miguez', cargo: 'Tesorero' },
+  { nombre: 'Mariela Corán', cargo: 'Pro Tesorero' },
+  { nombre: 'Eleonora Ines Tcaciuc', cargo: 'Vocal Titular' },
   { nombre: 'Juan Novo', cargo: 'Vocal Titular' },
-  { nombre: 'Eleonora Tcaciuc', cargo: 'Vocal Titular' },
-  { nombre: 'Rodrigo Oliver', cargo: 'Vocal Titular' },
+  { nombre: 'Ricardo Martin Pagano', cargo: 'Vocal Titular' },
   { nombre: 'Nadinne Ovelar', cargo: 'Vocal Titular' },
-  { nombre: 'Juan Boulanger', cargo: 'Vocal Suplente' },
+  { nombre: 'Abel Eduardo Casado', cargo: 'Vocal Suplente' },
   { nombre: 'Verónica Santirso', cargo: 'Vocal Suplente' },
+  { nombre: 'Florencia Vuk', cargo: 'Vocal Suplente' },
   { nombre: 'Matias Melo', cargo: 'Vocal Suplente' },
-  { nombre: 'Gustavo Freire', cargo: 'Vocal Suplente' },
+  { nombre: 'Francisco Noceto', cargo: 'Revisor de Cuentas Titular' },
+  { nombre: 'Fabiola Corina Roth', cargo: 'Revisor de Cuentas Titular' },
+  { nombre: 'Leandro G. Laudano', cargo: 'Revisor de Cuentas Titular' },
+  { nombre: 'Nicolás Caminos', cargo: 'Revisor de Cuentas Suplente' },
 ]);
 
 // Función para obtener las iniciales del nombre
