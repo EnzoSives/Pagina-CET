@@ -9,11 +9,11 @@ onMounted(() => {
     webhookUrl: 'https://n8n.telpin.com.ar/webhook/a889d2ae-2159-402f-b326-5f61e90f602e/chat',
     mode: 'fullscreen',
     showWelcomeScreen: true,
-    initialMessages: ['Hola! 👋', 'Mi nombre es COCO. Como puedo ayudarte?'],
+    initialMessages: ['Mi nombre es COCO. Como puedo ayudarte?'],
     i18n: {
       en: {
-        title: 'Hola! 👋',
-        subtitle: 'Inicia el chat. Estamos para ayudarte.',
+        title: '¡Hola!👋 Bienvenido/a al asistente virtual del CET.',
+        subtitle: 'Estoy aquí para ayudarte con todas tus consultas sobre nuestra institución, las actividades que organizamos y el reglamento de Hockey de la AAMH 2025. No dudes en preguntarme lo que necesites.',
         footer: 'CET-2025 ',
         getStarted: 'Nueva conversacion',
         inputPlaceholder: 'Escribe tu pregunta..',
@@ -71,7 +71,7 @@ onMounted(() => {
   --chat--header--border-bottom: none;
   --chat--heading--font-size: 2em;
   --chat--header--color: var(--chat--color-light);
-  --chat--subtitle--font-size: inherit;
+  --chat--subtitle--font-size: 1.3em;
   --chat--subtitle--line-height: 1.8;
 
   --chat--textarea--height: 50px;
