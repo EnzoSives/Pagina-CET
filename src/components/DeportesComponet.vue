@@ -23,7 +23,7 @@
 
             <div class="row q-gutter-sm">
               <q-btn color="deep-purple-6" label="Pagar" icon="paid" class="q-px-xl rounded-borders"
-                :href="'https://miclub.cetpinamar.com.ar/#/pagar?monto=0'" target="_blank" />
+                :href="'https://miclub.cetpinamar.com.ar/#/pagar'" target="_blank" />
               <q-btn color="teal-6" label="Alta" icon="person_add" class="q-px-xl rounded-borders"
                 :href="'https://docs.google.com/forms/d/e/1FAIpQLSd8c8tQjiLs01-gDbRoET4kdYYyxzAhbO-BI8vqkOrolAMENg/viewform'"
                 target="_blank" />
