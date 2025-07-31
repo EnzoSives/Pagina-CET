@@ -1,5 +1,5 @@
 <template>
-  <div class="responsive-container" style="padding-top: 110px;">
+  <div class="responsive-container">
     <q-card class="account-card">
       <!-- Header mejorado -->
       <q-card-section class="header-section">
@@ -241,9 +241,9 @@ const pagar = () => {
 
 <style scoped>
 .responsive-container {
-  padding: 16px;
   min-height: 100vh;
   background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  padding-top: 100px !important;
 }
 
 .account-card {
@@ -583,7 +583,8 @@ const pagar = () => {
 /* === RESPONSIVE BREAKPOINTS === */
 @media (max-width: 599px) {
   .responsive-container {
-    padding: 8px;
+    padding-top: 0; /* <-- Lo anulamos para móviles */
+    padding: 8px;   /* Este ya lo tenías y está perfecto */
   }
 
   .main-content {
@@ -624,6 +625,7 @@ const pagar = () => {
     font-size: 1.2rem;
   }
 }
+
 
 @media (max-width: 959px) and (min-width: 600px) {
   .profile-info {

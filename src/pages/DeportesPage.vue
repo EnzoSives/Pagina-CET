@@ -52,7 +52,7 @@
               </div>
             </q-expansion-item>
 
-            <!-- EXTRAS CICLISMO -->
+            <!-- EXTRAS CICLISMO
             <q-expansion-item v-if="props.deporte === 'Ciclismo'" icon="directions_bike" label="Extras de Ciclismo"
               default-opened>
               <div class="q-pa-sm">
@@ -69,7 +69,7 @@
                     )
                     " />
               </div>
-            </q-expansion-item>
+            </q-expansion-item> -->
           </q-card-section>
         </q-card>
 

@@ -70,8 +70,6 @@
       <router-view />
     </q-page-container>
 
-    <ChatBotComponent />
-
     <q-card id="footer" class="q-pa-md text-white bg-dark">
       <q-card-section>
         <div class="row q-col-gutter-md">
@@ -113,6 +111,11 @@
                 </q-avatar>
                 <q-tooltip> Enviar Mail </q-tooltip>
               </q-btn>
+
+               <q-btn round flat @click="abrirChat" aria-label="Abrir chat de ayuda">
+              <q-avatar size="42px" font-size="24px" color="primary" text-color="white" icon="chat" />
+              <q-tooltip> Chateá con nosotros </q-tooltip>
+            </q-btn>
             </div>
           </div>
 
@@ -147,7 +150,6 @@ import { Icon, Style } from 'ol/style';
 import VectorLayer from 'ol/layer/Vector';
 import VectorSource from 'ol/source/Vector';
 import { fromLonLat } from 'ol/proj';
-import ChatBotComponent from 'src/components/ChatBotComponent.vue';
 
 const router = useRouter();
 const route = useRoute();
@@ -155,6 +157,10 @@ const $q = useQuasar(); // Initialize Quasar screen utility
 
 // Estado para controlar la visibilidad del drawer
 const drawerOpen = ref(false);
+
+declare function bmShow(): void;
+declare function bmMaximize(): void;
+const isScriptLoaded = ref(false);
 
 const deporteSeleccionado = ref<string | null>(
   Array.isArray(route.params.deporte)
@@ -184,6 +190,44 @@ const goToDeportes = (deporte: string) => {
     drawerOpen.value = false;
   }
 };
+
+const abrirChat = () => {
+  if (isScriptLoaded.value) {
+    if (typeof bmShow === 'function') {
+      bmShow();
+      bmMaximize();
+    }
+    return;
+  }
+
+  const js = document.createElement('script');
+  js.type = 'text/javascript';
+  js.async = true;
+  js.src = 'https://go.botmaker.com/rest/webchat/p/0ULI4UUP6H/init.js';
+
+
+
+  // ✅ CAMBIO PRINCIPAL AQUÍ
+  js.onload = () => {
+    isScriptLoaded.value = true;
+    setTimeout(() => {
+      if (typeof bmShow === 'function') {
+        bmShow();
+        bmMaximize();
+      } else {
+        // Notificación de error si las funciones aún no existen
+        $q.notify({
+          color: 'negative',
+          message: 'Las funciones del chat no se encontraron. Intente de nuevo.',
+          icon: 'report_problem'
+        });
+      }
+    }, 100); // 100ms de retardo
+  };
+
+  document.body.appendChild(js);
+};
+
 
 const goToGoogleMaps = () => {
   goToExternal(

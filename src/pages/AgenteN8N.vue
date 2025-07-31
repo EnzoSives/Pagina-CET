@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-// App.vue
 import { onMounted } from 'vue'
 import '@n8n/chat/style.css'
 import { createChat } from '@n8n/chat'
@@ -25,20 +24,30 @@ onMounted(() => {
 </script>
 
 <template>
-  <!-- 🔧 Este contenedor es necesario para que el chat se renderice -->
-  <div style="padding-top: 70px; margin-top: 30px; margin-right: 30px; margin-left: 30px; height: 95vh">
-    <div id="n8n-chat" style="
-        display: flex;
-        justify-content: center;
-        border: 1px solid #ccc;
-        border-radius: 8px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        overflow: hidden;
-        height: 95%;
-      "></div>
+  <div class="chat-wrapper">
+    <div id="n8n-chat" class="chat-container"></div>
   </div>
 </template>
+
 <style>
+/* Estilos base para el contenedor del chat en escritorio */
+.chat-wrapper {
+  padding-top: 40px;
+  margin: 30px;
+
+}
+
+.chat-container {
+  display: flex;
+  justify-content: center;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+
+}
+
+/* Variables CSS para la apariencia del chat */
 :root {
   --chat--color-primary: #e65100;
   --chat--color-primary-shade-50: rgb(219, 92, 64);
@@ -67,10 +76,7 @@ onMounted(() => {
   --chat--header--color: var(--chat--color-light);
   --chat--header--border-top: none;
   --chat--header--border-bottom: none;
-  --chat--header--border-bottom: none;
-  --chat--header--border-bottom: none;
   --chat--heading--font-size: 2em;
-  --chat--header--color: var(--chat--color-light);
   --chat--subtitle--font-size: 1.3em;
   --chat--subtitle--line-height: 1.8;
 
@@ -93,5 +99,35 @@ onMounted(() => {
   --chat--toggle--active--background: var(--chat--color-primary-shade-100);
   --chat--toggle--color: var(--chat--color-white);
   --chat--toggle--size: 64px;
+}
+
+
+/* 📱 ESTILOS PARA MÓVILES (PANTALLAS DE 600PX O MENOS) */
+@media (max-width: 600px) {
+  /* Hacemos que el contenedor ocupe toda la pantalla */
+  .chat-wrapper {
+    margin: 0;
+    padding: 0;
+
+  }
+
+  /* Quitamos bordes y sombras para una apariencia nativa */
+  .chat-container {
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+
+  }
+
+  /* Ajustamos las variables del chat para que se adapten */
+  :root {
+    /* El chat debe ocupar el 100% del ancho, no 400px */
+    --chat--window--width: 100%;
+
+    /* Reducimos el tamaño de las fuentes para que no se vean gigantes */
+    --chat--heading--font-size: 1.2em;
+    --chat--subtitle--font-size: 0.9em;
+    --chat--message-line-height: 1.5;
+  }
 }
 </style>
