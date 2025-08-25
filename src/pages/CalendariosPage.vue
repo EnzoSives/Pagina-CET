@@ -31,19 +31,40 @@ import { computed, ref } from 'vue'
 
 const calendarOptions = [
   {
-    label: 'USO Cancha CET',
-    value: 'c_kct0r8oq4upn8pmtvohbtuuh1o@group.calendar.google.com',
-    color: '#f4511e', // Tangerine
+    label: '🏒 Hockey',
+    value: 'c_a0b1f812319255473e611652ef9e574301745e155b24310f938a34f96b323bf9@group.calendar.google.com',
+    color: '#33b679', // Verde Salvia
   },
   {
-    label: 'AAMH Fechas',
+    label: '🏹 Arquería 3D',
+    value: 'c_d5378e2b1c72b33e246637c2dfcf682be0d29338bd327c6cac48fa414af5f04c@group.calendar.google.com',
+    color: '#039be5', // Azul
+  },
+  {
+    label: '🏃 Running',
+    value: 'c_7bac87817576a81ca44e2c423ece4b4fb5db9e13f7916cb77694cb50eddcb_c9e@group.calendar.google.com',
+    color: '#f4511e', // Naranja
+  },
+  {
+    label: '🛼 Patín',
+    value: 'c_b2b025ba907e97d3a0aabc091f11a7f552ad850e6d3a55ed04dfe6525f6f8cc9@group.calendar.google.com',
+    color: '#7986cb', // Lavanda
+  },
+  {
+    label: '🚴 Ciclismo',
+    value: 'c_2ee25be99eefee0e48f9582cc52050ac6a2ff4268042875011ee788be9e9ce83@group.calendar.google.com',
+    color: '#d50000', // Rojo
+  },
+  // Mantengo este calendario por si sigue siendo de utilidad general
+  {
+    label: '🏟️ Uso Cancha CET',
+    value: 'c_kct0r8oq4upn8pmtvohbtuuh1o@group.calendar.google.com',
+    color: '#616161', // Grafito
+  },
+  {
+    label: '🏒 AAMH Fechas',
     value: 'c_classroom217cc033@group.calendar.google.com',
     color: '#33b679', // Sage
-  },
-  {
-    label: 'Arquería',
-    value: 'c_d5378e2b1c72b33e246637c2dfcf682be0d29338bd327c6cac48fa414af5f04c@group.calendar.google.com',
-    color: '#039be5', // Peacock
   },
 ]
 
@@ -69,7 +90,7 @@ const combinedCalendarUrl = computed(() => {
     .join('&')
 
   const timezone = 'ctz=America%2FArgentina%2FBuenos_Aires'
-  const viewMode = 'mode=WEEK'
+  const viewMode = 'mode=WEEK' // Puedes cambiar a 'MONTH' o 'AGENDA' si lo prefieres
 
   return `${base}${params}&${timezone}&${viewMode}`
 })
