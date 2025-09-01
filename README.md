@@ -35,6 +35,10 @@ npm run format
 ```bash
 quasar build
 ```
+### Build the app for production in mode pwa
+```bash
+npx quasar build -m pwa
+```
 
 ### Customize the configuration
 See [Configuring quasar.config.js](https://v2.quasar.dev/quasar-cli-vite/quasar-config-js).
