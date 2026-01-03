@@ -2,22 +2,9 @@
   <q-page class="q-pa-md" style="padding-top: 100px">
     <!-- Selector de Perfiles y Botón de Logout -->
     <div class="row justify-end q-mb-md items-center">
-      <q-select
-        v-model="perfilIndexLocal"
-        :options="perfilesOptions"
-        label="Seleccionar Perfil"
-        outlined
-        dense
-        emit-value
-        map-options
-        :style="isMobile ? 'width: 70%' : 'width: 250px'"
-        class="q-mb-xs q-mb-sm-none"
-      />
-      <q-btn
-        icon="logout"
-        style="height: 35px; margin-left: 20px"
-        @click="authStore.logout"
-      ></q-btn>
+      <q-select v-model="perfilIndexLocal" :options="perfilesOptions" label="Seleccionar Perfil" outlined dense
+        emit-value map-options :style="isMobile ? 'width: 70%' : 'width: 250px'" class="q-mb-xs q-mb-sm-none" />
+      <q-btn icon="logout" style="height: 35px; margin-left: 20px" @click="authStore.logout"></q-btn>
     </div>
 
     <!-- Tarjeta de Perfil - Versión Desktop -->
@@ -61,13 +48,8 @@
           <q-badge color="grey-3" text-color="black" class="q-pa-xs q-mb-sm block-center">
             Socio Activo
           </q-badge>
-          <q-btn
-            color="primary"
-            icon="badge"
-            label="Credencial"
-            @click="showCredencial = true"
-            class="full-width-mobile"
-          />
+          <q-btn color="primary" icon="badge" label="Credencial" @click="showCredencial = true"
+            class="full-width-mobile" />
         </div>
       </div>
     </q-card>
@@ -108,12 +90,9 @@
 
     <!-- Pestañas de Navegación -->
     <q-tabs v-model="tab" class="q-mt-md" dense align="justify" :inline-label="!isMobile">
-      <q-tab
-        name="cobro"
-        :label="isMobile ? '' : 'Cuentas de Cobro'"
-        icon="account_balance_wallet"
-      />
+      <q-tab name="cobro" :label="isMobile ? '' : 'Cuentas de Cobro'" icon="account_balance_wallet" />
       <q-tab name="beneficios" :label="isMobile ? '' : 'Beneficios'" icon="card_giftcard" />
+      <q-tab name="camaras" :label="isMobile ? '' : 'Cámaras'" icon="videocam" />
       <q-tab name="buscar" :label="isMobile ? '' : 'Buscar Socios'" icon="search" />
     </q-tabs>
 
@@ -140,11 +119,24 @@
 
         <!-- 👇 Lista de cards -->
         <div class="cards-container q-mt-md">
-          <BeneficiosCard
-            v-for="beneficio in beneficiosStore.beneficios"
-            :key="beneficio.id"
-            :beneficio="beneficio"
-          />
+          <BeneficiosCard v-for="beneficio in beneficiosStore.beneficios" :key="beneficio.id" :beneficio="beneficio" />
+        </div>
+      </q-tab-panel>
+
+      <!-- Panel de Cámaras -->
+      <q-tab-panel name="camaras" :class="isMobile ? 'q-pa-sm' : 'q-pa-md'">
+        <p class="text-h6 text-grey-7" :class="isMobile ? 'text-subtitle1' : ''">
+          Visualiza en vivo las cámaras del complejo.
+        </p>
+
+        <div class="camaras-grid q-mt-md">
+          <q-card v-for="camara in camaras" :key="camara.id" class="q-pa-md">
+            <div class="text-subtitle1 q-mb-sm">{{ camara.titulo }}</div>
+            <div class="video-wrapper">
+              <video class="camara-video" playsinline controls muted crossorigin="anonymous"
+                :ref="(el) => setVideoRef(el, camara.id)"></video>
+            </div>
+          </q-card>
         </div>
       </q-tab-panel>
 
@@ -155,26 +147,16 @@
         </p>
 
         <!-- Campo de búsqueda -->
-        <q-input
-          v-model="busqueda"
-          label="Ingrese el DNI del socio"
-          outlined
-          dense
-          class="q-mb-md"
-          @keyup.enter="buscarSocios"
-        >
+        <q-input v-model="busqueda" label="Ingrese el DNI del socio" outlined dense class="q-mb-md"
+          @keyup.enter="buscarSocios">
           <template v-slot:append>
             <q-btn icon="search" flat @click="buscarSocios"></q-btn>
           </template>
         </q-input>
 
         <!-- Lista de resultados -->
-        <q-list
-          separator
-          bordered
-          v-if="sociosEncontrados.length > 0"
-          :style="isMobile ? 'width: 100%' : 'width: 300px'"
-        >
+        <q-list separator bordered v-if="sociosEncontrados.length > 0"
+          :style="isMobile ? 'width: 100%' : 'width: 300px'">
           <q-item v-for="socio in sociosEncontrados" :key="socio.socio ?? ''" clickable>
             <q-item-section>
               <q-item-label>{{ socio.nombre }}</q-item-label>
@@ -197,6 +179,7 @@
 
 <script setup lang="ts">
 import { computed, ref, watch, onMounted, watchEffect, nextTick, onUnmounted } from 'vue'
+import type { ComponentPublicInstance } from 'vue'
 import { usePerfilStore } from 'src/stores/perfilesStore'
 import { useRouter } from 'vue-router'
 import { useBeneficiosStore } from 'src/stores/beneficiosStore'
@@ -205,6 +188,7 @@ import CuentaCobro from 'src/components/CuentaCobro.vue'
 import BeneficiosCard from 'src/components/BeneficiosComponent.vue'
 import type { Socio } from 'src/stores/perfilesStore'
 import AgregarBeneficio from 'src/components/AgregarBeneficio.vue'
+import Hls from 'hls.js'
 
 const credencialRef = ref(null)
 const perfilStore = usePerfilStore()
@@ -212,6 +196,56 @@ const { getCuentasCobroPerfilJCETAction, setSocio } = perfilStore
 const router = useRouter()
 const beneficiosStore = useBeneficiosStore()
 const authStore = useAuthStore()
+
+type Camara = {
+  id: string
+  titulo: string
+  url: string
+}
+
+const camaras: Camara[] = [
+  { id: 'col1', titulo: 'Cámara 1', url: 'http://201.219.100.39:8888/CET-COL1/index.m3u8' },
+  { id: 'col2', titulo: 'Cámara 2', url: 'http://201.219.100.39:8888/CET-COL3/index.m3u8' },
+]
+
+const videoRefs = ref<Record<string, HTMLVideoElement | null>>({})
+const hlsInstances: Record<string, Hls | null> = {}
+
+const setVideoRef = (el: Element | ComponentPublicInstance | null, id: string) => {
+  if (el instanceof HTMLVideoElement) {
+    videoRefs.value[id] = el
+  }
+}
+
+const playSafely = (video: HTMLVideoElement) => {
+  video.play().catch((err) => {
+    console.warn('No se pudo reproducir la cámara sin interacción del usuario.', err)
+  })
+}
+
+const inicializarCamaras = async () => {
+  await nextTick()
+
+  camaras.forEach((camara) => {
+    const video = videoRefs.value[camara.id]
+    if (!video) return
+
+    if (video.canPlayType('application/vnd.apple.mpegurl')) {
+      video.src = camara.url
+      video.addEventListener('loadedmetadata', () => playSafely(video), { once: true })
+    } else if (Hls.isSupported()) {
+      hlsInstances[camara.id]?.destroy()
+      const hls = new Hls()
+      hls.loadSource(camara.url)
+      hls.attachMedia(video)
+      hls.on(Hls.Events.MANIFEST_PARSED, () => playSafely(video))
+      hls.on(Hls.Events.ERROR, (_, data) => {
+        console.warn('Error HLS en cámara', camara.id, data)
+      })
+      hlsInstances[camara.id] = hls
+    }
+  })
+}
 
 const busqueda = ref('')
 const sociosEncontrados = ref<Socio[]>([])
@@ -289,14 +323,23 @@ onMounted(() => {
     getCuentasCobroPerfilJCETAction(perfilSeleccionado.value.id)
   }
   beneficiosStore.fetchBeneficios()
+  inicializarCamaras()
 })
 
 // Limpiar el event listener al desmontar el componente
 onUnmounted(() => {
   window.removeEventListener('resize', handleResize)
+  Object.values(hlsInstances).forEach((hls) => hls?.destroy())
 })
 
 const tab = ref('cobro')
+
+watch(tab, (activeTab) => {
+  if (activeTab === 'camaras') {
+    inicializarCamaras()
+  }
+})
+
 const showCredencial = ref(false)
 </script>
 
@@ -353,6 +396,29 @@ const showCredencial = ref(false)
   display: grid;
   gap: 16px;
   grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+}
+
+.camaras-grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+}
+
+.video-wrapper {
+  position: relative;
+  padding-top: 56.25%;
+  background: #000;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.camara-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .texto-ano {
