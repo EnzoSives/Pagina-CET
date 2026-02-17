@@ -85,7 +85,7 @@ const goToAgente = () => {
   router.push({ path: '/agenteia' })
 }
 const goToTienda = () => {
-  window.open('https://cetpinamar.mercadoshops.com.ar/', '_blank')
+  window.open('https://mercadolibre.com.ar/pagina/cetclubempleadostelpin', '_blank')
 }
 
 const isScrolled = ref(false)

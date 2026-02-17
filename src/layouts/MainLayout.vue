@@ -43,7 +43,7 @@
           <q-item-section>Institucional</q-item-section>
         </q-item>
 
-        <q-item clickable v-ripple @click="goToExternal('https://cetpinamar.mercadoshops.com.ar/')">
+        <q-item clickable v-ripple @click="goToExternal('https://mercadolibre.com.ar/pagina/cetclubempleadostelpin')">
           <q-item-section avatar>
             <q-icon name="store" />
           </q-item-section>
@@ -112,10 +112,10 @@
                 <q-tooltip> Enviar Mail </q-tooltip>
               </q-btn>
 
-               <q-btn round flat @click="abrirChat" aria-label="Abrir chat de ayuda">
-              <q-avatar size="42px" font-size="24px" color="primary" text-color="white" icon="chat" />
-              <q-tooltip> Chateá con nosotros </q-tooltip>
-            </q-btn>
+              <q-btn round flat @click="abrirChat" aria-label="Abrir chat de ayuda">
+                <q-avatar size="42px" font-size="24px" color="primary" text-color="white" icon="chat" />
+                <q-tooltip> Chateá con nosotros </q-tooltip>
+              </q-btn>
             </div>
           </div>
 

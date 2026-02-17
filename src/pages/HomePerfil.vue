@@ -1,55 +1,61 @@
 <template>
-  <q-page class="q-pa-md" style="padding-top: 100px">
+  <q-page class="q-pa-md page-background" style="padding-top: 100px">
     <!-- Selector de Perfiles y Botón de Logout -->
     <div class="row justify-end q-mb-md items-center">
       <q-select v-model="perfilIndexLocal" :options="perfilesOptions" label="Seleccionar Perfil" outlined dense
-        emit-value map-options :style="isMobile ? 'width: 70%' : 'width: 250px'" class="q-mb-xs q-mb-sm-none" />
-      <q-btn icon="logout" style="height: 35px; margin-left: 20px" @click="authStore.logout"></q-btn>
+        emit-value map-options :style="isMobile ? 'width: 70%' : 'width: 250px'"
+        class="q-mb-xs q-mb-sm-none selector-perfil" />
+      <q-btn icon="logout" color="negative" style="height: 35px; margin-left: 20px" @click="authStore.logout"
+        class="btn-logout" unelevated>Salir</q-btn>
     </div>
 
     <!-- Tarjeta de Perfil - Versión Desktop -->
-    <q-card v-if="!isMobile" class="q-pa-md row items-center" style="height: 150px">
-      <q-avatar size="80px" class="q-mr-md">
+    <q-card v-if="!isMobile" class="q-pa-lg row items-center perfil-card" style="height: 180px">
+      <q-avatar size="100px" class="q-mr-lg avatar-perfil">
         <img :src="perfilSeleccionado?.url || 'https://cdn.quasar.dev/img/avatar.png'" />
       </q-avatar>
       <div class="col">
-        <div class="text-h6">
+        <div class="text-h5 text-weight-bold text-primary">
           {{ perfilSeleccionado?.nombre }} {{ perfilSeleccionado?.apellido }}
         </div>
-        <div class="text-subtitle2 text-grey-7">
-          <q-icon name="badge" /> N° Cliente: {{ perfilSeleccionado?.numeroCliente }}
-          <q-icon name="event" class="q-ml-md" /> DNI: {{ perfilSeleccionado?.dni }}
+        <div class="text-subtitle1 text-grey-7 q-mt-sm info-perfil">
+          <q-icon name="badge" size="sm" color="primary" /> N° Cliente: {{ perfilSeleccionado?.numeroCliente }}
+          <q-icon name="event" class="q-ml-md" size="sm" color="primary" /> DNI: {{ perfilSeleccionado?.dni }}
         </div>
       </div>
       <div class="row items-center">
-        <q-badge color="grey-3" text-color="black" class="q-pa-xs q-mr-md"> Socio Activo </q-badge>
-        <q-btn color="primary" icon="badge" label="Credencial" @click="showCredencial = true" />
+        <q-badge color="positive" text-color="white" class="q-pa-sm q-mr-md badge-activo">
+          <q-icon name="check_circle" size="xs" class="q-mr-xs" /> Socio Activo
+        </q-badge>
+        <q-btn color="primary" icon="badge" label="Credencial" @click="showCredencial = true" unelevated
+          class="btn-credencial" size="md" />
       </div>
     </q-card>
 
     <!-- Tarjeta de Perfil - Versión Mobile -->
-    <q-card v-else class="q-pa-md">
+    <q-card v-else class="q-pa-md perfil-card-mobile">
       <div class="column items-center q-col-gutter-md">
         <div class="col-12 text-center">
-          <q-avatar size="80px">
+          <q-avatar size="100px" class="avatar-perfil">
             <img :src="perfilSeleccionado?.url || 'https://cdn.quasar.dev/img/avatar.png'" />
           </q-avatar>
         </div>
         <div class="col-12 text-center">
-          <div class="text-h6">
+          <div class="text-h6 text-weight-bold text-primary">
             {{ perfilSeleccionado?.nombre }} {{ perfilSeleccionado?.apellido }}
           </div>
-          <div class="text-subtitle2 text-grey-7">
-            <div><q-icon name="badge" /> N° Cliente: {{ perfilSeleccionado?.numeroCliente }}</div>
-            <div><q-icon name="event" /> DNI: {{ perfilSeleccionado?.dni }}</div>
+          <div class="text-subtitle2 text-grey-7 q-mt-sm">
+            <div class="q-mb-xs"><q-icon name="badge" color="primary" /> N° Cliente: {{
+              perfilSeleccionado?.numeroCliente }}</div>
+            <div><q-icon name="event" color="primary" /> DNI: {{ perfilSeleccionado?.dni }}</div>
           </div>
         </div>
         <div class="col-12 text-center">
-          <q-badge color="grey-3" text-color="black" class="q-pa-xs q-mb-sm block-center">
-            Socio Activo
+          <q-badge color="positive" text-color="white" class="q-pa-sm q-mb-sm block-center badge-activo">
+            <q-icon name="check_circle" size="xs" class="q-mr-xs" /> Socio Activo
           </q-badge>
           <q-btn color="primary" icon="badge" label="Credencial" @click="showCredencial = true"
-            class="full-width-mobile" />
+            class="full-width-mobile btn-credencial" unelevated />
         </div>
       </div>
     </q-card>
@@ -89,30 +95,37 @@
     </q-dialog>
 
     <!-- Pestañas de Navegación -->
-    <q-tabs v-model="tab" class="q-mt-md" dense align="justify" :inline-label="!isMobile">
-      <q-tab name="cobro" :label="isMobile ? '' : 'Cuentas de Cobro'" icon="account_balance_wallet" />
-      <q-tab name="beneficios" :label="isMobile ? '' : 'Beneficios'" icon="card_giftcard" />
-      <q-tab name="camaras" :label="isMobile ? '' : 'Cámaras'" icon="videocam" />
-      <q-tab name="buscar" :label="isMobile ? '' : 'Buscar Socios'" icon="search" />
+    <q-tabs v-model="tab" class="q-mt-lg tabs-navegacion" align="justify" :inline-label="!isMobile"
+      active-color="primary" indicator-color="primary">
+      <q-tab name="cobro" :label="isMobile ? '' : 'Cuentas de Cobro'" icon="account_balance_wallet" class="tab-item" />
+      <q-tab name="beneficios" :label="isMobile ? '' : 'Beneficios'" icon="card_giftcard" class="tab-item" />
+      <q-tab name="camaras" :label="isMobile ? '' : 'Cámaras'" icon="videocam" class="tab-item" />
+      <q-tab name="buscar" :label="isMobile ? '' : 'Buscar Socios'" icon="search" class="tab-item" />
     </q-tabs>
 
     <q-tab-panels v-model="tab" animated>
       <!-- Panel de Cuentas de Cobro -->
-      <q-tab-panel name="cobro" :class="isMobile ? 'q-pa-sm' : 'q-pa-md'">
-        <p class="text-h6 text-grey-7" :class="isMobile ? 'text-subtitle1' : ''">
-          Visualiza y gestiona tus pagos pendientes
-        </p>
+      <q-tab-panel name="cobro" :class="isMobile ? 'q-pa-sm' : 'q-pa-md'" class="tab-panel-animated">
+        <div class="section-header">
+          <q-icon name="account_balance_wallet" size="md" color="primary" class="q-mr-sm" />
+          <p class="text-h6 text-grey-8 q-ma-none" :class="isMobile ? 'text-subtitle1' : ''">
+            Visualiza y gestiona tus pagos pendientes
+          </p>
+        </div>
 
-        <q-list separator bordered class="rounded-borders">
+        <q-list separator bordered class="rounded-borders lista-cuentas">
           <CuentaCobro :eID="perfilSeleccionado?.id || ''" />
         </q-list>
       </q-tab-panel>
 
       <!-- Panel de Beneficios -->
-      <q-tab-panel name="beneficios" :class="isMobile ? 'q-pa-sm' : 'q-pa-md'">
-        <p class="text-h6 text-grey-7" :class="isMobile ? 'text-subtitle1' : ''">
-          Aquí puedes ver los beneficios disponibles.
-        </p>
+      <q-tab-panel name="beneficios" :class="isMobile ? 'q-pa-sm' : 'q-pa-md'" class="tab-panel-animated">
+        <div class="section-header">
+          <q-icon name="card_giftcard" size="md" color="primary" class="q-mr-sm" />
+          <p class="text-h6 text-grey-8 q-ma-none" :class="isMobile ? 'text-subtitle1' : ''">
+            Aquí puedes ver los beneficios disponibles.
+          </p>
+        </div>
 
         <!-- 👇 Botón y modal para crear beneficio -->
         <AgregarBeneficio />
@@ -124,14 +137,20 @@
       </q-tab-panel>
 
       <!-- Panel de Cámaras -->
-      <q-tab-panel name="camaras" :class="isMobile ? 'q-pa-sm' : 'q-pa-md'">
-        <p class="text-h6 text-grey-7" :class="isMobile ? 'text-subtitle1' : ''">
-          Visualiza en vivo las cámaras del complejo.
-        </p>
+      <q-tab-panel name="camaras" :class="isMobile ? 'q-pa-sm' : 'q-pa-md'" class="tab-panel-animated">
+        <div class="section-header">
+          <q-icon name="videocam" size="md" color="primary" class="q-mr-sm" />
+          <p class="text-h6 text-grey-8 q-ma-none" :class="isMobile ? 'text-subtitle1' : ''">
+            Visualiza en vivo las cámaras del complejo.
+          </p>
+        </div>
 
         <div class="camaras-grid q-mt-md">
-          <q-card v-for="camara in camaras" :key="camara.id" class="q-pa-md">
-            <div class="text-subtitle1 q-mb-sm">{{ camara.titulo }}</div>
+          <q-card v-for="camara in camaras" :key="camara.id" class="q-pa-md camara-card">
+            <div class="text-subtitle1 text-weight-medium q-mb-sm">
+              <q-icon name="fiber_manual_record" color="red" size="xs" class="blink" />
+              {{ camara.titulo }}
+            </div>
             <div class="video-wrapper">
               <video class="camara-video" playsinline controls muted crossorigin="anonymous"
                 :ref="(el) => setVideoRef(el, camara.id)"></video>
@@ -141,35 +160,47 @@
       </q-tab-panel>
 
       <!-- Panel de Buscar Socios -->
-      <q-tab-panel name="buscar" :class="isMobile ? 'q-pa-sm' : 'q-pa-md'">
-        <p class="text-h6 text-grey-7" :class="isMobile ? 'text-subtitle1' : ''">
-          Busca y encuentra otros socios.
-        </p>
+      <q-tab-panel name="buscar" :class="isMobile ? 'q-pa-sm' : 'q-pa-md'" class="tab-panel-animated">
+        <div class="section-header">
+          <q-icon name="search" size="md" color="primary" class="q-mr-sm" />
+          <p class="text-h6 text-grey-8 q-ma-none" :class="isMobile ? 'text-subtitle1' : ''">
+            Busca y encuentra otros socios.
+          </p>
+        </div>
 
         <!-- Campo de búsqueda -->
-        <q-input v-model="busqueda" label="Ingrese el DNI del socio" outlined dense class="q-mb-md"
+        <q-input v-model="busqueda" label="Ingrese el DNI del socio" outlined class="q-mb-md input-busqueda"
           @keyup.enter="buscarSocios">
+          <template v-slot:prepend>
+            <q-icon name="person_search" color="primary" />
+          </template>
           <template v-slot:append>
-            <q-btn icon="search" flat @click="buscarSocios"></q-btn>
+            <q-btn icon="search" color="primary" flat rounded @click="buscarSocios"></q-btn>
           </template>
         </q-input>
 
         <!-- Lista de resultados -->
         <q-list separator bordered v-if="sociosEncontrados.length > 0"
-          :style="isMobile ? 'width: 100%' : 'width: 300px'">
-          <q-item v-for="socio in sociosEncontrados" :key="socio.socio ?? ''" clickable>
+          :style="isMobile ? 'width: 100%' : 'width: 400px'" class="lista-socios">
+          <q-item v-for="socio in sociosEncontrados" :key="socio.socio ?? ''" clickable class="resultado-socio">
+            <q-item-section avatar>
+              <q-avatar color="primary" text-color="white" icon="person" />
+            </q-item-section>
             <q-item-section>
-              <q-item-label>{{ socio.nombre }}</q-item-label>
+              <q-item-label class="text-weight-medium">{{ socio.nombre }}</q-item-label>
               <q-item-label caption>{{ socio.documento }} | Socio: {{ socio.socio }}</q-item-label>
             </q-item-section>
             <q-item-section side>
-              <q-badge text-color="black" :label="socio.estado || 'N/D'" />
+              <q-badge color="positive" text-color="white" :label="socio.estado || 'N/D'" />
             </q-item-section>
           </q-item>
         </q-list>
 
         <!-- Mensaje si no hay resultados -->
-        <q-banner v-else class="bg-grey-3 text-black q-mt-md">
+        <q-banner v-else class="bg-grey-2 text-grey-8 q-mt-md banner-no-resultados" rounded>
+          <template v-slot:avatar>
+            <q-icon name="info" color="grey-6" />
+          </template>
           No se encontraron socios con ese criterio de búsqueda.
         </q-banner>
       </q-tab-panel>
@@ -344,6 +375,178 @@ const showCredencial = ref(false)
 </script>
 
 <style scoped>
+/* Background */
+.page-background {
+  background: linear-gradient(135deg, #f5f7fa 0%, #e8ecf1 100%);
+  min-height: 100vh;
+}
+
+/* Selector y Botón Logout */
+.selector-perfil {
+  transition: all 0.3s ease;
+}
+
+.btn-logout {
+  transition: all 0.3s ease;
+  text-transform: none;
+  font-weight: 500;
+}
+
+.btn-logout:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Tarjeta de Perfil */
+.perfil-card,
+.perfil-card-mobile {
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  transition: all 0.3s ease;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.perfil-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.16);
+}
+
+.avatar-perfil {
+  border: 4px solid #1976d2;
+  box-shadow: 0 4px 12px rgba(25, 118, 210, 0.3);
+  transition: all 0.3s ease;
+}
+
+.avatar-perfil:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 16px rgba(25, 118, 210, 0.4);
+}
+
+.info-perfil {
+  font-size: 0.95rem;
+}
+
+.badge-activo {
+  border-radius: 20px;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(76, 175, 80, 0.3);
+  font-size: 0.85rem;
+}
+
+.btn-credencial {
+  border-radius: 8px;
+  font-weight: 600;
+  text-transform: none;
+  padding: 8px 20px;
+  transition: all 0.3s ease;
+}
+
+.btn-credencial:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(25, 118, 210, 0.3);
+}
+
+/* Pestañas */
+.tabs-navegacion {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  padding: 8px;
+}
+
+.tab-item {
+  transition: all 0.3s ease;
+  border-radius: 8px;
+  font-weight: 500;
+}
+
+.tab-item:hover {
+  background: rgba(25, 118, 210, 0.05);
+}
+
+/* Paneles de Pestañas */
+.tab-panel-animated {
+  animation: fadeInUp 0.5s ease;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid rgba(25, 118, 210, 0.2);
+}
+
+/* Listas */
+.lista-cuentas,
+.lista-socios {
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  background: white;
+}
+
+.resultado-socio {
+  transition: all 0.3s ease;
+}
+
+.resultado-socio:hover {
+  background: rgba(25, 118, 210, 0.05);
+  transform: translateX(4px);
+}
+
+/* Input de búsqueda */
+.input-busqueda {
+  max-width: 600px;
+}
+
+.banner-no-resultados {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* Cámaras */
+.camara-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.camara-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.blink {
+  animation: blink-animation 2s infinite;
+}
+
+@keyframes blink-animation {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.3;
+  }
+}
+
 .texto-apellido,
 .texto-nombre,
 .texto-dni,
@@ -365,10 +568,17 @@ const showCredencial = ref(false)
   width: 400px;
   height: 250px;
   margin: 0 auto;
-  background: linear-gradient(45deg, #003366, #0066cc);
-  border-radius: 10px;
+  background: linear-gradient(135deg, #1976d2, #0d47a1);
+  border-radius: 16px;
   overflow: hidden;
   color: white;
+  box-shadow: 0 12px 32px rgba(25, 118, 210, 0.4);
+  transition: all 0.3s ease;
+}
+
+.contenedor-credencial:hover {
+  transform: scale(1.02);
+  box-shadow: 0 16px 40px rgba(25, 118, 210, 0.5);
 }
 
 .contenedor-credencial-mobile {
@@ -377,10 +587,11 @@ const showCredencial = ref(false)
   max-width: 320px;
   height: 200px;
   margin: 0 auto;
-  background: linear-gradient(45deg, #003366, #0066cc);
-  border-radius: 10px;
+  background: linear-gradient(135deg, #1976d2, #0d47a1);
+  border-radius: 16px;
   overflow: hidden;
   color: white;
+  box-shadow: 0 8px 24px rgba(25, 118, 210, 0.4);
 }
 
 .credencial-bg {
@@ -394,13 +605,14 @@ const showCredencial = ref(false)
 
 .cards-container {
   display: grid;
-  gap: 16px;
+  gap: 24px;
   grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  margin-top: 24px;
 }
 
 .camaras-grid {
   display: grid;
-  gap: 16px;
+  gap: 24px;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
 }
 
@@ -410,6 +622,7 @@ const showCredencial = ref(false)
   background: #000;
   border-radius: 8px;
   overflow: hidden;
+  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
 .camara-video {
@@ -419,6 +632,11 @@ const showCredencial = ref(false)
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transition: all 0.3s ease;
+}
+
+.camara-video:hover {
+  transform: scale(1.02);
 }
 
 .texto-ano {

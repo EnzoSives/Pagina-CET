@@ -583,8 +583,10 @@ const pagar = () => {
 /* === RESPONSIVE BREAKPOINTS === */
 @media (max-width: 599px) {
   .responsive-container {
-    padding-top: 0; /* <-- Lo anulamos para móviles */
-    padding: 8px;   /* Este ya lo tenías y está perfecto */
+    padding-top: 0;
+    /* <-- Lo anulamos para móviles */
+    padding: 8px;
+    /* Este ya lo tenías y está perfecto */
   }
 
   .main-content {
