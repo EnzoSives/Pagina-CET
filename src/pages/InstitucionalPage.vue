@@ -25,7 +25,7 @@
     <div class="q-mb-xl">
       <div class="text-h4 text-center q-mb-md text-primary">
         Comisión Directiva
-        <div class="text-subtitle1 text-grey-7">Período 2024</div>
+        <div class="text-subtitle1 text-grey-7">Período 2025</div>
         <div>
           <q-btn color="primary" class="q-mt-md" label="Documentación" :target="'_blank'"
             :href="'https://sites.google.com/cetpinamar.com.ar/comision2021/inicio'" icon-right="open_in_new">
@@ -50,9 +50,10 @@
                 {{ miembro.cargo }}
               </q-badge>
             </q-card-section>
-            <q-card-actions class="justify-center">
-              <q-btn flat color="primary" icon="email" size="sm" round />
-              <q-btn flat color="primary" icon="phone" size="sm" round />
+            <q-card-actions class="justify-center q-pb-md">
+              <q-btn flat color="primary" :icon="'email'" size="sm" round :href="'mailto:' + miembro.email">
+                <q-tooltip>{{ miembro.email }}</q-tooltip>
+              </q-btn>
             </q-card-actions>
           </q-card>
         </div>
@@ -75,24 +76,24 @@ const objetivos = ref([
 ]);
 
 const directiva = ref([
-  { nombre: 'Juan Pablo Bianucci', cargo: 'Presidente' },
-  { nombre: 'Rodrigo Oliver', cargo: 'Vicepresidente' },
-  { nombre: 'Patricio Javier ONeill', cargo: 'Secretario' },
-  { nombre: 'Maria J. Feliciangeli', cargo: 'Pro Secretario' },
-  { nombre: 'Ximena Miguez', cargo: 'Tesorero' },
-  { nombre: 'Mariela Corán', cargo: 'Pro Tesorero' },
-  { nombre: 'Eleonora Ines Tcaciuc', cargo: 'Vocal Titular' },
-  { nombre: 'Juan Novo', cargo: 'Vocal Titular' },
-  { nombre: 'Ricardo Martin Pagano', cargo: 'Vocal Titular' },
-  { nombre: 'Nadinne Ovelar', cargo: 'Vocal Titular' },
-  { nombre: 'Abel Eduardo Casado', cargo: 'Vocal Suplente' },
-  { nombre: 'Verónica Santirso', cargo: 'Vocal Suplente' },
-  { nombre: 'Florencia Vuk', cargo: 'Vocal Suplente' },
-  { nombre: 'Matias Melo', cargo: 'Vocal Suplente' },
-  { nombre: 'Francisco Noceto', cargo: 'Revisor de Cuentas Titular' },
-  { nombre: 'Fabiola Corina Roth', cargo: 'Revisor de Cuentas Titular' },
-  { nombre: 'Leandro G. Laudano', cargo: 'Revisor de Cuentas Titular' },
-  { nombre: 'Nicolás Caminos', cargo: 'Revisor de Cuentas Suplente' },
+  { nombre: 'Rodrigo Oliver', cargo: 'Presidente', email: 'rodrigo.oliver@cetpinamar.com.ar' },
+  { nombre: 'Doverli Esteban Coran', cargo: 'Vicepresidente', email: 'doverli@cetpinamar.com.ar' },
+  { nombre: 'Juan Pablo Bianucci', cargo: 'Secretario', email: 'juan.bianucci@cetpinamar.com.ar' },
+  { nombre: 'Patricio Javier O\'Neill', cargo: 'Pro Secretario', email: 'patricio.oneill@cetpinamar.com.ar' },
+  { nombre: 'Ximena Miguez', cargo: 'Tesorero', email: 'ximena.miguez@cetpinamar.com.ar' },
+  { nombre: 'Mariela Corán', cargo: 'Pro Tesorero', email: 'marielac@cetpinamar.com.ar' },
+  { nombre: 'Leandro Gabriel Laudano', cargo: 'Vocal Titular', email: 'leandro.laudano@cetpinamar.com.ar' },
+  { nombre: 'Dina Giordano', cargo: 'Vocal Titular', email: 'dina.giordano@cetpinamar.com.ar' },
+  { nombre: 'Mariano Hueter', cargo: 'Vocal Titular', email: 'mariano.hueter@cetpinamar.com.ar' },
+  { nombre: 'Christian Alexis Frejeiro', cargo: 'Vocal Titular', email: 'christian.frejeiro@cetpinamar.com.ar' },
+  { nombre: 'Tristana Cangiano', cargo: 'Vocal Suplente', email: 'tristana.cangiano@cetpinamar.com.ar' },
+  { nombre: 'Diego Mainini', cargo: 'Vocal Suplente', email: 'diego.mainini@cetpinamar.com.ar' },
+  { nombre: 'Juan Algieri', cargo: 'Vocal Suplente', email: 'juan.algieri@cetpinamar.com.ar' },
+  { nombre: 'Ana Garbino', cargo: 'Vocal Suplente', email: 'ana.garbino@cetpinamar.com.ar' },
+  { nombre: 'Abel Casado', cargo: 'Revisor de Cuentas Titular', email: 'abel.casado@cetpinamar.com.ar' },
+  { nombre: 'Fabiola Corina Roth', cargo: 'Revisor de Cuentas Titular', email: 'fabiola.roth@cetpinamar.com.ar' },
+  { nombre: 'Ricardo Martin Pagano', cargo: 'Revisor de Cuentas Titular', email: 'martin.pagano@cetpinamar.com.ar' },
+  { nombre: 'Florencia Canepa', cargo: 'Revisor de Cuentas Suplente', email: 'florencia.canepa@cetpinamar.com.ar' },
 ]);
 
 // Función para obtener las iniciales del nombre

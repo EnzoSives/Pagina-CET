@@ -5,7 +5,7 @@ import { createChat } from '@n8n/chat'
 
 onMounted(() => {
   createChat({
-    webhookUrl: 'https://n8n.telpin.com.ar/webhook/a889d2ae-2159-402f-b326-5f61e90f602e/chat',
+    webhookUrl: 'https://jsat-ai.telpin.com.ar/webhook/296a138c-b6a8-4480-a963-746c367670c3/chat',
     mode: 'fullscreen',
     showWelcomeScreen: true,
     initialMessages: ['Mi nombre es COCO. Como puedo ayudarte?'],

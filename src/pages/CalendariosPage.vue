@@ -62,7 +62,12 @@ const calendarOptions = [
     color: '#616161', // Grafito
   },
   {
-    label: '🏒 AAMH Fechas',
+    label: '🏟️ USO Quincho CET',
+    value: 'c_b1d8617707db00362f63eb7151d18bdc135cc13d1f9694a7d0161caf91b7b232@group.calendar.google.com',
+    color: '#8e24aa', // Púrpura
+  },
+  {
+    label: '📅 AAMH Fechas',
     value: 'c_classroom217cc033@group.calendar.google.com',
     color: '#33b679', // Sage
   },
