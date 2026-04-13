@@ -12,7 +12,7 @@
     <!-- Tarjeta de Perfil - Versión Desktop -->
     <q-card v-if="!isMobile" class="q-pa-lg row items-center perfil-card" style="height: 180px">
       <q-avatar size="100px" class="q-mr-lg avatar-perfil">
-        <img :src="perfilSeleccionado?.url || 'https://cdn.quasar.dev/img/avatar.png'" />
+        <img :src="perfilImg" />
       </q-avatar>
       <div class="col">
         <div class="text-h5 text-weight-bold text-primary">
@@ -37,7 +37,7 @@
       <div class="column items-center q-col-gutter-md">
         <div class="col-12 text-center">
           <q-avatar size="100px" class="avatar-perfil">
-            <img :src="perfilSeleccionado?.url || 'https://cdn.quasar.dev/img/avatar.png'" />
+            <img :src="perfilImg" />
           </q-avatar>
         </div>
         <div class="col-12 text-center">
@@ -145,15 +145,24 @@
           </p>
         </div>
 
-        <div class="camaras-grid q-mt-md">
-          <q-card v-for="camara in camaras" :key="camara.id" class="q-pa-md camara-card">
+        <div class="q-mt-md">
+          <div class="row items-center justify-center q-mb-md q-gutter-sm">
+            <q-btn icon="chevron_left" round flat color="primary" :disable="camaraIndex === 0"
+              @click="camaraIndex--" />
+            <q-chip color="primary" text-color="white" icon="videocam">
+              {{ camaraActual?.titulo }}
+            </q-chip>
+            <q-btn icon="chevron_right" round flat color="primary" :disable="camaraIndex === camaras.length - 1"
+              @click="camaraIndex++" />
+          </div>
+          <q-card class="q-pa-md camara-card" style="max-width: 800px; margin: 0 auto;">
             <div class="text-subtitle1 text-weight-medium q-mb-sm">
               <q-icon name="fiber_manual_record" color="red" size="xs" class="blink" />
-              {{ camara.titulo }}
+              {{ camaraActual?.titulo }}
             </div>
             <div class="video-wrapper">
               <video class="camara-video" playsinline controls muted crossorigin="anonymous"
-                :ref="(el) => setVideoRef(el, camara.id)"></video>
+                :ref="(el) => setVideoRef(el, camaraActual?.id ?? '')"></video>
             </div>
           </q-card>
         </div>
@@ -220,6 +229,7 @@ import BeneficiosCard from 'src/components/BeneficiosComponent.vue'
 import type { Socio } from 'src/stores/perfilesStore'
 import AgregarBeneficio from 'src/components/AgregarBeneficio.vue'
 import Hls from 'hls.js'
+import perfilImg from 'src/assets/perfil.png'
 
 const credencialRef = ref(null)
 const perfilStore = usePerfilStore()
@@ -235,9 +245,12 @@ type Camara = {
 }
 
 const camaras: Camara[] = [
-  { id: 'col1', titulo: 'Cámara 1', url: 'http://201.219.100.39:8888/CET-COL1/index.m3u8' },
-  { id: 'col2', titulo: 'Cámara 2', url: 'http://201.219.100.39:8888/CET-COL3/index.m3u8' },
+  { id: 'col1', titulo: 'Cámara 1', url: 'https://mistserver.telpin.com.ar:8888/cet-col1/index.m3u8' },
+  { id: 'col2', titulo: 'Cámara 2', url: 'https://mistserver.telpin.com.ar:8888/cet-col3/index.m3u8' },
 ]
+
+const camaraIndex = ref(0)
+const camaraActual = computed(() => camaras[camaraIndex.value])
 
 const videoRefs = ref<Record<string, HTMLVideoElement | null>>({})
 const hlsInstances: Record<string, Hls | null> = {}
@@ -254,28 +267,33 @@ const playSafely = (video: HTMLVideoElement) => {
   })
 }
 
-const inicializarCamaras = async () => {
+const inicializarCamara = async () => {
   await nextTick()
 
-  camaras.forEach((camara) => {
-    const video = videoRefs.value[camara.id]
-    if (!video) return
-
-    if (video.canPlayType('application/vnd.apple.mpegurl')) {
-      video.src = camara.url
-      video.addEventListener('loadedmetadata', () => playSafely(video), { once: true })
-    } else if (Hls.isSupported()) {
-      hlsInstances[camara.id]?.destroy()
-      const hls = new Hls()
-      hls.loadSource(camara.url)
-      hls.attachMedia(video)
-      hls.on(Hls.Events.MANIFEST_PARSED, () => playSafely(video))
-      hls.on(Hls.Events.ERROR, (_, data) => {
-        console.warn('Error HLS en cámara', camara.id, data)
-      })
-      hlsInstances[camara.id] = hls
-    }
+  // Destruir instancias HLS previas
+  Object.entries(hlsInstances).forEach(([id, hls]) => {
+    hls?.destroy()
+    hlsInstances[id] = null
   })
+
+  const camara = camaraActual.value
+  if (!camara) return
+  const video = videoRefs.value[camara.id]
+  if (!video) return
+
+  if (video.canPlayType('application/vnd.apple.mpegurl')) {
+    video.src = camara.url
+    video.addEventListener('loadedmetadata', () => playSafely(video), { once: true })
+  } else if (Hls.isSupported()) {
+    const hls = new Hls()
+    hls.loadSource(camara.url)
+    hls.attachMedia(video)
+    hls.on(Hls.Events.MANIFEST_PARSED, () => playSafely(video))
+    hls.on(Hls.Events.ERROR, (_, data) => {
+      console.warn('Error HLS en cámara', camara.id, data)
+    })
+    hlsInstances[camara.id] = hls
+  }
 }
 
 const busqueda = ref('')
@@ -354,7 +372,7 @@ onMounted(() => {
     getCuentasCobroPerfilJCETAction(perfilSeleccionado.value.id)
   }
   beneficiosStore.fetchBeneficios()
-  inicializarCamaras()
+  inicializarCamara()
 })
 
 // Limpiar el event listener al desmontar el componente
@@ -367,8 +385,12 @@ const tab = ref('cobro')
 
 watch(tab, (activeTab) => {
   if (activeTab === 'camaras') {
-    inicializarCamaras()
+    inicializarCamara()
   }
+})
+
+watch(camaraIndex, () => {
+  inicializarCamara()
 })
 
 const showCredencial = ref(false)
@@ -413,9 +435,14 @@ const showCredencial = ref(false)
 }
 
 .avatar-perfil {
-  border: 4px solid #1976d2;
   box-shadow: 0 4px 12px rgba(25, 118, 210, 0.3);
   transition: all 0.3s ease;
+}
+
+.avatar-perfil img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .avatar-perfil:hover {
