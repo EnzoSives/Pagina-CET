@@ -12,6 +12,7 @@ import MovimientosPage from 'src/pages/MovimientosPage.vue'
 import AgenteN8N from 'src/pages/AgenteN8N.vue'
 import CalendariosPage from 'src/pages/CalendariosPage.vue'
 import ResetPassword from 'src/pages/ResetPassword.vue'
+import ColoniaPage from 'src/pages/ColoniaPage.vue'
 
 const routes: RouteRecordRaw[] = [
   {
@@ -22,6 +23,7 @@ const routes: RouteRecordRaw[] = [
       { path: '/deporte/:deporte', name: 'DeportePage', component: DeportesPage, props: true },
       { path: '/socio', name: 'Socio', component: SocioPage },
       { path: '/institucional', name: 'Institucional', component: InstitucionalPage },
+      { path: '/colonia', name: 'Colonia', component: ColoniaPage },
       { path: '/login', name: 'Login', component: LoginPage },
       { path: '/register', name: 'Register', component: RegisterPage },
       { path: '/reset-password', name: 'ResetPassword', component: ResetPassword },
