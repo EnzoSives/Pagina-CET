@@ -13,7 +13,7 @@ onMounted(() => {
       en: {
         title: '¡Hola!👋 Bienvenido/a al asistente virtual del CET.',
         subtitle: 'Estoy aquí para ayudarte con todas tus consultas sobre nuestra institución, las actividades que organizamos y el reglamento de Hockey de la AAMH 2025. No dudes en preguntarme lo que necesites.',
-        footer: 'CET-2025 ',
+        footer: `CET-${new Date().getFullYear()} `,
         getStarted: 'Nueva conversacion',
         inputPlaceholder: 'Escribe tu pregunta..',
         closeButtonTooltip: 'Cerrar chat',
