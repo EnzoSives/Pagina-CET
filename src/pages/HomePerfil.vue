@@ -67,7 +67,7 @@
         <q-card-section class="q-pt-none">
           <div ref="credencialRef" class="contenedor-credencial" v-if="!isMobile">
             <img src="~/assets/credencial.png" class="credencial-bg" />
-            <div class="texto-ano">2025</div>
+            <div class="texto-ano">{{ anioActual }}</div>
             <div class="texto-apellido">{{ perfilSeleccionado?.apellido }}</div>
             <div class="texto-nombre">{{ perfilSeleccionado?.nombre }}</div>
             <div class="socio-nro">{{ perfilSeleccionado?.numeroCliente }}</div>
@@ -75,7 +75,7 @@
           </div>
           <div v-else class="contenedor-credencial-mobile">
             <img src="~/assets/credencial.png" class="credencial-bg" />
-            <div class="texto-ano">2025</div>
+            <div class="texto-ano">{{ anioActual }}</div>
             <div class="texto-apellido">{{ perfilSeleccionado?.apellido }}</div>
             <div class="texto-nombre">{{ perfilSeleccionado?.nombre }}</div>
             <div class="socio-nro">{{ perfilSeleccionado?.numeroCliente }}</div>
@@ -231,6 +231,7 @@ import AgregarBeneficio from 'src/components/AgregarBeneficio.vue'
 import Hls from 'hls.js'
 
 const credencialRef = ref(null)
+const anioActual = new Date().getFullYear()
 const perfilStore = usePerfilStore()
 const { getCuentasCobroPerfilJCETAction, setSocio } = perfilStore
 const router = useRouter()

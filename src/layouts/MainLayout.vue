@@ -125,7 +125,7 @@
         <div class="row q-col-gutter-md">
           <div class="col-12 col-md-6 q-mb-md">
             <div class="text-h6 q-mb-sm">CET - Club Empleados Telpin</div>
-            <div class="text-subtitle2 q-mb-md">© 2025 Todos los derechos reservados.</div>
+            <div class="text-subtitle2 q-mb-md">© {{ anioActual }} Todos los derechos reservados.</div>
 
             <div class="text-h6 q-mb-sm">
               <q-icon name="phone_in_talk" class="q-mr-sm" />
@@ -231,6 +231,7 @@ const deportes = [
 ];
 
 const coloniaLabel = 'Colonia / Campus Deportivo';
+const anioActual = new Date().getFullYear();
 
 interface NavItem {
   label: string;
