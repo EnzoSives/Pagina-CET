@@ -1,11 +1,11 @@
 <template>
   <div>
-    <q-btn label="Agregar beneficio" color="primary" @click="abrirModal" />
+    <q-btn label="Agregar beneficio" icon-right="add" class="app-btn app-btn--primary add-benefit-button" unelevated @click="abrirModal" />
 
     <q-dialog v-model="mostrarModal" persistent>
-      <q-card class="q-pa-md" style="min-width: 400px">
+      <q-card class="benefit-dialog">
         <q-card-section>
-          <div class="text-h6">Nuevo Beneficio</div>
+          <div class="benefit-dialog__title">Nuevo beneficio</div>
         </q-card-section>
 
         <q-card-section class="q-gutter-md">
@@ -25,8 +25,8 @@
         </q-card-section>
 
         <q-card-actions align="right">
-          <q-btn flat label="Cancelar" color="negative" v-close-popup />
-          <q-btn label="Guardar" color="primary" @click="guardarBeneficio" />
+          <q-btn flat label="Cancelar" class="app-btn app-btn--secondary" v-close-popup />
+          <q-btn label="Guardar" class="app-btn app-btn--primary" unelevated @click="guardarBeneficio" />
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -122,3 +122,24 @@ const guardarBeneficio = async () => {
   }
 }
 </script>
+
+<style scoped>
+.add-benefit-button {
+  margin-bottom: 4px;
+}
+
+.benefit-dialog {
+  width: min(520px, 92vw);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-lg);
+}
+
+.benefit-dialog__title {
+  color: var(--color-text);
+  font-size: 1.35rem;
+  font-weight: 850;
+  line-height: 1.1;
+}
+</style>

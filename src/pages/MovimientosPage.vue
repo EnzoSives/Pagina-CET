@@ -1,17 +1,18 @@
 <template>
-  <div class="responsive-container">
+  <q-page class="responsive-container movements-page">
     <q-card class="account-card">
       <!-- Header mejorado -->
       <q-card-section class="header-section">
         <div class="header-content">
           <!-- Botón volver optimizado -->
-          <q-btn label="Volver" color="white" text-color="grey-8" unelevated flat size="md" icon="arrow_back"
+          <q-btn label="Volver" unelevated flat size="md" icon="arrow_back"
             class="back-button" @click="back" />
 
           <!-- Info del perfil -->
           <div class="profile-info">
             <div class="profile-details">
-              <h4 class="profile-name">{{ perfilSeleccionado?.nombre }}</h4>
+              <p class="movement-eyebrow">Movimientos</p>
+              <h1 class="profile-name">{{ perfilSeleccionado?.nombre }}</h1>
               <p class="account-type">{{ cuentaSeleccionada?.tipoCuentaCobro }}</p>
             </div>
             <div class="profile-icon">
@@ -54,8 +55,8 @@
       <q-card-section class="main-content">
         <!-- Botón de pago mejorado -->
         <div class="action-section">
-          <q-btn v-if="cuentaSeleccionada?.saldo > 0" label="Pagar Cuenta" color="primary" unelevated size="md"
-            icon="payment" class="pay-button-modern" @click="pagar" />
+          <q-btn v-if="cuentaSeleccionada?.saldo > 0" label="Pagar cuenta" unelevated size="md"
+            icon-right="open_in_new" class="app-btn app-btn--primary pay-button-modern" @click="pagar" />
 
           <div v-else class="account-paid-message">
             <q-icon name="check_circle" color="positive" size="32px" />
@@ -66,10 +67,10 @@
         <!-- Sección de movimientos -->
         <div class="movements-wrapper">
           <div class="movements-header">
-            <h5 class="movements-title">
-              <q-icon name="history" class="title-icon" />
-              Movimientos de Cuenta
-            </h5>
+            <h2 class="movements-title">
+              <span class="title-icon"><q-icon name="history" size="22px" /></span>
+              Movimientos de cuenta
+            </h2>
           </div>
 
           <!-- Tabla responsive -->
@@ -140,7 +141,7 @@
         </div>
       </q-card-section>
     </q-card>
-  </div>
+  </q-page>
 </template>
 
 <script setup lang="ts">
@@ -242,16 +243,15 @@ const pagar = () => {
 <style scoped>
 .responsive-container {
   min-height: 100vh;
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-  padding-top: 100px !important;
+  background: var(--surface-bg);
 }
 
 .account-card {
   /* max-width: 1200px; */
   margin: 0 auto;
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   overflow: hidden;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-md);
   background: white;
 }
 
@@ -583,10 +583,7 @@ const pagar = () => {
 /* === RESPONSIVE BREAKPOINTS === */
 @media (max-width: 599px) {
   .responsive-container {
-    padding-top: 10px !important;
-    padding-left: 8px;
-    padding-right: 8px;
-    padding-bottom: 8px;
+    padding: 8px;
   }
 
   .main-content {
@@ -649,6 +646,498 @@ const pagar = () => {
 
   .main-content {
     padding: 40px;
+  }
+}
+
+/* === Diseño CET unificado === */
+.movements-page {
+  padding: 0 0 64px;
+  background: var(--surface-bg);
+  color: var(--color-text);
+}
+
+.account-card {
+  width: min(1180px, 100%);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-sm);
+}
+
+.header-section {
+  padding: 28px;
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-surface);
+}
+
+.header-section::before {
+  display: none;
+}
+
+.back-button {
+  min-height: 40px;
+  margin-bottom: 22px;
+  padding: 0 18px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: #fff;
+  color: var(--color-text-soft);
+  box-shadow: var(--shadow-sm);
+  font-weight: 700;
+  text-transform: none;
+}
+
+.back-button:hover {
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.profile-info {
+  align-items: center;
+  margin-bottom: 22px;
+}
+
+.movement-eyebrow {
+  margin: 0 0 8px;
+  color: var(--color-text-soft);
+  font-size: 0.76rem;
+  font-weight: 850;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.profile-name {
+  color: var(--color-text);
+  font-size: clamp(1.7rem, 4vw, 2.45rem);
+  font-weight: 850;
+  line-height: 1.05;
+}
+
+.account-type {
+  margin-top: 8px;
+  color: var(--color-text-soft);
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.profile-icon {
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  margin-left: 18px;
+  border-radius: var(--radius-sm);
+  background: var(--color-primary-soft);
+}
+
+.profile-icon .q-icon {
+  font-size: 34px !important;
+}
+
+.wallet-icon {
+  color: var(--color-primary);
+}
+
+.header-separator {
+  margin: 22px 0;
+  background: var(--color-border);
+}
+
+.balance-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.balance-card {
+  padding: 18px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: #f8fafc;
+  box-shadow: none;
+}
+
+.balance-card:hover {
+  transform: translateY(-2px);
+  background: #fff;
+  box-shadow: var(--shadow-sm);
+}
+
+.balance-icon {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: var(--radius-sm);
+  background: #fff;
+}
+
+.balance-label {
+  color: var(--color-text-soft);
+  font-size: 0.82rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.balance-amount {
+  margin-top: 5px;
+  color: var(--color-text);
+  font-size: clamp(1.25rem, 3vw, 1.65rem);
+  font-weight: 850;
+}
+
+.main-content {
+  padding: 28px;
+}
+
+.action-section {
+  justify-content: flex-start;
+  margin-bottom: 24px;
+}
+
+.pay-button-modern {
+  min-width: 220px;
+  padding: 0 24px;
+  background: var(--color-primary);
+  box-shadow: 0 8px 18px rgba(37, 99, 235, 0.24);
+  font-size: 1rem;
+}
+
+.account-paid-message {
+  padding: 12px 16px;
+  border: 1px solid rgba(22, 163, 74, 0.22);
+  border-radius: var(--radius-sm);
+  background: rgba(22, 163, 74, 0.08);
+}
+
+.paid-text {
+  color: #15803d;
+  font-size: 1rem;
+  font-weight: 850;
+}
+
+.movements-wrapper {
+  padding: 0;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  box-shadow: none;
+}
+
+.movements-header {
+  margin: 0;
+  padding: 18px 20px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.movements-title {
+  color: var(--color-text);
+  font-size: clamp(1.25rem, 3vw, 1.65rem);
+  font-weight: 850;
+}
+
+.title-icon {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: var(--radius-sm);
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+}
+
+.table-container {
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.movements-table {
+  background: var(--color-surface);
+}
+
+.movements-table :deep(.q-table thead th) {
+  background: #f8fafc;
+  color: var(--color-text-soft);
+  border-bottom: 1px solid var(--color-border);
+  font-size: 0.82rem;
+  font-weight: 850;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.movements-table :deep(.q-table tbody td) {
+  color: var(--color-text);
+  border-bottom: 1px solid #edf2f7;
+}
+
+.movements-table :deep(.q-table tbody tr:hover) {
+  background: var(--color-primary-soft);
+}
+
+.description-content {
+  color: var(--color-text);
+  font-weight: 700;
+}
+
+.date-icon {
+  color: var(--color-primary);
+}
+
+.balance-value {
+  color: var(--color-text);
+  font-weight: 850;
+}
+
+.movement-card {
+  margin: 0 0 12px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-sm);
+}
+
+@media (max-width: 599px) {
+  .movements-page {
+    padding: 16px 12px 32px;
+  }
+
+  .account-card {
+    border-radius: 18px;
+  }
+
+  .header-section {
+    padding: 18px;
+  }
+
+  .profile-info {
+    display: grid;
+    gap: 14px;
+  }
+
+  .profile-icon {
+    width: 48px;
+    height: 48px;
+    margin-left: 0;
+  }
+
+  .balance-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .main-content {
+    padding: 18px;
+  }
+
+  .action-section {
+    justify-content: stretch;
+  }
+
+  .pay-button-modern {
+    width: 100%;
+  }
+
+  .movements-header {
+    padding: 16px;
+  }
+}
+
+/* === Ajuste minimalista/profesional === */
+.movements-page {
+  padding: 24px 16px 64px;
+}
+
+.account-card {
+  box-shadow: none;
+}
+
+.header-section {
+  padding: 24px;
+}
+
+.back-button {
+  box-shadow: none;
+}
+
+.back-button:hover {
+  box-shadow: none;
+}
+
+.profile-name {
+  letter-spacing: -0.035em;
+}
+
+.profile-icon {
+  width: 46px;
+  height: 46px;
+  background: #f8fafc;
+}
+
+.profile-icon .q-icon {
+  font-size: 28px !important;
+}
+
+.balance-grid {
+  gap: 12px;
+}
+
+.balance-card {
+  padding: 16px;
+  background: var(--color-surface);
+}
+
+.balance-card:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+.balance-icon {
+  width: 38px;
+  height: 38px;
+  background: #f8fafc;
+}
+
+.balance-label {
+  font-size: 0.76rem;
+}
+
+.balance-amount {
+  font-size: clamp(1.2rem, 2.8vw, 1.45rem);
+}
+
+.main-content {
+  padding: 24px;
+}
+
+.account-paid-message {
+  border-width: 1px;
+}
+
+.movements-wrapper {
+  overflow: hidden;
+}
+
+.movements-title {
+  gap: 10px;
+}
+
+.title-icon {
+  width: 38px;
+  height: 38px;
+  background: #f8fafc;
+}
+
+.amount-chip {
+  box-shadow: none;
+}
+
+.movement-card {
+  box-shadow: none;
+}
+
+@media (max-width: 599px) {
+  .movements-page {
+    padding: 12px 12px 32px;
+  }
+
+  .header-section,
+  .main-content {
+    padding: 16px;
+  }
+
+  .back-button {
+    margin-bottom: 18px;
+  }
+
+  .profile-info {
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: start;
+  }
+
+  .profile-icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .profile-icon .q-icon {
+    font-size: 24px !important;
+  }
+
+  .profile-name {
+    font-size: clamp(1.45rem, 7vw, 1.85rem);
+  }
+
+  .balance-card {
+    padding: 14px;
+  }
+}
+
+.profile-info {
+  display: block;
+  margin-bottom: 18px;
+}
+
+.profile-details {
+  text-align: left;
+}
+
+.profile-icon {
+  display: none;
+}
+
+.header-section {
+  padding: 22px 24px;
+}
+
+.header-separator {
+  margin: 18px 0;
+}
+
+.movement-eyebrow {
+  margin-bottom: 6px;
+}
+
+.account-type {
+  margin-top: 6px;
+}
+
+@media (max-width: 959px) {
+  .profile-info {
+    display: block;
+  }
+
+  .profile-details {
+    text-align: left;
+  }
+}
+
+/* Uso completo del ancho disponible */
+.movements-page {
+  padding-right: clamp(10px, 2vw, 24px);
+  padding-left: clamp(10px, 2vw, 24px);
+}
+
+.account-card {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+}
+
+.header-content,
+.main-content,
+.balance-grid,
+.action-section,
+.movements-wrapper,
+.table-container,
+.movements-table {
+  width: 100%;
+}
+
+@media (max-width: 599px) {
+  .movements-page {
+    padding-right: 10px;
+    padding-left: 10px;
   }
 }
 </style>

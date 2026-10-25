@@ -31,3 +31,6 @@ yarn-error.log*
 
 # local .env files
 .env.local*
+
+# PowerShell cache accidentally created in project root
+Microsoft/

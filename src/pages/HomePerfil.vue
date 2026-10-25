@@ -1,68 +1,63 @@
 <template>
-  <q-page class="q-pa-md page-background" style="padding-top: 100px">
-    <!-- Selector de Perfiles y Botón de Logout -->
-    <div class="row justify-end q-mb-md items-center">
-      <q-select v-model="perfilIndexLocal" :options="perfilesOptions" label="Seleccionar Perfil" outlined dense
-        emit-value map-options :style="isMobile ? 'width: 70%' : 'width: 250px'"
-        class="q-mb-xs q-mb-sm-none selector-perfil" />
-      <q-btn icon="logout" color="negative" style="height: 35px; margin-left: 20px" @click="authStore.logout"
-        class="btn-logout" unelevated>Salir</q-btn>
-    </div>
-
+  <q-page class="home-profile-page">
+    <div class="home-profile-shell">
     <!-- Tarjeta de Perfil - Versión Desktop -->
-    <q-card v-if="!isMobile" class="q-pa-lg row items-center perfil-card" style="height: 180px">
-      <q-avatar size="100px" class="q-mr-lg avatar-perfil">
-        <img :src="perfilImg" />
+    <q-card v-if="!isMobile" class="perfil-card">
+      <q-avatar size="100px" class="avatar-perfil">
+        <img v-if="avatarUrl" :src="avatarUrl" @error="avatarError = true" />
+        <span v-else>{{ profileInitials }}</span>
       </q-avatar>
-      <div class="col">
-        <div class="text-h5 text-weight-bold text-primary">
+      <div class="profile-summary">
+        <p class="profile-eyebrow">Mi perfil CET</p>
+        <h1>
           {{ perfilSeleccionado?.nombre }} {{ perfilSeleccionado?.apellido }}
-        </div>
-        <div class="text-subtitle1 text-grey-7 q-mt-sm info-perfil">
-          <q-icon name="badge" size="sm" color="primary" /> N° Cliente: {{ perfilSeleccionado?.numeroCliente }}
-          <q-icon name="event" class="q-ml-md" size="sm" color="primary" /> DNI: {{ perfilSeleccionado?.dni }}
+        </h1>
+        <div class="profile-meta">
+          <span><q-icon name="badge" size="18px" /> N° Cliente: {{ perfilSeleccionado?.numeroCliente }}</span>
+          <span><q-icon name="event" size="18px" /> DNI: {{ perfilSeleccionado?.dni }}</span>
         </div>
       </div>
-      <div class="row items-center">
-        <q-badge color="positive" text-color="white" class="q-pa-sm q-mr-md badge-activo">
+      <div class="profile-actions">
+        <q-badge color="positive" text-color="white" class="badge-activo">
           <q-icon name="check_circle" size="xs" class="q-mr-xs" /> Socio Activo
         </q-badge>
-        <q-btn color="primary" icon="badge" label="Credencial" @click="showCredencial = true" unelevated
-          class="btn-credencial" size="md" />
+        <q-btn icon-right="badge" label="Credencial" @click="showCredencial = true" unelevated
+          class="app-btn app-btn--primary btn-credencial" size="md" />
       </div>
     </q-card>
 
     <!-- Tarjeta de Perfil - Versión Mobile -->
-    <q-card v-else class="q-pa-md perfil-card-mobile">
-      <div class="column items-center q-col-gutter-md">
-        <div class="col-12 text-center">
+    <q-card v-else class="perfil-card-mobile">
+      <div class="mobile-profile-content">
+        <div class="text-center">
           <q-avatar size="100px" class="avatar-perfil">
-            <img :src="perfilImg" />
+            <img v-if="avatarUrl" :src="avatarUrl" @error="avatarError = true" />
+            <span v-else>{{ profileInitials }}</span>
           </q-avatar>
         </div>
-        <div class="col-12 text-center">
-          <div class="text-h6 text-weight-bold text-primary">
+        <div class="text-center">
+          <p class="profile-eyebrow">Mi perfil CET</p>
+          <h1>
             {{ perfilSeleccionado?.nombre }} {{ perfilSeleccionado?.apellido }}
-          </div>
-          <div class="text-subtitle2 text-grey-7 q-mt-sm">
-            <div class="q-mb-xs"><q-icon name="badge" color="primary" /> N° Cliente: {{
-              perfilSeleccionado?.numeroCliente }}</div>
-            <div><q-icon name="event" color="primary" /> DNI: {{ perfilSeleccionado?.dni }}</div>
+          </h1>
+          <div class="profile-meta profile-meta--mobile">
+            <span><q-icon name="badge" /> N° Cliente: {{ perfilSeleccionado?.numeroCliente }}</span>
+            <span><q-icon name="event" /> DNI: {{ perfilSeleccionado?.dni }}</span>
           </div>
         </div>
-        <div class="col-12 text-center">
-          <q-badge color="positive" text-color="white" class="q-pa-sm q-mb-sm block-center badge-activo">
+        <div class="mobile-profile-actions">
+          <q-badge color="positive" text-color="white" class="badge-activo">
             <q-icon name="check_circle" size="xs" class="q-mr-xs" /> Socio Activo
           </q-badge>
-          <q-btn color="primary" icon="badge" label="Credencial" @click="showCredencial = true"
-            class="full-width-mobile btn-credencial" unelevated />
+          <q-btn icon-right="badge" label="Credencial" @click="showCredencial = true"
+            class="app-btn app-btn--primary full-width-mobile btn-credencial" unelevated />
         </div>
       </div>
     </q-card>
 
     <!-- Modal de Credencial - Ajustes para Mobile -->
     <q-dialog v-model="showCredencial">
-      <q-card class="bg-white" :style="isMobile ? 'width: 90%' : ''">
+      <q-card class="credential-dialog" :style="isMobile ? 'width: 90%' : ''">
         <q-card-section class="row items-center">
           <div class="text-h6">Credencial Digital</div>
           <q-space />
@@ -89,31 +84,32 @@
         </q-card-section>
 
         <q-card-actions align="right" class="q-px-md q-pb-md">
-          <q-btn flat label="Cerrar" color="primary" v-close-popup />
+          <q-btn flat label="Cerrar" class="app-btn app-btn--secondary" v-close-popup />
         </q-card-actions>
       </q-card>
     </q-dialog>
 
     <!-- Pestañas de Navegación -->
-    <q-tabs v-model="tab" class="q-mt-lg tabs-navegacion" align="justify" :inline-label="!isMobile"
+    <q-tabs v-model="tab" class="tabs-navegacion" align="justify" inline-label mobile-arrows outside-arrows
       active-color="primary" indicator-color="primary">
-      <q-tab name="cobro" :label="isMobile ? '' : 'Cuentas de Cobro'" icon="account_balance_wallet" class="tab-item" />
-      <q-tab name="beneficios" :label="isMobile ? '' : 'Beneficios'" icon="card_giftcard" class="tab-item" />
-      <q-tab name="camaras" :label="isMobile ? '' : 'Cámaras'" icon="videocam" class="tab-item" />
-      <q-tab name="buscar" :label="isMobile ? '' : 'Buscar Socios'" icon="search" class="tab-item" />
+      <q-tab name="cobro" label="Cuentas" icon="account_balance_wallet" class="tab-item" />
+      <q-tab name="beneficios" label="Beneficios" icon="card_giftcard" class="tab-item" />
+      <q-tab name="camaras" label="Cámaras" icon="videocam" class="tab-item" />
+      <q-tab name="buscar" label="Buscar" icon="search" class="tab-item" />
     </q-tabs>
 
     <q-tab-panels v-model="tab" animated>
       <!-- Panel de Cuentas de Cobro -->
       <q-tab-panel name="cobro" :class="isMobile ? 'q-pa-sm' : 'q-pa-md'" class="tab-panel-animated">
         <div class="section-header">
-          <q-icon name="account_balance_wallet" size="md" color="primary" class="q-mr-sm" />
-          <p class="text-h6 text-grey-8 q-ma-none" :class="isMobile ? 'text-subtitle1' : ''">
-            Visualiza y gestiona tus pagos pendientes
-          </p>
+          <span class="section-header__icon"><q-icon name="account_balance_wallet" size="22px" /></span>
+          <div>
+            <h2>Cuentas de cobro</h2>
+            <p>Visualizá y gestioná tus pagos pendientes.</p>
+          </div>
         </div>
 
-        <q-list separator bordered class="rounded-borders lista-cuentas">
+        <q-list class="lista-cuentas">
           <CuentaCobro :eID="perfilSeleccionado?.id || ''" />
         </q-list>
       </q-tab-panel>
@@ -121,10 +117,11 @@
       <!-- Panel de Beneficios -->
       <q-tab-panel name="beneficios" :class="isMobile ? 'q-pa-sm' : 'q-pa-md'" class="tab-panel-animated">
         <div class="section-header">
-          <q-icon name="card_giftcard" size="md" color="primary" class="q-mr-sm" />
-          <p class="text-h6 text-grey-8 q-ma-none" :class="isMobile ? 'text-subtitle1' : ''">
-            Aquí puedes ver los beneficios disponibles.
-          </p>
+          <span class="section-header__icon"><q-icon name="card_giftcard" size="22px" /></span>
+          <div>
+            <h2>Beneficios</h2>
+            <p>Consultá los beneficios disponibles para socios.</p>
+          </div>
         </div>
 
         <!-- 👇 Botón y modal para crear beneficio -->
@@ -132,17 +129,19 @@
 
         <!-- 👇 Lista de cards -->
         <div class="cards-container q-mt-md">
-          <BeneficiosCard v-for="beneficio in beneficiosStore.beneficios" :key="beneficio.id" :beneficio="beneficio" />
+          <BeneficiosCard v-for="beneficio in beneficiosStore.beneficios" :key="beneficio.id" :beneficio="beneficio"
+            editable />
         </div>
       </q-tab-panel>
 
       <!-- Panel de Cámaras -->
       <q-tab-panel name="camaras" :class="isMobile ? 'q-pa-sm' : 'q-pa-md'" class="tab-panel-animated">
         <div class="section-header">
-          <q-icon name="videocam" size="md" color="primary" class="q-mr-sm" />
-          <p class="text-h6 text-grey-8 q-ma-none" :class="isMobile ? 'text-subtitle1' : ''">
-            Visualiza en vivo las cámaras del complejo.
-          </p>
+          <span class="section-header__icon"><q-icon name="videocam" size="22px" /></span>
+          <div>
+            <h2>Cámaras</h2>
+            <p>Visualizá en vivo las cámaras del complejo.</p>
+          </div>
         </div>
 
         <div class="q-mt-md">
@@ -171,10 +170,11 @@
       <!-- Panel de Buscar Socios -->
       <q-tab-panel name="buscar" :class="isMobile ? 'q-pa-sm' : 'q-pa-md'" class="tab-panel-animated">
         <div class="section-header">
-          <q-icon name="search" size="md" color="primary" class="q-mr-sm" />
-          <p class="text-h6 text-grey-8 q-ma-none" :class="isMobile ? 'text-subtitle1' : ''">
-            Busca y encuentra otros socios.
-          </p>
+          <span class="section-header__icon"><q-icon name="search" size="22px" /></span>
+          <div>
+            <h2>Buscar socios</h2>
+            <p>Buscá y encontrá otros socios por DNI.</p>
+          </div>
         </div>
 
         <!-- Campo de búsqueda -->
@@ -184,7 +184,7 @@
             <q-icon name="person_search" color="primary" />
           </template>
           <template v-slot:append>
-            <q-btn icon="search" color="primary" flat rounded @click="buscarSocios"></q-btn>
+            <q-btn icon="search" class="app-btn app-btn--secondary search-button" flat rounded @click="buscarSocios"></q-btn>
           </template>
         </q-input>
 
@@ -214,6 +214,7 @@
         </q-banner>
       </q-tab-panel>
     </q-tab-panels>
+    </div>
   </q-page>
 </template>
 
@@ -223,20 +224,17 @@ import type { ComponentPublicInstance } from 'vue'
 import { usePerfilStore } from 'src/stores/perfilesStore'
 import { useRouter } from 'vue-router'
 import { useBeneficiosStore } from 'src/stores/beneficiosStore'
-import { useAuthStore } from 'src/stores/auth'
 import CuentaCobro from 'src/components/CuentaCobro.vue'
 import BeneficiosCard from 'src/components/BeneficiosComponent.vue'
 import type { Socio } from 'src/stores/perfilesStore'
 import AgregarBeneficio from 'src/components/AgregarBeneficio.vue'
 import Hls from 'hls.js'
-import perfilImg from 'src/assets/perfil.png'
 
 const credencialRef = ref(null)
 const perfilStore = usePerfilStore()
 const { getCuentasCobroPerfilJCETAction, setSocio } = perfilStore
 const router = useRouter()
 const beneficiosStore = useBeneficiosStore()
-const authStore = useAuthStore()
 
 type Camara = {
   id: string
@@ -298,6 +296,7 @@ const inicializarCamara = async () => {
 
 const busqueda = ref('')
 const sociosEncontrados = ref<Socio[]>([])
+const avatarError = ref(false)
 
 // Función para buscar socios por DNI
 const buscarSocios = async () => {
@@ -314,25 +313,17 @@ const buscarSocios = async () => {
   }
 }
 
-// Local ref para manejar el selector correctamente
-const perfilIndexLocal = ref(perfilStore.perfilIndex)
-
-// Opciones para el selector
-const perfilesOptions = computed(() =>
-  perfilStore.perfiles.map((perfil, index) => ({
-    label: `${perfil.nombre} ${perfil.apellido}`,
-    value: index,
-  })),
-)
-
 // Perfil seleccionado
 const perfilSeleccionado = computed(() => perfilStore.perfiles[perfilStore.perfilIndex] || null)
+const avatarUrl = computed(() => avatarError.value ? '' : (perfilSeleccionado.value?.url || ''))
+const profileInitials = computed(() => {
+  const nombre = perfilSeleccionado.value?.nombre || ''
+  const apellido = perfilSeleccionado.value?.apellido || ''
+  return `${nombre.charAt(0)}${apellido.charAt(0)}`.trim().toUpperCase() || 'CET'
+})
 
-// Actualizar el store cuando cambie el selector
-watch(perfilIndexLocal, (newIndex) => {
-  if (newIndex !== null && newIndex !== undefined) {
-    perfilStore.perfilIndex = newIndex
-  }
+watch(perfilSeleccionado, () => {
+  avatarError.value = false
 })
 
 // Ejecutar la actualización de `cuentasCobros` cada vez que cambie el perfil seleccionado
@@ -397,104 +388,194 @@ const showCredencial = ref(false)
 </script>
 
 <style scoped>
-/* Background */
-.page-background {
-  background: linear-gradient(135deg, #f5f7fa 0%, #e8ecf1 100%);
+.home-profile-page {
   min-height: 100vh;
+  padding: 0 0 64px;
+  background: var(--surface-bg);
+  color: var(--color-text);
 }
 
-/* Selector y Botón Logout */
+.home-profile-shell {
+  width: min(1180px, 100%);
+  margin: 0 auto;
+  padding: 34px 24px 0;
+}
+
+.profile-toolbar {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 18px;
+}
+
 .selector-perfil {
-  transition: all 0.3s ease;
+  width: min(100%, 280px);
 }
 
 .btn-logout {
-  transition: all 0.3s ease;
+  min-height: 40px;
+  padding: 0 18px;
+  border: 1px solid rgba(185, 28, 28, 0.18);
+  border-radius: var(--radius-sm);
+  background: #fff;
+  color: #b91c1c;
+  box-shadow: var(--shadow-sm);
+  font-weight: 700;
   text-transform: none;
-  font-weight: 500;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.btn-logout:hover {
+.btn-logout:hover,
+.perfil-card:hover,
+.camara-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: var(--shadow-md);
 }
 
-/* Tarjeta de Perfil */
+.perfil-card {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 22px;
+  min-height: 164px;
+  padding: 24px;
+}
+
 .perfil-card,
-.perfil-card-mobile {
-  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
-  border-radius: 16px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-  transition: all 0.3s ease;
-  border: 1px solid rgba(0, 0, 0, 0.05);
+.perfil-card-mobile,
+.credential-dialog {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.perfil-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.16);
+.perfil-card-mobile {
+  padding: 20px 18px 22px;
+}
+
+.mobile-profile-content {
+  display: grid;
+  justify-items: center;
+  gap: 12px;
 }
 
 .avatar-perfil {
-  box-shadow: 0 4px 12px rgba(25, 118, 210, 0.3);
-  transition: all 0.3s ease;
+  border: 4px solid #fff;
+  background: var(--color-primary);
+  color: #fff;
+  font-weight: 850;
+  letter-spacing: 0.02em;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.16), var(--shadow-md);
 }
 
-.avatar-perfil img {
+.profile-summary {
+  min-width: 0;
+}
+
+.profile-eyebrow {
+  margin: 0 0 7px;
+  color: var(--color-text-soft);
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.profile-summary h1,
+.perfil-card-mobile h1 {
+  margin: 0;
+  color: var(--color-text);
+  font-size: clamp(1.6rem, 4vw, 2.35rem);
+  font-weight: 850;
+  line-height: 1.05;
+}
+
+.profile-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 12px;
+  color: var(--color-text-soft);
+  font-weight: 700;
+}
+
+.profile-meta span {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 11px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: #f8fafc;
+}
+
+.profile-meta .q-icon {
+  color: var(--color-primary);
+}
+
+.profile-meta--mobile {
+  justify-content: center;
+}
+
+.profile-actions,
+.mobile-profile-actions {
+  display: grid;
+  justify-items: end;
+  gap: 12px;
+}
+
+.mobile-profile-actions {
+  justify-items: center;
   width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.avatar-perfil:hover {
-  transform: scale(1.05);
-  box-shadow: 0 6px 16px rgba(25, 118, 210, 0.4);
-}
-
-.info-perfil {
-  font-size: 0.95rem;
+  margin-top: 2px;
 }
 
 .badge-activo {
-  border-radius: 20px;
-  font-weight: 600;
-  box-shadow: 0 2px 8px rgba(76, 175, 80, 0.3);
-  font-size: 0.85rem;
+  min-height: 32px;
+  padding: 7px 12px;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 800;
+  box-shadow: 0 8px 18px rgba(22, 163, 74, 0.18);
 }
 
 .btn-credencial {
-  border-radius: 8px;
-  font-weight: 600;
-  text-transform: none;
-  padding: 8px 20px;
-  transition: all 0.3s ease;
+  width: min(100%, 300px);
+  min-width: 150px;
 }
 
-.btn-credencial:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(25, 118, 210, 0.3);
-}
-
-/* Pestañas */
 .tabs-navegacion {
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  padding: 8px;
+  margin-top: 20px;
+  padding: 6px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: var(--shadow-sm);
 }
 
 .tab-item {
-  transition: all 0.3s ease;
-  border-radius: 8px;
-  font-weight: 500;
+  border-radius: var(--radius-sm);
+  font-weight: 800;
+  min-height: 46px;
+  text-transform: none;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 .tab-item:hover {
-  background: rgba(25, 118, 210, 0.05);
+  background: var(--color-primary-soft);
 }
 
-/* Paneles de Pestañas */
 .tab-panel-animated {
-  animation: fadeInUp 0.5s ease;
+  margin-top: 14px;
+  padding: 24px !important;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-sm);
+  animation: fadeInUp 0.35s ease;
 }
 
 @keyframes fadeInUp {
@@ -510,20 +591,47 @@ const showCredencial = ref(false)
 }
 
 .section-header {
-  display: flex;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
   align-items: center;
-  margin-bottom: 20px;
-  padding-bottom: 12px;
-  border-bottom: 2px solid rgba(25, 118, 210, 0.2);
+  gap: 12px;
+  margin-bottom: 18px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.section-header__icon {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-sm);
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+}
+
+.section-header h2 {
+  margin: 0;
+  color: var(--color-text);
+  font-size: clamp(1.35rem, 3vw, 1.9rem);
+  font-weight: 850;
+  line-height: 1.1;
+}
+
+.section-header p {
+  margin: 6px 0 0;
+  color: var(--color-text-soft);
+  font-size: 0.92rem;
 }
 
 /* Listas */
 .lista-cuentas,
 .lista-socios {
-  border-radius: 12px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
   overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  background: white;
+  background: var(--color-surface);
+  box-shadow: none;
 }
 
 .resultado-socio {
@@ -531,8 +639,7 @@ const showCredencial = ref(false)
 }
 
 .resultado-socio:hover {
-  background: rgba(25, 118, 210, 0.05);
-  transform: translateX(4px);
+  background: var(--color-primary-soft);
 }
 
 /* Input de búsqueda */
@@ -540,22 +647,25 @@ const showCredencial = ref(false)
   max-width: 600px;
 }
 
+.search-button {
+  min-width: 40px;
+  min-height: 40px;
+  padding: 0;
+}
+
 .banner-no-resultados {
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  border: 1px solid var(--color-border);
+  box-shadow: none;
 }
 
 /* Cámaras */
 .camara-card {
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  transition: all 0.3s ease;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
   overflow: hidden;
-}
-
-.camara-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
 }
 
 .blink {
@@ -707,6 +817,69 @@ const showCredencial = ref(false)
 
 /* Ajustes para la versión móvil */
 @media (max-width: 767px) {
+  .home-profile-page {
+    padding-bottom: 32px;
+  }
+
+  .home-profile-shell {
+    padding: 16px 12px 0;
+  }
+
+  .profile-toolbar {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+
+  .selector-perfil {
+    width: 100%;
+  }
+
+  .btn-logout {
+    min-width: 0;
+    padding: 0 12px;
+  }
+
+  .tabs-navegacion {
+    margin-top: 16px;
+  }
+
+  .tab-panel-animated {
+    margin-top: 12px;
+    padding: 18px !important;
+    border-radius: 18px;
+  }
+
+  .section-header {
+    align-items: start;
+    gap: 12px;
+  }
+
+  .section-header__icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .perfil-card-mobile .avatar-perfil {
+    width: 78px !important;
+    height: 78px !important;
+  }
+
+  .perfil-card-mobile h1 {
+    font-size: clamp(1.45rem, 6.6vw, 1.9rem);
+  }
+
+  .cards-container {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .camaras-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
   .texto-apellido {
     top: 80px;
     left: 30px;
@@ -735,10 +908,199 @@ const showCredencial = ref(false)
     width: 100%;
   }
 
+  .mobile-profile-actions .btn-credencial.full-width-mobile {
+    width: min(100%, 280px);
+  }
+
   .block-center {
     display: block;
     margin: 0 auto;
     margin-bottom: 10px;
+  }
+}
+
+/* Ajuste minimalista/profesional */
+.perfil-card,
+.perfil-card-mobile,
+.tabs-navegacion,
+.tab-panel-animated,
+.camara-card,
+.lista-cuentas,
+.lista-socios {
+  box-shadow: none;
+}
+
+.perfil-card:hover,
+.camara-card:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+.profile-toolbar {
+  margin-bottom: 14px;
+}
+
+.perfil-card {
+  min-height: 148px;
+  padding: 22px;
+}
+
+.avatar-perfil {
+  box-shadow: 0 0 0 1px var(--color-border);
+}
+
+.profile-eyebrow {
+  color: #64748b;
+  font-size: 0.72rem;
+}
+
+.profile-summary h1,
+.perfil-card-mobile h1 {
+  letter-spacing: -0.035em;
+}
+
+.profile-meta span {
+  background: transparent;
+}
+
+.badge-activo {
+  box-shadow: none;
+}
+
+.btn-credencial {
+  box-shadow: none;
+}
+
+.tabs-navegacion {
+  background: var(--color-surface);
+}
+
+.tab-item {
+  color: #334155;
+  font-weight: 700;
+}
+
+.section-header__icon {
+  background: #f8fafc;
+}
+
+@media (max-width: 767px) {
+  .perfil-card-mobile {
+    padding: 16px;
+  }
+
+  .mobile-profile-content {
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: center;
+    justify-items: start;
+    column-gap: 14px;
+    row-gap: 12px;
+  }
+
+  .perfil-card-mobile .text-center {
+    text-align: left;
+  }
+
+  .perfil-card-mobile .avatar-perfil {
+    width: 64px !important;
+    height: 64px !important;
+    font-size: 1.1rem;
+  }
+
+  .perfil-card-mobile h1 {
+    font-size: clamp(1.2rem, 5.4vw, 1.55rem);
+  }
+
+  .profile-meta {
+    gap: 6px;
+    margin-top: 10px;
+  }
+
+  .profile-meta span {
+    padding: 5px 8px;
+    font-size: 0.78rem;
+  }
+
+  .profile-meta--mobile {
+    justify-content: flex-start;
+  }
+
+  .mobile-profile-actions {
+    grid-column: 1 / -1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    justify-self: stretch;
+    gap: 10px;
+    margin-top: 0;
+  }
+
+  .mobile-profile-actions .btn-credencial.full-width-mobile {
+    width: auto;
+    min-width: 142px;
+  }
+
+  .tabs-navegacion {
+    padding: 4px;
+  }
+
+  .tab-item {
+    min-height: 42px;
+    font-size: 0.8rem;
+  }
+}
+
+/* Uso completo del ancho disponible */
+.home-profile-shell {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding-right: clamp(12px, 2vw, 24px);
+  padding-left: clamp(12px, 2vw, 24px);
+}
+
+.profile-toolbar,
+.perfil-card,
+.perfil-card-mobile,
+.tabs-navegacion,
+.tab-panel-animated,
+.lista-cuentas,
+.lista-socios {
+  width: 100%;
+}
+
+.selector-perfil {
+  flex: 1 1 auto;
+  width: 100%;
+  max-width: none;
+}
+
+.input-busqueda {
+  width: 100%;
+  max-width: none;
+}
+
+.cards-container,
+.camaras-grid {
+  width: 100%;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+@media (max-width: 620px) {
+  .cards-container,
+  .camaras-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 767px) {
+  .home-profile-shell {
+    padding-right: 10px;
+    padding-left: 10px;
+  }
+
+  .mobile-profile-actions .btn-credencial.full-width-mobile {
+    width: 100%;
   }
 }
 </style>
