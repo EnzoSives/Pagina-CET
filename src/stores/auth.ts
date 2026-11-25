@@ -2,7 +2,6 @@ import { defineStore } from 'pinia'
 import { auth } from 'src/firebase'
 import {
   signInWithEmailAndPassword,
-  createUserWithEmailAndPassword,
   signOut,
   onAuthStateChanged,
   type User,
@@ -26,16 +25,6 @@ export const useAuthStore = defineStore('auth', {
   }),
 
   actions: {
-    async register(email: string, password: string) {
-      try {
-        const userCredential = await createUserWithEmailAndPassword(auth, email, password)
-        await this.handleUserAuth(userCredential.user)
-      } catch (error: unknown) {
-        console.error('Error en el registro')
-        throw error
-      }
-    },
-
     async login(email: string, password: string) {
       try {
         const userCredential = await signInWithEmailAndPassword(auth, email, password)

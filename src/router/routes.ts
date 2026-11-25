@@ -3,7 +3,6 @@ import DeportesPage from 'pages/DeportesPage.vue'
 import SocioPage from 'pages/SocioPage.vue'
 import InstitucionalPage from 'pages/InstitucionalPage.vue'
 import LoginPage from 'src/pages/LoginPage.vue'
-import RegisterPage from 'src/pages/RegisterPage.vue'
 import AppCet from 'src/pages/AppCet.vue'
 import BeneficiosPage from 'src/pages/BeneficiosPage.vue'
 import AdmPerfiles from 'src/pages/AdmPerfiles.vue'
@@ -25,7 +24,6 @@ const routes: RouteRecordRaw[] = [
       { path: '/institucional', name: 'Institucional', component: InstitucionalPage },
       { path: '/colonia', name: 'Colonia', component: ColoniaPage },
       { path: '/login', name: 'Login', component: LoginPage },
-      { path: '/register', name: 'Register', component: RegisterPage },
       { path: '/reset-password', name: 'ResetPassword', component: ResetPassword },
       {
         path: '/beneficios',
