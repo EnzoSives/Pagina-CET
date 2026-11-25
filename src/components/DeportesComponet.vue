@@ -289,17 +289,13 @@ onBeforeUnmount(() => {
   grid-template-columns: minmax(0, 1.08fr) minmax(380px, 0.92fr);
   min-height: 430px;
   overflow: hidden;
-  border: 1px solid rgba(148, 163, 184, 0.2);
   border-radius: 28px;
-  background: rgba(255, 255, 255, 0.88);
-  box-shadow: 0 24px 70px rgba(15, 23, 42, 0.1), 0 2px 8px rgba(15, 23, 42, 0.05);
-  transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
+  background: transparent;
+  transition: transform 0.35s ease;
 }
 
 .sport-card:hover {
   transform: translateY(-6px);
-  border-color: color-mix(in srgb, var(--sport-accent) 28%, transparent);
-  box-shadow: 0 32px 90px rgba(15, 23, 42, 0.14), 0 8px 24px color-mix(in srgb, var(--sport-accent) 12%, transparent);
 }
 
 .sport-section--reverse .sport-image {
@@ -387,9 +383,7 @@ onBeforeUnmount(() => {
   justify-content: center;
   min-width: 0;
   padding: clamp(38px, 4vw, 64px);
-  background:
-    linear-gradient(135deg, color-mix(in srgb, var(--sport-accent) 5%, transparent), transparent 45%),
-    rgba(255, 255, 255, 0.92);
+  background: transparent;
 }
 
 .sport-content p {
