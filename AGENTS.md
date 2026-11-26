@@ -56,6 +56,9 @@ orqen works alongside the person; it does not replace them. While someone is on 
   senior, ask for their decision and record it yourself with the orqen command (`orqen review`, `orqen approve`, …).
   `/approve` and `/reject` on the ticket are for the client and for approvers who are not in the conversation: when a gate
   waits for them, say in one line who has to act and where, and stop.
+- **If orqen refuses to take a worq because someone has it**, tell the person exactly what it said: another person has the task (name them),
+  or they are already working on it in another session (continue there). Offer `orqen release <KEY>` only when they confirm that
+  session or person is no longer working on it; never release it on your own.
 - **When in doubt, ask; never assume.** An ambiguous requirement, two possible approaches, a failing test where you are not
   sure whether the test or the code is wrong, an environment error you do not understand: ask with concrete options and your
   recommendation (use your tool's question picker if it has one, such as `AskUserQuestion` in Claude Code).

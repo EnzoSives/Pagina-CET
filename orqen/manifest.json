@@ -1,5 +1,5 @@
 {
-  "kit": "0.1.37",
+  "kit": "0.1.39",
   "archivos": {
     "orqen/stages/analysis.md": "8d0a1d4449d26aaa",
     "orqen/stages/delivery.md": "dff67774a5bde3f3",
@@ -25,6 +25,6 @@
     "orqen/plugin/commands/tutorial.md": "cccc7e2b0de5b83a",
     "orqen/plugin/skills/grilling/SKILL.md": "875acefc2dc73f03",
     "orqen/worqs/README.md": "5620f724c81bf719",
-    "AGENTS.md#orqen": "ff4d73edb5517203"
+    "AGENTS.md#orqen": "5b954c5b642837db"
   }
 }
