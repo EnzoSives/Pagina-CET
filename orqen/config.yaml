@@ -7,11 +7,16 @@ orqen:
 project:
   name: pagina-cet
   base_branch: dev
+workflow:
+  support: false
+  code_review:
+    gate: github
+  devel_branch: desarrollo
 agent:
   command: claude -p --permission-mode acceptEdits
 openspec:
-  install: devDependency
   version: 2.2.0
+  install: devDependency
   tools:
     - claude
     - codex
@@ -25,8 +30,3 @@ connectors:
     project: SIS
     issue_type: Task
     link_type: Relates
-workflow:
-  support: false
-  code_review:
-    gate: github
-  devel_branch: desarrollo
