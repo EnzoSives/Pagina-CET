@@ -144,24 +144,20 @@
           </div>
         </div>
 
-        <div class="q-mt-md">
-          <div class="row items-center justify-center q-mb-md q-gutter-sm">
-            <q-btn icon="chevron_left" round flat color="primary" :disable="camaraIndex === 0"
-              @click="camaraIndex--" />
-            <q-chip color="primary" text-color="white" icon="videocam">
-              {{ camaraActual?.titulo }}
-            </q-chip>
-            <q-btn icon="chevron_right" round flat color="primary" :disable="camaraIndex === camaras.length - 1"
-              @click="camaraIndex++" />
-          </div>
-          <q-card class="q-pa-md camara-card" style="max-width: 800px; margin: 0 auto;">
+        <div class="camaras-grid q-mt-md" data-testid="camaras-grid">
+          <q-card v-for="camara in camaras" :key="camara.id" class="q-pa-md camara-card"
+            :data-testid="`camara-card-${camara.id}`">
             <div class="text-subtitle1 text-weight-medium q-mb-sm">
               <q-icon name="fiber_manual_record" color="red" size="xs" class="blink" />
-              {{ camaraActual?.titulo }}
+              {{ camara.titulo }}
             </div>
             <div class="video-wrapper">
               <video class="camara-video" playsinline controls muted crossorigin="anonymous"
-                :ref="(el) => setVideoRef(el, camaraActual?.id ?? '')"></video>
+                :data-testid="`camara-video-${camara.id}`"
+                :ref="(el) => setVideoRef(el, camara.id)"></video>
+              <div v-if="erroresCamara[camara.id]" class="camara-error" :data-testid="`camara-error-${camara.id}`">
+                Cámara no disponible
+              </div>
             </div>
           </q-card>
         </div>
@@ -248,16 +244,20 @@ const camaras: Camara[] = [
   { id: 'col2', titulo: 'Cámara 2', url: 'https://mistserver.telpin.com.ar:8888/cet-col3/index.m3u8' },
 ]
 
-const camaraIndex = ref(0)
-const camaraActual = computed(() => camaras[camaraIndex.value])
-
 const videoRefs = ref<Record<string, HTMLVideoElement | null>>({})
 const hlsInstances: Record<string, Hls | null> = {}
+const erroresCamara = ref<Record<string, boolean>>({})
 
 const setVideoRef = (el: Element | ComponentPublicInstance | null, id: string) => {
   if (el instanceof HTMLVideoElement) {
     videoRefs.value[id] = el
+  } else {
+    delete videoRefs.value[id]
   }
+}
+
+const marcarError = (id: string) => {
+  erroresCamara.value[id] = true
 }
 
 const playSafely = (video: HTMLVideoElement) => {
@@ -266,33 +266,52 @@ const playSafely = (video: HTMLVideoElement) => {
   })
 }
 
-const inicializarCamara = async () => {
+const detenerCamaras = () => {
+  camaras.forEach((camara) => {
+    hlsInstances[camara.id]?.destroy()
+    hlsInstances[camara.id] = null
+
+    const video = videoRefs.value[camara.id]
+    if (!video) return
+    try {
+      video.pause()
+      video.removeAttribute('src')
+      video.load()
+    } catch (err) {
+      console.warn('No se pudo detener la cámara', camara.id, err)
+    }
+  })
+}
+
+const iniciarCamaras = async () => {
+  detenerCamaras()
   await nextTick()
 
-  // Destruir instancias HLS previas
-  Object.entries(hlsInstances).forEach(([id, hls]) => {
-    hls?.destroy()
-    hlsInstances[id] = null
+  // Cada cámara se inicia por separado: un error en una no afecta a la otra
+  camaras.forEach((camara) => {
+    erroresCamara.value[camara.id] = false
+
+    const video = videoRefs.value[camara.id]
+    if (!video) return
+    video.addEventListener('error', () => marcarError(camara.id), { once: true })
+
+    if (video.canPlayType('application/vnd.apple.mpegurl')) {
+      video.src = camara.url
+      video.addEventListener('loadedmetadata', () => playSafely(video), { once: true })
+    } else if (Hls.isSupported()) {
+      const hls = new Hls()
+      hls.loadSource(camara.url)
+      hls.attachMedia(video)
+      hls.on(Hls.Events.MANIFEST_PARSED, () => playSafely(video))
+      hls.on(Hls.Events.ERROR, (_, data) => {
+        console.warn('Error HLS en cámara', camara.id, data)
+        if (data.fatal) marcarError(camara.id)
+      })
+      hlsInstances[camara.id] = hls
+    } else {
+      marcarError(camara.id)
+    }
   })
-
-  const camara = camaraActual.value
-  if (!camara) return
-  const video = videoRefs.value[camara.id]
-  if (!video) return
-
-  if (video.canPlayType('application/vnd.apple.mpegurl')) {
-    video.src = camara.url
-    video.addEventListener('loadedmetadata', () => playSafely(video), { once: true })
-  } else if (Hls.isSupported()) {
-    const hls = new Hls()
-    hls.loadSource(camara.url)
-    hls.attachMedia(video)
-    hls.on(Hls.Events.MANIFEST_PARSED, () => playSafely(video))
-    hls.on(Hls.Events.ERROR, (_, data) => {
-      console.warn('Error HLS en cámara', camara.id, data)
-    })
-    hlsInstances[camara.id] = hls
-  }
 }
 
 const busqueda = ref('')
@@ -364,25 +383,20 @@ onMounted(() => {
     getCuentasCobroPerfilJCETAction(perfilSeleccionado.value.id)
   }
   beneficiosStore.fetchBeneficios()
-  inicializarCamara()
+  if (tab.value === 'camaras') iniciarCamaras()
 })
 
-// Limpiar el event listener al desmontar el componente
+// Limpiar el event listener y detener las cámaras al desmontar el componente
 onUnmounted(() => {
   window.removeEventListener('resize', handleResize)
-  Object.values(hlsInstances).forEach((hls) => hls?.destroy())
+  detenerCamaras()
 })
 
 const tab = ref('cobro')
 
-watch(tab, (activeTab) => {
-  if (activeTab === 'camaras') {
-    inicializarCamara()
-  }
-})
-
-watch(camaraIndex, () => {
-  inicializarCamara()
+watch(tab, (activeTab, prevTab) => {
+  if (activeTab === 'camaras') iniciarCamaras()
+  else if (prevTab === 'camaras') detenerCamaras()
 })
 
 const showCredencial = ref(false)
@@ -750,8 +764,9 @@ const showCredencial = ref(false)
 
 .camaras-grid {
   display: grid;
-  gap: 24px;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 16px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  width: 100%;
 }
 
 .video-wrapper {
@@ -775,6 +790,18 @@ const showCredencial = ref(false)
 
 .camara-video:hover {
   transform: scale(1.02);
+}
+
+.camara-error {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.75);
+  color: #fff;
+  font-weight: 700;
+  text-align: center;
 }
 
 .texto-ano {
@@ -1081,15 +1108,13 @@ const showCredencial = ref(false)
   max-width: none;
 }
 
-.cards-container,
-.camaras-grid {
+.cards-container {
   width: 100%;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
 }
 
 @media (max-width: 620px) {
-  .cards-container,
-  .camaras-grid {
+  .cards-container {
     grid-template-columns: 1fr;
   }
 }
