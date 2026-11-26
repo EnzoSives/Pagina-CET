@@ -11,7 +11,7 @@ workflow:
   support: true
   code_review:
     gate: github
-  devel_branch: desarrollo
+  devel_branch: dev
 agent:
   command: claude -p --permission-mode acceptEdits
 openspec:
