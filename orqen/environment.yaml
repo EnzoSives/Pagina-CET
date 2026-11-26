@@ -42,3 +42,4 @@ migrate: []
 seed: []
 tests:
   build: npm run build
+  e2e: npx playwright test
