@@ -34,3 +34,9 @@ yarn-error.log*
 
 # PowerShell cache accidentally created in project root
 Microsoft/
+
+# orqen (local state and temporary files)
+orqen/state/
+orqen/tmp/
+orqen/.env
+orqen/worqs/*/conversation.json

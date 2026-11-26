@@ -1,0 +1,30 @@
+{
+  "kit": "0.1.37",
+  "archivos": {
+    "orqen/stages/analysis.md": "8d0a1d4449d26aaa",
+    "orqen/stages/delivery.md": "dff67774a5bde3f3",
+    "orqen/stages/development.md": "b6db63140abf2f7a",
+    "orqen/stages/execution.md": "5c0efb35aea36439",
+    "orqen/stages/specification.md": "b4d8dc5588834852",
+    "orqen/stages/support.md": "b2baed799f44357d",
+    "orqen/stages/testing.md": "1861815adc502faa",
+    "orqen/stages/verification.md": "fc0d8a79fbd13934",
+    "orqen/plugin/.claude-plugin/plugin.json": "b65b35a8546ad1be",
+    "orqen/plugin/commands/analyze.md": "05106ce716582285",
+    "orqen/plugin/commands/approve.md": "c82f40ed37657421",
+    "orqen/plugin/commands/ask.md": "2dcd1be047f2cb66",
+    "orqen/plugin/commands/code-review.md": "e00d1fe699480b60",
+    "orqen/plugin/commands/e2e-review.md": "6252703c888e7a09",
+    "orqen/plugin/commands/env.md": "5510ab1f79ce9ff6",
+    "orqen/plugin/commands/implement.md": "46481f641533b433",
+    "orqen/plugin/commands/list.md": "fdef7b7d37139ab4",
+    "orqen/plugin/commands/new_worq.md": "924d4b200d38bded",
+    "orqen/plugin/commands/pr.md": "047424a40012f0c1",
+    "orqen/plugin/commands/review.md": "c1e3915f32a8a286",
+    "orqen/plugin/commands/support.md": "3934596681452dce",
+    "orqen/plugin/commands/tutorial.md": "cccc7e2b0de5b83a",
+    "orqen/plugin/skills/grilling/SKILL.md": "875acefc2dc73f03",
+    "orqen/worqs/README.md": "5620f724c81bf719",
+    "AGENTS.md#orqen": "ff4d73edb5517203"
+  }
+}

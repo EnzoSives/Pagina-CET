@@ -1,0 +1,15 @@
+# Everything about the people of the team, in one place. orqen checks here who may act in a role and who may approve each gate:
+# when this file lists someone, workflow.people, workflow.approvers and workflow.code_review.reviewers of orqen/config.yaml are ignored.
+# name: the person's name, as in their git user.name · description: who they are
+# accounts: their account in each ticket system (jira: account id, github: login, asana: user id); the one of the requests system
+#   is what /approve is checked against, and the github login of a senior is whose PR review counts.
+# roles: a list. support, analyst, developer, qa, senior: who does what in the flow; the ones that approve: analyst (unblocking), qa (QA review), senior (code review), client (acceptance), operations (operational execution).
+# Example:
+#   users:
+#     - name: Ana Pérez
+#       description: Analista funcional
+#       accounts:
+#         jira: 712020:3e59eb26-9d1e-471f-a512-ff9a9d9ec70b
+#         github: anaperez
+#       roles: [support, analyst]
+users: []

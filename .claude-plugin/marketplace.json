@@ -1,0 +1,13 @@
+{
+  "name": "orqen",
+  "owner": {
+    "name": "Telpin"
+  },
+  "plugins": [
+    {
+      "name": "orqen",
+      "source": "./orqen/plugin",
+      "description": "orqen: /orqen:support (first-line answer or escalation), /orqen:analyze (analyst interview, lane, spec, and issue) and /orqen:implement"
+    }
+  ]
+}
