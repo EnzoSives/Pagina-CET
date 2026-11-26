@@ -1,0 +1,32 @@
+# orqen configuration for the 9-step flow: project, connectors (where the tickets live) and workflow. Edit as needed.
+# Tokens never go here: they live in ~/.orqen/credentials.env. How the project starts is in orqen/environment.yaml.
+version: 1
+orqen:
+  cli: 0.1.39
+  kit: 0.1.39
+project:
+  name: pagina-cet
+  base_branch: dev
+workflow:
+  support: true
+  code_review:
+    gate: github
+  devel_branch: desarrollo
+agent:
+  command: claude -p --permission-mode acceptEdits
+openspec:
+  version: 2.2.0
+  install: devDependency
+  tools:
+    - claude
+    - codex
+connectors:
+  requests:
+    type: jira
+    project: REQ
+    filter: project = REQ AND statusCategory != Done
+  issues:
+    type: jira
+    project: SIS
+    issue_type: Task
+    link_type: Relates

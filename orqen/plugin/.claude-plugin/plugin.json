@@ -1,0 +1,6 @@
+{
+  "name": "orqen",
+  "version": "0.2.0",
+  "description": "The orqen flow in 9 steps: /orqen:list (requests, issues, prs), /orqen:support, /orqen:analyze, /orqen:implement, /orqen:pr, /orqen:review (QA), /orqen:approve (senior). Learn it with /orqen:tutorial.",
+  "author": { "name": "Telpin" }
+}

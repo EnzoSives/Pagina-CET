@@ -1,0 +1,13 @@
+{
+  "extraKnownMarketplaces": {
+    "orqen": {
+      "source": {
+        "source": "directory",
+        "path": "./"
+      }
+    }
+  },
+  "enabledPlugins": {
+    "orqen@orqen": true
+  }
+}

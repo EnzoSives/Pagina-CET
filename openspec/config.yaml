@@ -1,0 +1,50 @@
+schema: spec-driven
+
+context: |
+  Language: Spanish
+  All artifacts must be written in Spanish.
+  Keep OpenSpec structural headings and SHALL/MUST keywords in English.
+  All artifacts (proposal, design, specs, tasks) are written in Spanish. Keep OpenSpec's structural headings and keywords in English (Requirement, Scenario, WHEN/THEN, SHALL/MUST).
+  This repository receives customer requests as tickets (Jira, GitHub or Asana; see `conectores` in orqen/config.yaml). Each change corresponds to a request
+  and starts with its issue key, for example rec-123-export-invoices.
+rules:
+  proposal:
+    - In "Why", cite the request key and explain the customer's business problem.
+    - Include an "Out of scope" section under "What Changes".
+  specs:
+    - Cover every acceptance criterion with at least one Scenario using WHEN and THEN.
+    - Describe observable behavior that an automated test can verify.
+  tasks:
+    - End each task with its estimate in hours, such as "(4h)". Limit individual tasks to eight hours.
+    - Include explicit tasks for automated scenario coverage and documentation.
+operations:
+  apply:
+    guidance:
+      - Write a test per Scenario and name it so the coverage is easy to identify.
+      - Check off each completed task in tasks.md. orqen handles commits.
+      - Run tests with orqen env test. Start required services with orqen env up.
+  archive:
+    guidance:
+      - orqen archives changes during DELIVERY.
+
+# Per-artifact rules (optional)
+# Add custom rules for specific artifacts.
+# Example:
+#   rules:
+#     proposal:
+#       - Keep proposals under 500 words
+#       - Always state what is out of scope
+#     tasks:
+#       - Break tasks into chunks of max 2 hours
+
+# Per-operation guidance (optional)
+# Add advisory guidance for how apply and archive work should be conducted.
+# This is separate from artifact rules above.
+# Example:
+#   operations:
+#     apply:
+#       guidance:
+#         - Keep test summaries concise
+#     archive:
+#       guidance:
+#         - Summarize the archive outcome before finishing
