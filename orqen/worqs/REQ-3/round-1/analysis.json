@@ -1,0 +1,48 @@
+{
+  "summary": "El cliente pide unificar los textos de las fichas de deportes (/#/deporte/*): las descripciones de public/deportes.json tienen estructuras y rótulos distintos y deben seguir una estructura común sin cambiar los datos.",
+  "type": "change",
+  "acceptance_criteria": [
+    "Dado cualquier deporte, cuando se abre /#/deporte/<deporte>, entonces la ficha muestra las secciones en el mismo orden (título con emoji, descripción breve, bloques por grupo con 🗓️ Horarios, 📍 Lugar, 👨‍🏫 Profesor/es y 💵 Cuota, 📝 Aclaraciones, 📞 Contacto) y con los mismos rótulos.",
+    "Dado un deporte sin un dato (por ejemplo Arquería sin lugar), cuando se muestra la ficha, entonces esa sección no aparece y no hay textos de relleno.",
+    "Dada cualquier ficha, cuando se compara con la versión anterior, entonces no cambió ningún dato (precios, horarios, profesores, teléfonos, direcciones).",
+    "Dado npm run build, cuando se ejecuta, entonces termina sin errores y public/deportes.json sigue siendo un JSON válido."
+  ],
+  "affected_capabilities": [],
+  "decisions": [
+    {
+      "question": "¿Qué significa unificar?",
+      "answer": "Estructura común para las fichas de deportes, solo cambio de contenido en public/deportes.json."
+    },
+    {
+      "question": "¿Cómo se tratan los datos que una ficha no tiene?",
+      "answer": "Se omite la sección cuando no hay dato."
+    },
+    {
+      "question": "¿Se reescribe la redacción?",
+      "answer": "No: solo se reordena y se unifican rótulos; los datos no cambian."
+    },
+    {
+      "question": "¿Alcance y lane?",
+      "answer": "Fuera de alcance: textos fijos de DeportesPage.vue, tarjetas de la home y Running (pausado). Lane direct."
+    }
+  ],
+  "open_questions": [],
+  "risks": [
+    "Al editar el HTML a mano se puede perder o alterar un dato; se mitiga comparando el texto antes y después.",
+    "Hockey es largo y con muchas categorías, queda como lista de bloques."
+  ],
+  "ready": true,
+  "analyst_ok": true,
+  "route": "development",
+  "lane": "direct",
+  "lane_rationale": "Un solo archivo de contenido, unas 2 horas, riesgo bajo y sin cambio de contrato.",
+  "plan": [
+    "Definir la plantilla HTML común de la ficha (título, descripción, bloques por grupo con Horarios/Lugar/Profesor/es/Cuota, Aclaraciones, Contacto).",
+    "Reordenar la ficha de Fútbol y Arquería 3D con la plantilla, unificando rótulos.",
+    "Reordenar las fichas de Patín y Hockey con la plantilla, un bloque por categoría.",
+    "Reordenar la ficha de Ciclismo con la plantilla.",
+    "Verificar que no cambió ningún dato comparando textos antes y después y que el JSON es válido.",
+    "Ejecutar npm run build y revisar las páginas en el navegador."
+  ],
+  "estimated_hours": 2
+}
