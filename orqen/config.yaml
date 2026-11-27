@@ -2,8 +2,8 @@
 # Tokens never go here: they live in ~/.orqen/credentials.env. How the project starts is in orqen/environment.yaml.
 version: 1
 orqen:
-  cli: 0.1.39
-  kit: 0.1.39
+  cli: 0.1.49
+  kit: 0.1.46
 project:
   name: pagina-cet
   base_branch: dev
@@ -11,7 +11,7 @@ workflow:
   support: true
   code_review:
     gate: github
-  devel_branch: desarrollo
+  devel_branch: dev
 agent:
   command: claude -p --permission-mode acceptEdits
 openspec:
