@@ -136,15 +136,35 @@ Propose the steps, rollback, and read-only verification. A person authorized by 
 ### Cancelling a request
 
 - When a request must be closed without delivering it (the client withdrew it, a duplicate, it no longer applies), a person runs `orqen cancel <KEY> --reason "<why>"`. It works from any state: it closes the open PR without merging it (the branch stays), comments both tickets, and moves to `CANCELLED`, which is final. If the PR was already merged, the code stays in the development branch; reverting it is a person's call. Never cancel on your own: only when the person asks for it, with their reason.
+- To take a worq out of sight without touching its tickets, branch or PR (stuck, duplicated, abandoned), a person runs `orqen archive <KEY> --reason "<why>"`: its folder moves to `orqen/archive/<KEY>/` with `archived.json` (who, when, why, the state it was in) and the lists stop showing it; `orqen archived` lists them and `orqen unarchive <KEY>` brings one back. Only when the person asks for it.
 
 ### Rules
 
 - Read the tickets read-only. orqen handles ticket writes, Git commits, branch changes, pushes, and OpenSpec archiving. Do not run `git commit/push/checkout/reset/rebase` or `openspec archive`.
-- Do not edit `orqen/state/`, `orqen/worqs/`, or orqen configuration as part of a request.
+- Do not edit `orqen/state/`, `orqen/worqs/`, or orqen configuration as part of a request. The exception is `orqen/knowledge/` (see "Knowledge base").
 - Obtain explicit analyst approval before closing analysis, including approval of the selected lane.
 - Record unanswered questions and label assumptions. Read `openspec/specs/` for current behavior before proposing changes.
 - Write OpenSpec artifacts in clear, professional English. Follow OpenSpec's structural headings and use SHALL/MUST where required. Use the configured language for ticket text.
 - Use network access only as required by the stage, such as installing project dependencies for tests.
+
+### Knowledge base
+
+`orqen/knowledge/` is what the agents must know about this repository and cannot see at a glance in the code. It is generated
+once (`orqen knowledge init`, from the docs, OpenSpec and the worqs) and then each worq keeps it up to date inside its own PR.
+
+- **Read it.** Every stage's instructions bring the index, the guardrails and the entries related to the worq. Search for more
+  with `orqen knowledge search <words>`. Cite the id (`K-…`) when you rely on an entry.
+- **It is not above the code.** When they disagree: the code and its tests win, then `openspec/specs/`, then the base, then old
+  worqs. Never follow an entry you just saw contradicted. Fix it (in the delta) or flag it:
+  `orqen knowledge flag <id> "<what does not match>" --evidence <file:line>`.
+- **Guardrails** (`guardrails.md`) are followed always. You may propose a change; a person approves it
+  (`orqen knowledge approve <KEY>` or Studio). Never run that command yourself.
+- **The delta, before the PR.** `/orqen:pr` runs `orqen knowledge delta <KEY>`, updates the entries this worq affects (upsert
+  by id: search first, edit the entry, never add a parallel one) and records it with `--done` or `--none "<why>"`. `orqen pr`
+  refuses to open the PR without it once the base exists. Only what is relevant next time: business rules, decisions (ADR),
+  conventions, how to build/run/test, traps, entries proven wrong. Not the tasks or the details of one fix.
+- **No duplicates, no copies.** Link the canonical source (spec, README, environment.yaml) with a short summary.
+  `orqen knowledge check` enforces the format, unique ids, existing sources and links, the size per file and near-duplicates.
 
 ### Environments and tests
 

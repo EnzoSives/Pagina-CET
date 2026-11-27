@@ -1,5 +1,5 @@
 {
-  "kit": "0.1.39",
+  "kit": "0.1.46",
   "archivos": {
     "orqen/stages/analysis.md": "8d0a1d4449d26aaa",
     "orqen/stages/delivery.md": "dff67774a5bde3f3",
@@ -15,16 +15,17 @@
     "orqen/plugin/commands/ask.md": "2dcd1be047f2cb66",
     "orqen/plugin/commands/code-review.md": "e00d1fe699480b60",
     "orqen/plugin/commands/e2e-review.md": "6252703c888e7a09",
-    "orqen/plugin/commands/env.md": "5510ab1f79ce9ff6",
+    "orqen/plugin/commands/env.md": "58efbc6dd000190c",
     "orqen/plugin/commands/implement.md": "46481f641533b433",
     "orqen/plugin/commands/list.md": "fdef7b7d37139ab4",
     "orqen/plugin/commands/new_worq.md": "924d4b200d38bded",
-    "orqen/plugin/commands/pr.md": "047424a40012f0c1",
+    "orqen/plugin/commands/pr.md": "ccb77f31cd153dc2",
     "orqen/plugin/commands/review.md": "c1e3915f32a8a286",
     "orqen/plugin/commands/support.md": "3934596681452dce",
     "orqen/plugin/commands/tutorial.md": "cccc7e2b0de5b83a",
     "orqen/plugin/skills/grilling/SKILL.md": "875acefc2dc73f03",
     "orqen/worqs/README.md": "5620f724c81bf719",
-    "AGENTS.md#orqen": "5b954c5b642837db"
+    "AGENTS.md#orqen": "0795df0b73236c9e",
+    "orqen/plugin/commands/knowledge.md": "11a8497cddd9b5a9"
   }
 }

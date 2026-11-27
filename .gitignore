@@ -43,7 +43,3 @@ orqen/state/
 orqen/tmp/
 orqen/.env
 orqen/worqs/*/conversation.json
-cli/.state/
-
-# Capturas de pantalla locales
-public/imgs/Captura de pantalla *.png
